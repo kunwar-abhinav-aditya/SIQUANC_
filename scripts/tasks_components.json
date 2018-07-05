@@ -1,0 +1,10 @@
+{
+	"NER" : ["Babelfy", "Textrazor", "MeaningCloud", "EntityClassifier", 
+			"Dandelion", "Tagme", "Aylien", "DBpedia spotlight", "Stanford",
+			"Ontotext", "ambiverse"],
+	"NED" : ["OntotextNED", "Babelfy", "Dandelion", "Tagme", "Aylien NED", 
+			"DBpedia Spotling NED", "AGDISTIS", "MeaningCloudNED", "Ambiverse"],
+	"RL" : ["ReMatch", "Relation Matcher", "RelMatch", "RNLIWOD", "Spot Property"],
+	"QB" : ["SINA's query builder", "Ricardo's query builder"],
+	"CL" : ["OKBQA Class Identifer", "CLSNLIWOD"]	
+}

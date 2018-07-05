@@ -1,0 +1,3 @@
+@prefix ab: <http://learningsparql.com/ns/addressbook#> .
+
+ab:india ab:primeminister ab:modi .

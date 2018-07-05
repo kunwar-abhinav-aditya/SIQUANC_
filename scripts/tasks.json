@@ -1,0 +1,7 @@
+{
+	"NED" : "NED",
+	"NER" : "NER",
+	"RL" : "Relation Linker",
+	"QB" : "Query Builder",
+	"CL" : "Class Linker"	
+}

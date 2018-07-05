@@ -1,0 +1,88 @@
+body {
+  color: #fff; }
+
+#hero {
+  background: url("/assets/bg.jpg") no-repeat;
+  background-size: auto;
+  background-position: 0 60%; }
+
+.navbar {
+  width: 100%;
+  background: none !important; }
+  @media (max-width: 34em) {
+    .navbar {
+      background: black !important; } }
+  .navbar .navbar-toggler {
+    cursor: pointer;
+    outline: 0; }
+  .navbar .nav-link {
+    text-transform: uppercase;
+    font-weight: bold; }
+  .navbar .nav-item {
+    padding: 0 1rem; }
+    @media (max-width: 34em) {
+      .navbar .nav-item {
+        padding: 0; } }
+    @media (max-width: 34em) {
+      .navbar .nav-item .nav-link {
+        font-weight: normal;
+        color: #fff !important; } }
+
+h1 {
+  font-weight: bold;
+  font-size: 3.5em; }
+
+.hero-img {
+  width: 50%; }
+
+.feature-wrapper {
+  color: black; }
+
+.h4 {
+  text-align: justify; }
+
+.fa-github {
+  color: #fff;
+  text-shadow: 1px 1px 1px #ccc;
+  font-size: 5em; }
+
+.form-control {
+  background: #111111;
+  border: 3px solid #2f2f2f;
+  padding: 10px; }
+
+.form-control-xs {
+  background: #111111;
+  border: 2px solid #2f2f2f;
+  padding: 5px; }
+
+.btn {
+  padding: 12px;
+  border: none;
+  color: #000;
+  text-emphasis-color: black;
+  cursor: pointer; }
+
+ul {
+  list-style-type: none; }
+
+.jumbotron {
+  background: #132138;
+  border: 3px solid #ffffff;
+  padding: 10px;
+  height: 40%; }
+
+.row {
+  text-align: justify; }
+
+.btn.disabled {
+  color: lightgrey !important;
+  font-size: 2x; }
+
+.btn-xs {
+  padding: 5px 5px;
+  font-size: 13px;
+  border-radius: 5px; }
+
+.dropdown-container {
+  position: relative; }

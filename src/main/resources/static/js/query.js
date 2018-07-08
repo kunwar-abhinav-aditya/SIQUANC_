@@ -1,21 +1,19 @@
     $(document).ready(function() {
-        alert("hi");
           $( "#showResult" ).click(function() {
-                  doQuery();
+            doQuery();
           });
     });
 
     function doQuery() {
+        $('#result').empty();
+        var payload = {queryRequestString : $('#queryInput').val()};
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/query',
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: {
-                    "query" : $('#queryInput').val()
-                    },
+            data: payload,
             success: function(queryResponse) {
-                    $('#result').append(queryResponse);
+                $('#result').append(queryResponse.queryResponseString);
            },
             error: function(error) {
                 $('#result').append("Query did't fetch any result");

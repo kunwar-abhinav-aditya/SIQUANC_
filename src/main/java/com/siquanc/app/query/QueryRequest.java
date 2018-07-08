@@ -4,8 +4,6 @@ public class QueryRequest {
 
     private String queryRequestString;
 
-    private QueryRequest() {}
-
     public QueryRequest(String queryRequestString) {
         this.queryRequestString = queryRequestString;
     }

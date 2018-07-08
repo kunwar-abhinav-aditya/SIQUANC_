@@ -13,7 +13,7 @@ public class QueryController {
     public QueryController(QueryService queryService) { this.queryService = queryService; }
 
     @PostMapping
-    public QueryResponse getQueryResponse(@RequestBody QueryRequest queryRequest) throws IOException {
+    public QueryResponse getQueryResponse(@RequestBody String queryRequest) throws IOException {
         return queryService.getQueryResponse(queryRequest);
     }
 

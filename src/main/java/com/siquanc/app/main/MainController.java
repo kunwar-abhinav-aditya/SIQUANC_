@@ -12,17 +12,18 @@ public class MainController {
     }
 
     @GetMapping("/build")
-    public String productListUser(Model model) {
+    public String build(Model model) {
         return "build";
     }
 
     @GetMapping("/compose")
-    public String productListAdmin(Model model) {
+    public String compose(Model model) {
         return "compose";
     }
 
     @GetMapping("/query")
-    public String productAdmin(Model model) {
-        return "query";
-    }
+    public String query(Model model) { return "query"; }
+
+    @GetMapping("/bulk")
+    public String bulk(Model model) { return "bulk"; }
 }

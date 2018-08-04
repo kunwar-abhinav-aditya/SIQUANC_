@@ -1,20 +1,32 @@
 package com.siquanc.app.query;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
 @RestController
 @RequestMapping("/query")
 public class QueryController {
 
-    private final QueryService queryService;
+    @Autowired
+    QueryService queryService;
 
-    public QueryController(QueryService queryService) { this.queryService = queryService; }
-
-    @PostMapping
-    public QueryResponse getQueryResponse(@RequestBody String queryRequest) throws IOException {
-        return queryService.getQueryResponse(queryRequest);
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public void getQueryResponse(@RequestBody QueryRequest queryRequest) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException {
+        queryService.getQueryResponse(queryRequest);
     }
+
+    @GetMapping("/result")
+    public String getDocument() {
+        return queryService.getCreatedDocument();
+    }
+
 
 }

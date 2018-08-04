@@ -1,22 +1,31 @@
+    var result;
     $(document).ready(function() {
-          $( "#showResult" ).click(function() {
+        $("#result").hide();
+        $("#moreInfo").hide();
+        $("#showResult").click(function() {
+            $("#wait").css("display", "block");
             doQuery();
-          });
+        });
     });
 
     function doQuery() {
-        $('#result').empty();
-        var payload = {queryRequestString : $('#queryInput').val()};
+        $("#result").empty();
+        var payload = { "queryRequestString" : $('#queryInput').val()};
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/query',
+            url: 'http://localhost:8090/query',
+            dataType: 'xml',
             contentType: "application/json; charset=utf-8",
-            data: payload,
+            data: JSON.stringify(payload),
             success: function(queryResponse) {
-                $('#result').append(queryResponse.queryResponseString);
            },
             error: function(error) {
-                $('#result').append("Query did't fetch any result");
+            },
+            complete: function(xhr, status) {
+                $("#wait").css("display", "none");
+                $("#result").show();
+                $("#moreInfo").show();
+                $("#result").load("query/result");
             }
         });
         return;

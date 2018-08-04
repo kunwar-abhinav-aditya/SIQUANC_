@@ -1,14 +1,18 @@
 package com.siquanc.app.query;
 
-public class QueryResponse {
+import org.w3c.dom.Document;
 
-    public String getQueryResponseString() {
-        return queryResponseString;
-    }
+public class QueryResponse {
 
     private String queryResponseString;
 
+    public QueryResponse(){}
+
     public QueryResponse(String queryResponseString) {
         this.queryResponseString = queryResponseString;
+    }
+
+    public String getQueryResponseString() {
+        return queryResponseString;
     }
 }

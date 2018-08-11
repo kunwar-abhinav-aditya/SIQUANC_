@@ -5,163 +5,105 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="/css/bootstrap.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/style.css">
         <link rel="icon" href="/assets/profile.png">
     </head>
 
     <body>
-        <div id="hero">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">SIQUANC_</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/query">Query</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/build">Build</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Compose<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bulk">Bulk</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+        <div id="hero" class="herofull">
+            <br><br>
             <div class="container">
-                <div class="row">
-                    <nav class="navbar navbar-toggleable-md navbar-inverse">
-                        <a href="/" class="navbar-brand text-primary" id="logo"><i class="fa fa-home"></i> SIQUANC_</a>
-
-                        <button class="navbar-toggler navbar-toggler-right " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link text-primary" href="/query">Query</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-primary" href="/build">Build</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-primary btn disabled" href="/compose">Compose</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-primary" href="/bulk">Bulk</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-
-
                 <div class="row jumbotron hero-content pt-lg-6 pb-lg-6 pt-5">
                    <div class="col-lg-12">
                        <div class="row">
-                           <div class="col-sm text-center">
-                                <div class="h6 text-center">The name of the component is</div>
+                           <div class="col-sm">
+                                <div class="h6">The component name is</div>
                            </div>
-                           <div class="col-sm text-center">
-                                <input type="text" class="form-control-xs" id="nameInput" placeholder="Enter the name">
+                           <div class="col-sm">
+                                <input type="text" class="form-control input-sm" id="nameInput" placeholder="Component name">
                            </div>
                        </div>
+                       <br>
                         <div class="row">
-                           <div class="col-sm text-center">
-                                <div class="h6 text-center">The component to be added does these</div>
+                           <div class="col-sm">
+                                <div class="h6">Tasks of the component</div>
                            </div>
-                           <div class="col-sm text-center align-middle">
-		                                    <button class="dropdown-toggle btn btn-xs btn-warning text-uppercase font-weight-bold" type="button" id="dropdownMenuButtonComponents" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Components</button>
-		                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonComponents">
-		                                        <li>
-		                                            <div class="checkbox">
-		                                                <label>
-		                                                    <input type="checkbox">Disambiguation
-		                                                </label>
-		                                            </div>
-		                                        </li>
-		                                        <li>
-		                                            <div class="checkbox">
-		                                                <label>
-		                                                    <input type="checkbox">Syntactic Parsing
-		                                                </label>
-		                                            </div>
-		                                        </li>
-		                                    </ul>
+                           <div class="col-sm dropdown">
+                               <button class="btn btn-sm btn-outline-success dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">Tasks<span class="caret"></span></button>
+                               <ul class="dropdown-menu" role="menu" id="tasks">
+                               </ul>
+                           </div>
+                        </div>
+                       <br>
+                       <div class="row">
+                           <div class="col-sm">
+                                <div class="h6">The inputs to the component</div>
+                           </div>
+                           <div class="col-sm dropdown">
+                               <button class="btn btn-sm btn-outline-success dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">Inputs<span class="caret"></span></button>
+                               <ul class="dropdown-menu" role="menu" id="inputs">
+                               </ul>
                            </div>
                        </div>
+                       <br>
                        <div class="row">
-                           <div class="col-sm text-center">
-                                <div class="h6">The inputs to the component are</div>
+                           <div class="col-sm">
+                                <div class="h6">The output of the component</div>
                            </div>
-                           <div class="col-sm text-center">
-		                                    <button class="dropdown-toggle btn btn-xs btn-warning text-uppercase font-weight-bold" type="button" id="dropdownMenuButtonComponents" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Components</button>
-		                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonComponents">
-		                                        <li>
-		                                            <div class="checkbox">
-		                                                <label>
-		                                                    <input type="checkbox">x
-		                                                </label>
-		                                            </div>
-		                                        </li>
-		                                        <li>
-		                                            <div class="checkbox">
-		                                                <label>
-		                                                    <input type="checkbox">y
-		                                                </label>
-		                                            </div>
-		                                        </li>
-		                                        <li>
-		                                            <div class="checkbox">
-		                                                <label>
-		                                                    <input type="checkbox">...a new one
-		                                                </label>
-		                                            </div>
-		                                        </li>
-		                                    </ul>
-                           </div>
-                       </div>
-                       <div class="row">
-                           <div class="col-sm text-center">
-                                <div class="h6">The output of the component is</div>
-                           </div>
-                           <div class="col-sm text-center dropdown-container">
-		                                    <button class="dropdown-toggle btn btn-xs btn-warning text-uppercase font-weight-bold" type="button" id="dropdownMenuButtonComponents" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Components</button>
-		                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonComponents">
-		                                        <li>
-		                                            <div class="checkbox">
-		                                                <label>
-		                                                    <input type="checkbox">x
-		                                                </label>
-		                                            </div>
-		                                        </li>
-		                                        <li>
-		                                            <div class="checkbox">
-		                                                <label>
-		                                                    <input type="checkbox">y
-		                                                </label>
-		                                            </div>
-		                                        </li>
-		                                        <li>
-		                                            <div class="checkbox">
-		                                                <label>
-		                                                    <input type="checkbox">...a new one
-		                                                </label>
-		                                            </div>
-		                                        </li>
-		                                    </ul>
+                           <div class="col-sm dropdown">
+                               <button class="btn btn-sm btn-outline-success dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">Outputs<span class="caret"></span></button>
+                               <ul class="dropdown-menu" role="menu" id="outputs">
+                               </ul>
                            </div>
                        </div>
                         <br>
                         <div class="row">
-                                <div class="col-sm text-center">
-                                </div>    
-                                <div class="col-sm text-center">
-                                    <button class="btn btn-xs btn-primary text-uppercase font-weight-bold bg-primary" type="submit">Search</button>
-                                </div>                  
+                                <div class="col-sm">
+                                    <button class="btn btn-outline-primary btn-sm" type="submit" id="create">Create</button>
+                                </div>
                         </div>
+                       <div class="row">
+                           <div id="result">
+                           </div>
+                       </div>
                   </div>
                 </div>
             </div>
         </div>
-
-        <div class="feature-wrapper bg-primary pt-1 pb-1 mt-1 mt-lg-0">
-        </div>
-
-        <div id="join-container" class="pt-lg-3 pb-lg-3 pt-5">
-            <div class="container text-center">
-                <a href="https://github.com/WDAqua/QAestro"><i class="fa fa-github fa-2x img-responsive center-block"></i></a>
-                <p class="center-block">Follow us on GitHub!</p>
-            </div>
-        </div>
-
-        <script src="/js/jquery.min.js"></script>
-        <script src="/js/tether.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
     </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="/js/compose.js"></script>
 </html>

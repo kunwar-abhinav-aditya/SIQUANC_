@@ -1,0 +1,7 @@
+NED
+NER
+Relation Linker
+Query Builder
+Class Linker
+Class Finder
+Query Executor

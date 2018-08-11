@@ -1,0 +1,7 @@
+disambiguation,NED
+recognition,NER
+relationlinking,Relation Linker
+queryBuilding,Query Builder
+classFinding,Class Linker
+classFinding,Class Finder
+queryExecution,Query Executor

@@ -1,10 +1,19 @@
+html {
+  height:100%; }
+
 body {
-  color: #fff; }
+  height:100%
+  color: #ffffff; }
 
 #hero {
-  background-color: #3d3d3d;
+  /*background-image: url("/assets/bg.jpg");*/
+  background-color: #f8f9fa;
   background-size: auto;
-  background-position: 0 60%; }
+  background-position: 0 60%;
+  }
+
+.herofull {
+    height: 100vh;}
 
 .navbar {
   width: 100%;}
@@ -29,62 +38,30 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 3.5em; }
+  font-size: 3.5em;
+  font-color: #ffffff; }
 
 .hero-img {
   width: 50%; }
 
 .feature-wrapper {
-  color: black; }
+  background: #343a40;
+  color: white;
+  overflow:auto; }
 
 .h4 {
   text-align: justify; }
 
+.p {
+   font-color: #3d3d3d }
+
 .fa-github {
-  color: #fff;
+  color: #3d3d3d;
   text-shadow: 1px 1px 1px #ccc;
-  font-size: 5em; }
-
-.form-control {
-  background: #111111;
-  border: 3px solid #2f2f2f;
-  padding: 10px; }
-
-.form-control-xs {
-  background: #111111;
-  border: 2px solid #2f2f2f;
-  padding: 5px; }
-
-.btn {
-  padding: 12px;
-  border: none;
-  color: #000;
-  text-emphasis-color: black;
-  cursor: pointer; }
-
-ul {
-  list-style-type: none; }
-
-.jumbotron {
-  background: #132138;
-  border: 3px solid #ffffff;
-  padding: 10px;
-  height: 40%; }
+  font-size: 3em; }
 
 .row {
   text-align: justify; }
-
-.btn.disabled {
-  color: lightgrey !important;
-  }
-
-.btn-xs {
-  padding: 5px 5px;
-  font-size: 13px;
-  border-radius: 5px; }
-
-.dropdown-container {
-  position: relative; }
 
 textarea {
     width: 100%;
@@ -96,4 +73,39 @@ textarea {
     background-color: #3d3d3d;
     color: #ffffff;
     resize: none;
+}
+
+legend {
+    font-size: 12px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    padding: 3px 6px;
+}
+
+input {
+    margin: .4rem;
+}
+
+.output {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+.checkbox-inline {
+    padding: 3px 6px;
+}
+
+.box {
+    padding: 0 5px 0 5px;
+}
+.box .inner {
+    background-color: #fff;
+}
+
+.rcorner {
+    border-radius: 10px;
+}
+
+label {
+    font-size: 14px;
 }

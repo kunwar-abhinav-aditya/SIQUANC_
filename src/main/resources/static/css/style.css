@@ -109,3 +109,9 @@ input {
 label {
     font-size: 14px;
 }
+
+.a1 label { color:#C38D9E; font-weight: bold;}
+
+.a2 label { color:#8D8741; font-weight: bold;}
+
+.a3 label { color:#659DBD; font-weight: bold;}

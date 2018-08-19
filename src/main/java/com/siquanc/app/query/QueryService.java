@@ -1,4 +1,6 @@
 package com.siquanc.app.query;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import helper.Constants;
 import helper.RDFQueryComponents;
 import org.json.JSONObject;
@@ -15,20 +17,25 @@ import java.util.*;
 @Service
 public class QueryService {
 
-    String returnedQuery = "";
-    
+    private StringBuilder returnedQuery = new StringBuilder();
+
+
     /**
      *
      * @param queryRequest
      */
-    public void getQueryResponse(QueryRequest queryRequest) {
+    public QueryResponse getQueryResponse(QueryRequest queryRequest) {
+        String response = "";
+        QueryResponse queryResponse = null;
         try {
             queryRequest.setQueryType(QueryType.FIXED);
-            getResultFromQanary(queryRequest);
+            response = getResultFromQanary(queryRequest);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        queryResponse = new QueryResponse(response);
+        return queryResponse;
     }
 
     /**
@@ -36,14 +43,16 @@ public class QueryService {
      * @param queryRequest
      * @return
      */
-    private void getResultFromQanary(QueryRequest queryRequest) {
+    private String getResultFromQanary(QueryRequest queryRequest) {
+        String response = "";
         try {
             QanaryIntermediateResponse qanaryIntermediateResponse = getQuerySource(queryRequest);
-            returnedQuery = queryInStardog(qanaryIntermediateResponse);
+            response = queryInStardog(qanaryIntermediateResponse);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        return response;
     }
 
     /**
@@ -64,7 +73,7 @@ public class QueryService {
             con.setRequestProperty("charset", "utf-8");
             con.setUseCaches(false);
 
-            Map<String, String> params = new LinkedHashMap<>();
+            ListMultimap<String, String> params = ArrayListMultimap.create();
             params.put("question", queryRequest.getQueryRequestString());
 
             if (queryRequest.getQueryType().equals(QueryType.FIXED)) {
@@ -78,7 +87,7 @@ public class QueryService {
                 }
             }
             StringBuilder postData = new StringBuilder();
-            for (Map.Entry<String, String> param : params.entrySet()) {
+            for (Map.Entry<String, String> param : params.entries()) {
                 if (postData.length() != 0) postData.append('&');
                 postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
                 postData.append('=');
@@ -138,8 +147,17 @@ public class QueryService {
         catch (Exception e) {
             e.printStackTrace();
         }
-
-        return queryResponse.toString();
+        String[] lines = queryResponse.toString().split("\n");
+        String result = "";
+        for (int i = 0; i<lines.length; i++) {
+            returnedQuery.append(lines[i]);
+            if (lines[i].contains("dbpedia")) {
+                result = lines[i];
+            }
+        }
+        result = result.split("\"\"value\"\": \"\"")[1];
+        result = result.split("\"\" }")[0];
+        return result;
     }
 
     /**
@@ -147,6 +165,6 @@ public class QueryService {
      * @return
      */
     public String getCreatedDocument() {
-        return returnedQuery;
+        return returnedQuery.toString();
     }
 }

@@ -29,19 +29,20 @@
         var payload = { "queryRequestString" : $('#queryInput').val()};
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8090/query',
-            dataType: 'xml',
+            url: 'http://localhost:10000/query',
+            dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),
             success: function(queryResponse) {
-           },
+                $("#result").append(queryResponse['queryResponseString']);
+                $("#result").attr("href", queryResponse['queryResponseString']);
+            },
             error: function(error) {
             },
             complete: function(xhr, status) {
                 $("#wait").css("display", "none");
                 $("#result").fadeIn();
                 $("#moreInfo").fadeIn();
-                $("#result").load("query/result");
             }
         });
         return;

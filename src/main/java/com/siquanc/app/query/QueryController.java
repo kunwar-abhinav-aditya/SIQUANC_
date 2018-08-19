@@ -19,8 +19,8 @@ public class QueryController {
     QueryService queryService;
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public void getQueryResponse(@RequestBody QueryRequest queryRequest) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException {
-        queryService.getQueryResponse(queryRequest);
+    public QueryResponse getQueryResponse(@RequestBody QueryRequest queryRequest) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException {
+        return queryService.getQueryResponse(queryRequest);
     }
 
     @GetMapping("/result")

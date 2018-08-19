@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class BuildService {
@@ -50,7 +50,8 @@ public class BuildService {
     public Map<String, ArrayList<String>> getComponents(BuildRequest buildRequest) {
         Map<String, ArrayList<String>> mapping = mapTasksToComponents();
         Map<String, String> tasksRoleMapping = commonService.getTaskRoleMapping(buildRequest.getSelectedTasks());
-        Map<String, ArrayList<String>> mappingFinal = new HashMap<>();
+        //Using linkedhashmap to ensure insertion order, earlier it was just hashmap
+        Map<String, ArrayList<String>> mappingFinal = new LinkedHashMap<>();
         for (String key: tasksRoleMapping.keySet()) {
             mappingFinal.put(tasksRoleMapping.get(key), mapping.get(key));
         }
@@ -63,6 +64,7 @@ public class BuildService {
      */
     private Map<String, ArrayList<String>> mapTasksToComponents() {
         Map<String, ArrayList<String>> mapping = new HashMap<>();
+        Map<String, Map<String, Double>> mappingWithCost = new HashMap<>();
         FileInputStream fstream = null;
         try {
             fstream = new FileInputStream("src/main/resources/scripts/components.txt");
@@ -72,16 +74,21 @@ public class BuildService {
                 String[] strg = strLine.split(":-");
                 String taskName = strg[1].split(",")[0];
                 String taskNameCleaned = taskName.split("\\(")[0].trim();
-                if (mapping.containsKey(taskNameCleaned)) {
-                    mapping.get(taskNameCleaned).add(strg[0].split("\\(")[0].trim());
+                String cost = strg[1].split("cost")[1];
+                cost = cost.replace("(", "");
+                cost = cost.replace(")", "");
+                double costNumeric = Double.parseDouble(cost);
+                if (mappingWithCost.containsKey(taskNameCleaned)) {
+                    mappingWithCost.get(taskNameCleaned).put(strg[0].split("\\(")[0].trim(), costNumeric);
                 }
                 else {
-                    ArrayList<String> values = new ArrayList<String>();
-                    values.add(strg[0].split("\\(")[0].trim());
-                    mapping.put(taskNameCleaned, values);
+                    Map<String, Double> values = new HashMap<>();
+                    values.put(strg[0].split("\\(")[0].trim(), costNumeric);
+                    mappingWithCost.put(taskNameCleaned, values);
                 }
             }
             br.close();
+            mapping = reorderBasedOnCost(mappingWithCost);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -98,5 +105,31 @@ public class BuildService {
     public void buildPipelineRunQuery(BuildPipeline buildPipeline) {
         QueryRequest queryRequest = buildPipeline.getQueryRequest();
         queryService.getQueryResponse(queryRequest);
+    }
+
+    /**
+     *
+     * @param mappingWithCost
+     * @return
+     */
+    private Map<String,ArrayList<String>> reorderBasedOnCost(Map<String, Map<String, Double>> mappingWithCost) {
+
+        for (Map.Entry taskComp: mappingWithCost.entrySet()) {
+            Map<String, Double> compCosts = (Map<String, Double>) taskComp.getValue();
+            Map<String, Double> sorted = compCosts.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+            taskComp.setValue(sorted);
+        }
+        //Now that sorting has been done as per the cost, we just return the map with task and component names in decreasing
+        //order of costs
+        Map<String, ArrayList<String>> mapToReturn = new HashMap<>();
+        for (Map.Entry taskComp: mappingWithCost.entrySet()) {
+            ArrayList<String> components = new ArrayList<>();
+            for (Map.Entry compCosts: ((Map<String, Double>)taskComp.getValue()).entrySet()) {
+                components.add((String) compCosts.getKey());
+            }
+            mapToReturn.put((String) taskComp.getKey(), components);
+        }
+        return mapToReturn;
     }
 }

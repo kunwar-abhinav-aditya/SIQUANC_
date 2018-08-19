@@ -1,5 +1,5 @@
-disambiguation,NED
 recognition,NER
+disambiguation,NED
 relationlinking,Relation Linker
 queryBuilding,Query Builder
 classFinding,Class Linker

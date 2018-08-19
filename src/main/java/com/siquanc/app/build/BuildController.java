@@ -14,20 +14,20 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/buildservice")
+@RequestMapping("/build")
 public class BuildController {
 
     @Autowired
     BuildService buildService;
 
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(path="/tasks", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<String> getAllTasks() {
         return buildService.getAllTasks();
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, ArrayList<String>> getTasks(@RequestBody BuildRequest buildRequest) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException {
+    public Map<String, ArrayList<String>> getComponents(@RequestBody BuildRequest buildRequest) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException {
         return buildService.getComponents(buildRequest);
     }
 

@@ -12,7 +12,7 @@
         var tasks = document.getElementById("tasks");
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8090/buildservice',
+            url: 'http://localhost:10000/build/tasks',
             success: function(allTasks) {
                 for(var i =0;i < allTasks.length; i++)
                 {
@@ -29,7 +29,7 @@
         var tasks = document.getElementById("inputs");
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8090/composeservice/inputs',
+            url: 'http://localhost:10000/compose/inputs',
             success: function(allInputs) {
                 for(var i =0;i < allInputs.length; i++)
                 {
@@ -46,7 +46,7 @@
         var tasks = document.getElementById("outputs");
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8090/composeservice/outputs',
+            url: 'http://localhost:10000/compose/outputs',
             success: function(allOutputs) {
                 for(var i =0;i < allOutputs.length; i++)
                 {
@@ -83,7 +83,7 @@
             };
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8090/composeservice',
+                url: 'http://localhost:10000/compose',
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(payload),

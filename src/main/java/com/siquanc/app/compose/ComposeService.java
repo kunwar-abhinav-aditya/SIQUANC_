@@ -19,9 +19,6 @@ import com.google.common.collect.HashBiMap;
 public class ComposeService {
 
     @Autowired
-    QueryService queryService;
-
-    @Autowired
     CommonService commonService;
 
     /**
@@ -74,7 +71,7 @@ public class ComposeService {
      *
      * @param component
      */
-    public void addComponent(QAComponent component) {
+    public String addComponent(QAComponent component) {
         Map<String, ArrayList<String>> mapping = new HashMap<>();
         String fileName = null;
         try {
@@ -89,6 +86,7 @@ public class ComposeService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return "Component created";
     }
 
     /**

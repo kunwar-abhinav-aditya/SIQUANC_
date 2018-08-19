@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/composeservice")
+@RequestMapping("/compose")
 public class ComposeController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class ComposeController {
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public void addComponent(@RequestBody QAComponent qaComponent) {
-        composeService.addComponent(qaComponent);
+    public String addComponent(@RequestBody QAComponent qaComponent) {
+        return composeService.addComponent(qaComponent);
     }
 }

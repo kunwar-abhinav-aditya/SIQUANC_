@@ -1,5 +1,5 @@
-NED
 NER
+NED
 Relation Linker
 Query Builder
 Class Linker

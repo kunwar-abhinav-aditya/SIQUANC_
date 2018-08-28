@@ -27,8 +27,12 @@ public class QueryService {
     public QueryResponse getQueryResponse(QueryRequest queryRequest) {
         String response = "";
         QueryResponse queryResponse = null;
-        try {
+        if (queryRequest.getComponents().size() == 0) {
             queryRequest.setQueryType(QueryType.FIXED);
+        } else {
+            queryRequest.setQueryType(QueryType.VARIABLE);
+        }
+        try {
             response = getResultFromQanary(queryRequest);
         }
         catch (Exception e) {
@@ -62,7 +66,17 @@ public class QueryService {
      */
     private QanaryIntermediateResponse getQuerySource(QueryRequest queryRequest) throws IOException {
 
-        URL url = new URL(Constants.qanaryURL);
+        URL url;
+        if (queryRequest.getQueryType().equals(QueryType.VARIABLE)) {
+            ProcessBuilder pb = new ProcessBuilder("src/main/resources/scripts/init.sh", "qanary_component-NER-Babelfy", "qanary_component-QB-Sina", "qanary_component-QB-Sina", "qanary_component-QB-Sina");
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
+        url = new URL(Constants.qanaryURL);
         QanaryIntermediateResponse qanaryIntermediateResponse = null;
         try {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

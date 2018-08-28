@@ -1,0 +1,12 @@
+.navbar {
+    background-color: rgb(77, 181, 180);
+}
+
+.navbar li a {
+    color: #ffffff;
+}
+
+.feature-wrapper {
+  background: rgb(77, 181, 180);
+  color: #ffffff;
+}

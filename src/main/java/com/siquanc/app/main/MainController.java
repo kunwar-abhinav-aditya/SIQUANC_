@@ -26,4 +26,7 @@ public class MainController {
 
     @GetMapping("/bulk")
     public String bulk(Model model) { return "bulk"; }
+
+    @GetMapping("/index_new")
+    public String index_new(Model model) { return "index_new"; }
 }

@@ -13,7 +13,15 @@ body {
   }
 
 .herofull {
-    height: 100vh;}
+    width:100%;
+    height:100%;
+    z-index:10000;
+}
+
+a {
+    color: #333333;
+    font-weight: bold;
+    transition: all 0.2s; }
 
 .navbar {
   width: 100%;}
@@ -36,10 +44,23 @@ body {
         font-weight: normal;
         color: #fff !important; } }
 
+.logo-asknow {
+    width: 80%;
+    height:100%;
+    margin-right: 30px;
+    margin-bottom: 10px;
+
+}
+
 h1 {
   font-weight: bold;
   font-size: 3.5em;
   font-color: #ffffff; }
+
+h6 {
+  font-weight: bold;
+  font-size: 1.0em;
+  font-color: #3d3d3d; }
 
 .hero-img {
   width: 50%; }
@@ -56,8 +77,7 @@ h1 {
    font-color: #3d3d3d }
 
 .fa-github {
-  color: #3d3d3d;
-  text-shadow: 1px 1px 1px #ccc;
+  color: #ffffff;
   font-size: 3em; }
 
 .row {
@@ -106,6 +126,11 @@ input {
     border-radius: 10px;
 }
 
+.searchbutton {
+    border-radius: 10px;
+}
+
+
 label {
     font-size: 14px;
 }
@@ -115,3 +140,14 @@ label {
 .a2 label { color:#8D8741; font-weight: bold;}
 
 .a3 label { color:#659DBD; font-weight: bold;}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.headerimages {
+  height:100%;
+  width:100%;
+}

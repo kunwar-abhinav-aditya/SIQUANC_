@@ -1,0 +1,19 @@
+/*=====================================
+  NAVBAR STYLES
+  ===================================*/
+.navbar {
+    background-color: #4bb777;
+}
+
+.navbar li a {
+    color: #ffffff;
+}
+
+.navbar li > .active {
+    color: #000000;
+}
+
+.feature-wrapper {
+  background: #4bb777;
+  color: #ffffff;
+}

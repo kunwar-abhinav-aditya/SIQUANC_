@@ -27,6 +27,4 @@ public class QueryController {
     public String getDocument() {
         return queryService.getCreatedDocument();
     }
-
-
 }

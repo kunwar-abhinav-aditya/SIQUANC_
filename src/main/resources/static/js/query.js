@@ -1,4 +1,6 @@
+
     var result;
+    var components = new Array();
     $(document).ready(function() {
         $("#result").hide();
         $("#moreInfo").hide();
@@ -9,7 +11,7 @@
         if (localStorage.getItem("pipeline") != null) {
             $("#pipelineType").append("Querying using the below pipeline");
             $("#pipelineType").append("<br>");
-            var components = localStorage.getItem("pipeline").split(",");
+            components = localStorage.getItem("pipeline").split(",");
             for(var i =0;i < components.length; i++)
             {
                 var opt = components[i];
@@ -26,7 +28,7 @@
 
     function doQuery() {
         $("#result").empty();
-        var payload = { "queryRequestString" : $('#queryInput').val()};
+        var payload = { "queryRequestString" : $('#queryInput').val(), "components" : components};
         $.ajax({
             type: 'POST',
             url: 'http://localhost:10000/query',

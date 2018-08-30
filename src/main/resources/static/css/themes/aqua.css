@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #3367D6;
+    background-color: rgb(77, 181, 180);
 }
 
 .navbar li a {
@@ -7,7 +7,7 @@
 }
 
 .feature-wrapper {
-  background: #3367D6;
+  background: rgb(77, 181, 180);
   color: #ffffff;
 }
 
@@ -23,5 +23,5 @@
 }
 
 .jumbotron {
-  background-color: #B5CFEB !important;
+  background-color: #B5EBE9 !important;
 }

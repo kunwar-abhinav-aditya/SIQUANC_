@@ -26,15 +26,20 @@
                 localStorage.removeItem('mainCSS');
                 localStorage.setItem('mainCSS', '/css/themes/green.css');
             });
-            $('#blue').click(function () {
-                $('#mainCSS').attr('href', '/css/themes/blue.css');
+            $('#aqua').click(function () {
+                $('#mainCSS').attr('href', '/css/themes/aqua.css');
                 localStorage.removeItem('mainCSS');
-                localStorage.setItem('mainCSS', '/css/themes/blue.css');
+                localStorage.setItem('mainCSS', '/css/themes/aqua.css');
             });
             $('#grey').click(function () {
                 $('#mainCSS').attr('href', '/css/themes/grey.css');
                 localStorage.removeItem('mainCSS');
                 localStorage.setItem('mainCSS', '/css/themes/grey.css');
+            });
+            $('#blue').click(function () {
+                $('#mainCSS').attr('href', '/css/themes/blue.css');
+                localStorage.removeItem('mainCSS');
+                localStorage.setItem('mainCSS', '/css/themes/blue.css');
             });
             $('#lightgrey').click(function () {
                 $('#mainCSS').attr('href', '/css/themes/lightgrey.css');

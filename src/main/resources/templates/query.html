@@ -37,7 +37,7 @@
                 </ul>
                 <div>
                     <div class="col-md-4">
-                        <a href="https://github.com/WDAqua/QAestro"><i class="fa fa-github fa-w-16 fa-3x"></i></a>
+                        <a href="https://github.com/WDAqua/QAestro" target="_blank"><i class="fa fa-github fa-w-16 fa-3x"></i></a>
                     </div>
                 </div>
             </div>
@@ -45,35 +45,60 @@
         <div id="hero" class="herofull">
             <br><br>
             <div class="container">
+                <div class="form-group" id="rating">
+                    <label class="control-label" for="rating">
+                        <span class="field-label-header">How satisfied are you with our results?</span>
+                        <span class="field-label-info"></span>
+                        <input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
+                    </label>
+                    <h2 class="bold rating-header" style="">
+                        <span class="selected-rating">0</span><small> / 5</small>
+                    </h2>
+                    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-success btn-md" type="button" id="submitRating">Submit</button>
+                </div>
+                <div id="thanks">Thanks for your feedback. Your response has been recorded.</div>
                 <div class="jumbotron row pt-lg-6 pb-lg-6 pt-5">
                    <div class="col-lg-12">
                         <br>
-                       <div class="row box" data-scroll-reveal="enter from the bottom after 0.1s">
-                           <img class='logo-asknow center' src="/img/logo.svg" alt=""  />
+                       <div class="row box">
+                           <img class='logo-asknow center' src="/img/logo.svg" alt="" />
                        </div>
                        <div class="input-group mb-3">
-                           <input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1" placeholder="&#xf002; Search the knowledge base ..." style="font-family: FontAwesome, Arial; font-style: normal">
+                           <input type="text" id="queryInput" class="form-control" placeholder="&#xf002; Search the knowledge base ..." style="font-family: FontAwesome, Arial; font-style: normal">
                            <div class="input-group-append">
                                <button class="btn btn-outline-primary btn-md" type="button" id="showResult">Search</button>
                            </div>
                        </div>
-                        <br>
                        <div class="row">
-                           <i class="fa fa-check-square box"></i>
                            <div id="pipelineType"></div>
                        </div>
-                       <br>
-                        <div id="wait" style="display:none;width:69px;height:89px;border:none;position:absolute;top:50%;left:50%;padding:2px;      "><img src='assets/load.gif' width="64" height="64" /><br>Fetching..</div>
-                        <br>
                         <a id="result"></a>
                         <div id="moreInfo">The full response can be found <a href="/query/result">here</a></div>
                   </div>
                 </div>
+                <br>
+                <div id="wait" style="display:none;width:69px;height:89px;border:none;position:absolute;top:50%;left:50%;padding:2px;      " class="center"><img src='assets/25.gif'/></div>
+                <br>
                 <!--HEADER SECTION END-->
                 <div class="samples" id="samples">
                     <div class="container">
                         <div class="row" >
-                            <div class="center-block">
+                            <div class="center-block toReveal">
                                 <h3>
                                     <strong>
                                         Sample Questions
@@ -86,28 +111,13 @@
                         <div class="row">
                             <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
                                 <br/>
-                                <div data-scroll-reveal="enter from the left after 0.2s">
-                                    <h6><a href="/resource"> Who is the president of USA?</a></h6>
+                                <div class="toReveal">
+                                    <h6 id="defaultQuestion1"><button class="link" onclick="setdefaultquestion1();">Who is the wife of Barack Obama?</button></h6>
                                 </div>
                                 <br/>
 
-                                <div data-scroll-reveal="enter from the left after 0.3s">
-                                    <h6><a href="/list"> List the people who were presidents of USA.</a></h6>
-                                </div>
-                                <br/>
-
-                                <div data-scroll-reveal="enter from the left after 0.4s">
-                                    <h6><a href="/literal">How high is Sagarmatha Mountain?</a></h6>
-                                </div>
-                                <br/>
-
-                                <div data-scroll-reveal="enter from the left after 0.5s">
-                                    <h6><a href="/bol">Is the Sagarmatha Mountain the highest mountain?</a></h6>
-                                </div>
-                                <br/>
-
-                                <div data-scroll-reveal="enter from the left after 0.6s">
-                                    <h6><a href="/404">Could you give me an apple?</a></h6>
+                                <div class="toReveal">
+                                    <h6 id="defaultQuestion2"><button class="link" onclick="setdefaultquestion2();">Name the municipality of Roberto Clemente Bridge</button></h6>
                                 </div>
                                 <br/>
                             </div>
@@ -120,7 +130,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-    <script src="/js/scrollReveal.js"></script>
-    <script src="js/query.js"></script>
+    <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
     <script src="/js/themer.js"></script>
+    <script src="/js/query.js"></script>
 </html>

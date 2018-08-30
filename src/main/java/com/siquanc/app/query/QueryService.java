@@ -91,10 +91,14 @@ public class QueryService {
             params.put("question", queryRequest.getQueryRequestString());
 
             if (queryRequest.getQueryType().equals(QueryType.FIXED)) {
-                params.put("componentlist[]", Constants.qanarySamplePipelineComponents[0]);
-                params.put("componentlist[]", Constants.qanarySamplePipelineComponents[1]);
-                params.put("componentlist[]", Constants.qanarySamplePipelineComponents[2]);
+
+                ArrayList<String> components = new ArrayList<>();
+                components = getStaticComponents();
+                for (String component : components) {
+                    params.put("componentlist[]", component);
+                }
             }
+
             if (queryRequest.getQueryType().equals(QueryType.VARIABLE)) {
                 for (int i=0; i<queryRequest.getComponents().size(); i++) {
                     params.put("componentlist[]", queryRequest.getComponents().get(i));
@@ -180,5 +184,43 @@ public class QueryService {
      */
     public String getCreatedDocument() {
         return returnedQuery.toString();
+    }
+
+    /**
+     *
+     * @param feedback
+     * @return
+     */
+    public String receiveFeedback(Feedback feedback) {
+        ArrayList<String> components = new ArrayList<>();
+        if (feedback.getComponents().isEmpty()) {
+            components = getStaticComponents();
+        }
+        String fileName = null;
+        try {
+            fileName = "src/main/resources/scripts/feedback.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+            String view = feedback.getQuestion() + ", " + components + ", " + feedback.getRating();
+            writer.write(view);
+            writer.write("\n");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Response recorded";
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<String> getStaticComponents() {
+        ArrayList<String> staticComponents = new ArrayList<>();
+        staticComponents.add(Constants.qanarySamplePipelineComponents[0]);
+        staticComponents.add(Constants.qanarySamplePipelineComponents[1]);
+        staticComponents.add(Constants.qanarySamplePipelineComponents[2]);
+        return staticComponents;
     }
 }

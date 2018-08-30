@@ -23,6 +23,11 @@ public class QueryController {
         return queryService.getQueryResponse(queryRequest);
     }
 
+    @PostMapping("/feedback")
+    public String receiveFeedback(@RequestBody Feedback feedback) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException {
+        return queryService.receiveFeedback(feedback);
+    }
+
     @GetMapping("/result")
     public String getDocument() {
         return queryService.getCreatedDocument();

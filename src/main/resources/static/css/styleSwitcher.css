@@ -55,8 +55,13 @@
 .switcher .colors-list a.green {
     background-color:#4bb777;
 }
-.switcher .colors-list a.blue {
+
+.switcher .colors-list a.aqua {
     background-color:rgb(77, 181, 180);
+}
+
+.switcher .colors-list a.blue {
+    background-color:#3367D6;
 }
 .switcher .colors-list a.grey {
     background-color:#3d3d3d;

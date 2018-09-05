@@ -23,5 +23,9 @@
 }
 
 .jumbotron {
-  background-color: #B5EBE9 !important;
+  background-color: #D3E8E4 !important;
+}
+
+.fa-file-excel-o {
+  color: rgb(77, 181, 180);
 }

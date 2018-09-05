@@ -3,5 +3,4 @@ NED
 Relation Linker
 Query Builder
 Class Linker
-Class Finder
 Query Executor

@@ -31,6 +31,11 @@ public class BuildController {
         return buildService.getComponents(buildRequest);
     }
 
+    @PostMapping(path="/bestpipelines", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ArrayList<ArrayList<String>> getBestPipelines(@RequestBody Map<String, ArrayList<String>> componentsPerTask) throws IOException, InterruptedException, ParserConfigurationException, SAXException, TransformerException {
+        return buildService.getBestPipelines(componentsPerTask);
+    }
+
     @PostMapping(path="/pipeline", produces = {MediaType.APPLICATION_JSON_VALUE})
     public void buildPipelineRunQuery(@RequestBody BuildPipeline buildPipeline) {
         buildService.buildPipelineRunQuery(buildPipeline);

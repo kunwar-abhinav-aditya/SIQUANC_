@@ -10,9 +10,9 @@ public final class Constants {
     public static String starDogURL = "http://localhost:5820/annex/qanary/sparql/query";
     public static String basicAuth = "Basic YWRtaW46YWRtaW4=";
     public static String qanaryURL = "http://localhost:8080/startquestionansweringwithtextquestion";
-    public static String qanaryDynamicURL = "http://localhost:8080/startquestionansweringwithtextquestion";
 
-    public static String[] qanarySamplePipelineComponents = new String[]{"AmbiverseNed","DiambiguationProperty","QueryBuilder"};
+    public static String[] qanarySamplePipelineComponents = new String[]{"AmbiverseNed","AnnotationofSpotProperty","DiambiguationClass","QueryBuilder"};
+    public static int DESIRED_NUMBER_OF_BEST_PIPELINES = 3;
 
 
 

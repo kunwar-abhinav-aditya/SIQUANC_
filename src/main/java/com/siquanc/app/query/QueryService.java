@@ -5,6 +5,7 @@ import helper.Constants;
 import helper.RDFQueryComponents;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -104,6 +105,7 @@ public class QueryService {
                     params.put("componentlist[]", queryRequest.getComponents().get(i));
                 }
             }
+            System.out.println(params);
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, String> param : params.entries()) {
                 if (postData.length() != 0) postData.append('&');
@@ -195,6 +197,8 @@ public class QueryService {
         ArrayList<String> components = new ArrayList<>();
         if (feedback.getComponents().isEmpty()) {
             components = getStaticComponents();
+        } else {
+            components = feedback.getComponents();
         }
         String fileName = null;
         try {
@@ -218,9 +222,46 @@ public class QueryService {
      */
     public ArrayList<String> getStaticComponents() {
         ArrayList<String> staticComponents = new ArrayList<>();
-        staticComponents.add(Constants.qanarySamplePipelineComponents[0]);
-        staticComponents.add(Constants.qanarySamplePipelineComponents[1]);
-        staticComponents.add(Constants.qanarySamplePipelineComponents[2]);
+        for (int i=0; i<Constants.qanarySamplePipelineComponents.length; i++) {
+            staticComponents.add(Constants.qanarySamplePipelineComponents[i]);
+        }
         return staticComponents;
+    }
+
+    /**
+     *
+     * @param
+     * @return
+     */
+    public String bulkQuery(MultipartFile file) throws IOException {
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        try {
+
+            br = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] question = line.split(cvsSplitBy);
+
+                System.out.println("Question [id= " + question[0] + " , query=" + question[1] + "]");
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }

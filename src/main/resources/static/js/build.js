@@ -1,4 +1,5 @@
 
+    var taskAndComponents;
     $(document).ready(function() {
         $("#buttonRow").hide();
         getAllTasks();
@@ -48,6 +49,7 @@
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(payload),
                         success: function(queryResponse) {
+                            taskAndComponents = queryResponse;
                             $.each(queryResponse, function(i, obj) {
                               rank = 0;
                               var div = document.createElement("div");
@@ -68,11 +70,51 @@
                         error: function(error) {
                         },
                         complete: function(xhr, status) {
-                                        $("#wait").css("display", "none");
+                            getBestPipelines();
+                            $("#wait").css("display", "none");
                         }
             });
         }
         $("#buttonRow").fadeIn();
+    }
+
+    function getBestPipelines() {
+        var payload = taskAndComponents;
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:10000/build/bestpipelines',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(payload),
+            success: function(bestPipelines) {
+                $('#bestPipelines').empty();
+                $('#bestPipelines').append("<br>The best pipelines to run<br>");
+                for(var i=0;i < bestPipelines.length; i++)
+                {
+                    var opt = bestPipelines[i];
+                    localStorage.removeItem("pipeline");
+                    localStorage.setItem("pipeline", opt);
+                    $('#bestPipelines').append("<br>");
+                    for(var j=0;j< opt.length; j++)
+                    {
+                        var comp = opt[j];
+                        $('#bestPipelines').append("<button type=\"button\" class=\"btn btn-outline-dark btn-sm box\" disabled>"+comp+"</button>");
+                        if (j < opt.length - 1) {
+                            $('#bestPipelines').append("<i class=\"fa fa-arrow-right box\"></i>");
+                        }
+                    }
+                    $('#bestPipelines').append("&nbsp;&nbsp;<button type=\"button\" class=\"btn btn-primary btn-sm box\"onclick=\"usethis();\">USE</button>");
+                    $('#bestPipelines').append("<br>");
+                }
+           },
+            error: function(error) {
+            }
+        });
+    }
+
+
+    function usethis() {
+        window.location.replace("/query");
     }
 
     function createPipeline() {
@@ -92,7 +134,7 @@
 
     function radioClick(name, value) {
         if (name == "NED") {
-            if (value == "agdistis") {
+            if (value == "AGDISTIS") {
                 var elements = document.getElementsByName("NER");
                 for(index = 0; index < elements.length; index++){
                     elements[index].disabled = false;

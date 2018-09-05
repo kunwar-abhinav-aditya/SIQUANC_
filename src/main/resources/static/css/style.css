@@ -128,11 +128,34 @@ label {
     font-size: 14px;
 }
 
-.a1 label { color:#C38D9E; font-weight: bold;}
+.a1 label {
+    font-weight: bold;
+}
 
-.a2 label { color:#8D8741; font-weight: bold;}
+.a1 label::after {
+    content: "1";
+    vertical-align: super;
+    font-size: smaller;
+}
 
-.a3 label { color:#659DBD; font-weight: bold;}
+.a2 label {
+    font-weight: bold;
+}
+
+.a2 label::after {
+    content: "2";
+    vertical-align: super;
+    font-size: smaller;
+}
+
+.a3 label {
+    font-weight: bold;
+}
+.a3 label::after {
+    content: "3";
+    vertical-align: super;
+    font-size: smaller;
+}
 
 .center {
     display: block;

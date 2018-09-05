@@ -7,7 +7,6 @@
     <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/styleSwitcher.css">
     <link rel="icon" href="/assets/profile.png">
     <link rel="stylesheet" id='mainCSS' href="">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -21,7 +20,7 @@
 <body>
     <nav class="navbar navbar-expand-lg">
 
-        <a class="navbar-brand" href="/">SCQAP_</a>
+        <a class="navbar-brand" href="/">Frankenstein</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -38,6 +37,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/compose">Compose</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/bulk">Bulk</a>
                 </li>
             </ul>
             <div>
@@ -61,13 +63,16 @@
                         <div class="col-sm text-left">
                             <button class="btn btn-outline-success btn-sm" type="button" id="showResult"><i class="fa fa-search"></i>Search</button>
                         </div>
-                        <div id="wait" style="display:none;width:69px;height:89px;border:none;position:absolute;top:50%;left:50%;padding:2px;"><img src='assets/load.gif' width="64" height="64" /><br>Fetching..</div>
+                        <div id="wait" style="display:none;width:69px;height:89px;border:none;position:absolute;top:50%;left:50%;padding:2px;"><img src='assets/25.gif' width="64" height="64" /></div>
                     </div>
                     <br>
                     <div class="row" id="components">
                     </div>
                     <div class="row" id="buttonRow">
                         <button class="btn btn-outline-primary btn-sm" type="button" id="buildPipeline">Build the pipeline!</button>
+                    </div>
+                    <div class="row">
+                        <div id="bestPipelines"></div>
                     </div>
                 </div>
             </div>

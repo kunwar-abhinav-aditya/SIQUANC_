@@ -136,6 +136,7 @@ label {
     content: "1";
     vertical-align: super;
     font-size: smaller;
+    font-weight: normal;
 }
 
 .a2 label {
@@ -146,6 +147,7 @@ label {
     content: "2";
     vertical-align: super;
     font-size: smaller;
+    font-weight: normal;
 }
 
 .a3 label {
@@ -155,6 +157,7 @@ label {
     content: "3";
     vertical-align: super;
     font-size: smaller;
+    font-weight: normal;
 }
 
 .center {

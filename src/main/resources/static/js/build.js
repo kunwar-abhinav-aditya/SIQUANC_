@@ -92,8 +92,6 @@
                 for(var i=0;i < bestPipelines.length; i++)
                 {
                     var opt = bestPipelines[i];
-                    localStorage.removeItem("pipeline");
-                    localStorage.setItem("pipeline", opt);
                     $('#bestPipelines').append("<br>");
                     for(var j=0;j< opt.length; j++)
                     {
@@ -103,7 +101,7 @@
                             $('#bestPipelines').append("<i class=\"fa fa-arrow-right box\"></i>");
                         }
                     }
-                    $('#bestPipelines').append("&nbsp;&nbsp;<button type=\"button\" class=\"btn btn-primary btn-sm box\"onclick=\"usethis();\">USE</button>");
+                    $('#bestPipelines').append("&nbsp;&nbsp;<button type=\"button\" value=\""+opt+"\" class=\"btn btn-primary btn-sm box\"onclick=\"usethis(this.value);\">USE</button>");
                     $('#bestPipelines').append("<br>");
                 }
            },
@@ -113,7 +111,9 @@
     }
 
 
-    function usethis() {
+    function usethis(opt) {
+        localStorage.removeItem("pipeline");
+        localStorage.setItem("pipeline", opt);
         window.location.replace("/query");
     }
 

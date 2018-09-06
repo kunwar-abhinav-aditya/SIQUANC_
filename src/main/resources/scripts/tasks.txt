@@ -1,6 +1,5 @@
 NER
 NED
 Relation Linker
-Query Builder
 Class Linker
-Query Executor
+Query Builder

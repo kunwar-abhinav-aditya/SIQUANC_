@@ -1,0 +1,2 @@
+Name the municipality of Roberto Clemente Bridge., [AmbiverseNed, AnnotationofSpotProperty, DiambiguationClass, QueryBuilder], 3
+Who is the wife of Barack Obama?, [AmbiverseNed, AnnotationofSpotProperty, DiambiguationClass, QueryBuilder], 4

@@ -1,7 +1,5 @@
 recognition,NER
 disambiguation,NED
 relationlinking,Relation Linker
-queryBuilding,Query Builder
 classFinding,Class Linker
-classFinding,Class Finder
-queryExecution,Query Executor
+queryBuilding,Query Builder

@@ -1,5 +1,7 @@
 package com.siquanc.app.query;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ListMultimap;
 import helper.Constants;
 import helper.RDFQueryComponents;
@@ -65,16 +67,27 @@ public class QueryService {
      *
      * @param queryRequest
      */
-    private QanaryIntermediateResponse getQuerySource(QueryRequest queryRequest) throws IOException {
+    private QanaryIntermediateResponse getQuerySource(QueryRequest queryRequest) throws IOException, InterruptedException {
 
         URL url;
+        System.out.println(queryRequest.getComponents());
+        BiMap<String, String> compNamePathMapping = getCompNameDirectoryMapping();
+        ArrayList<String> CMD_ARRAY = new ArrayList<>();
+        CMD_ARRAY.add("src/main/resources/scripts/init.sh");
+        for (int i = 0; i< queryRequest.getComponents().size(); i++) {
+            CMD_ARRAY.add(compNamePathMapping.get(queryRequest.getComponents().get(i)));
+        }
         if (queryRequest.getQueryType().equals(QueryType.VARIABLE)) {
-            ProcessBuilder pb = new ProcessBuilder("src/main/resources/scripts/init.sh", "qanary_component-NER-Babelfy", "qanary_component-QB-Sina", "qanary_component-QB-Sina", "qanary_component-QB-Sina");
+            ProcessBuilder pb = new ProcessBuilder(CMD_ARRAY);
             Process p = pb.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
+            BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while((line=br.readLine())!=null){
                 System.out.println(line);
+                if (line.contains("exit")) {
+                    br.close();
+                    break;
+                }
             }
         }
         url = new URL(Constants.qanaryURL);
@@ -90,7 +103,7 @@ public class QueryService {
 
             ListMultimap<String, String> params = ArrayListMultimap.create();
             params.put("question", queryRequest.getQueryRequestString());
-
+            System.out.println(queryRequest.getQueryRequestString());
             if (queryRequest.getQueryType().equals(QueryType.FIXED)) {
 
                 ArrayList<String> components = new ArrayList<>();
@@ -105,23 +118,25 @@ public class QueryService {
                     params.put("componentlist[]", queryRequest.getComponents().get(i));
                 }
             }
-            System.out.println(params);
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, String> param : params.entries()) {
-                if (postData.length() != 0) postData.append('&');
+                if (postData.length() != 0) {
+                    postData.append('&');
+                }
                 postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
                 postData.append('=');
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
             }
+            System.out.println(postData.toString());
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
             con.getOutputStream().write(postDataBytes);
-
+            System.out.println(con.getInputStream());
             Reader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
             StringBuilder queryIntermediateResponse = new StringBuilder();
             for (int c; (c = in.read()) >= 0; )
                 queryIntermediateResponse.append((char) c);
             con.disconnect();
-
+            System.out.println(queryIntermediateResponse.toString());
             JSONObject jsonObject = new JSONObject(queryIntermediateResponse.toString());
             qanaryIntermediateResponse = new QanaryIntermediateResponse(jsonObject.get("endpoint").toString(), jsonObject.get("inGraph").toString(), jsonObject.get("outGraph").toString(), jsonObject.get("question").toString());
         }
@@ -263,5 +278,26 @@ public class QueryService {
             }
         }
         return null;
+    }
+
+
+    public BiMap<String, String> getCompNameDirectoryMapping() {
+        BiMap<String, String> compNameDirectoryMapping = HashBiMap.create();
+        FileInputStream fstream = null;
+        try {
+            fstream = new FileInputStream("src/main/resources/scripts/component_paths.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            String strLine;
+            while ((strLine = br.readLine()) != null)   {
+                String[] strg = strLine.split(",");
+                compNameDirectoryMapping.put(strg[0], strg[1]);
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return compNameDirectoryMapping;
     }
 }

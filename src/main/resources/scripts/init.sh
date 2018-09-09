@@ -44,36 +44,36 @@ echo "-------------------------------------------------Starting Pipeline & Compo
 
 cd $QANARY
 nohup java -jar qanary_pipeline-template/target/qa.pipeline-1.1.1.jar &
-sleep 10
+sleep 15
 nohup java -jar $Component1/target/*.jar 2>$QANARY_LOG/$ApplicationName1"_error".log 1>$QANARY_LOG/$ApplicationName1"_out".log &
-sleep 10
 if [ "$Component2" == "" ]; then
     echo "-------------------------------------------------No Component2 supplied------------------------------------"
 else
+    sleep 15
     nohup java -jar $Component2/target/*.jar 2>$QANARY_LOG/$ApplicationName2"_error".log 1>$QANARY_LOG/$ApplicationName2"_out".log &
 fi
-sleep 10
 if [ "$Component3" == "" ]; then
     echo "-------------------------------------------------No Component3 supplied------------------------------------"
 else
+    sleep 15
     nohup java -jar $Component3/target/*.jar 2>$QANARY_LOG/$ApplicationName3"_error".log 1>$QANARY_LOG/$ApplicationName3"_out".log &
 fi
-sleep 10
 if [ "$Component4" == "" ]; then
     echo "-------------------------------------------------No Component4 supplied------------------------------------"
 else
+    sleep 15
     nohup java -jar $Component4/target/*.jar 2>$QANARY_LOG/$ApplicationName4"_error".log 1>$QANARY_LOG/$ApplicationName4"_out".log &
 fi
-sleep 10
 if [ "$Component5" == "" ]; then
     echo "-------------------------------------------------No Component5 supplied------------------------------------"
 else
+    sleep 15
     nohup java -jar $Component5/target/*.jar 2>$QANARY_LOG/$ApplicationName5"_error".log 1>$QANARY_LOG/$ApplicationName5"_out".log &
 fi
-sleep 10
 if [ "$Component6" == "" ]; then
     echo "-------------------------------------------------No Component6 supplied------------------------------------"
 else
+    sleep 15
     nohup java -jar $Component6/target/*.jar 2>$QANARY_LOG/$ApplicationName6"_error".log 1>$QANARY_LOG/$ApplicationName6"_out".log
 fi
 sleep 20

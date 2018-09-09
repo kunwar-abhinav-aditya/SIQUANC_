@@ -1,3 +1,11 @@
+    var milli = 0;
+    var seconds = 0;
+    var minutes = 0;
+    var onOff = 0;
+
+    var txtMilli = document.getElementById("txtMilli");
+    var txtSeconds = document.getElementById("txtSeconds");
+    var txtMinutes = document.getElementById("txtMinutes");
 
     var result;
     var rating;
@@ -5,6 +13,10 @@
     var components = new Array();
     $("#thanks").hide();
     $("#rating").hide();
+    $("#result").hide();
+    $("#moreInfo").hide();
+    $('#timer').hide();
+    $('#timer').runner();
     window.sr = ScrollReveal();
     sr.reveal('.logo-asknow', {
         duration: 2000,
@@ -19,10 +31,13 @@
         viewFactor: 0.2
     });
     $(document).ready(function() {
-        $("#result").hide();
-        $("#moreInfo").hide();
         $("#showResult").click(function() {
-            doQuery();
+            if ($("#queryInput").val() == "") {
+                alert("Either fill a question in the text field or select one from the footer");
+            }
+            else {
+                doQuery();
+            }
         });
         $("#defaultQuestion1").click(function() {
             doQuery();
@@ -43,10 +58,9 @@
                     $('#pipelineType').append("<i class=\"fa fa-arrow-right box\"></i>");
                 }
             }
-            $("#pipelineType").append("<br><br>Go back to querying with the <button class=\"link\" id=\"gotofixed\" onclick=\"backToBasics()\">fixed pipeline</button>");
         }
         else {
-            $("#pipelineType").append("Querying using a fixed pipeline. To run it against your own custom pipeline, go to the <a href=\"/build\">build</a> module!");
+            $("#pipelineType").append("Querying using a fixed pipeline. To run the query using your own custom pipeline, go to the <a href=\"/build\">build</a> module!");
             document.getElementById("pipelineType").style.color = "#354B82";
         }
 
@@ -77,6 +91,10 @@
     function doQuery() {
         $(".jumbotron").addClass('blurdiv');
         $("#wait").css("display", "block");
+        $("#timer").css("display", "block");
+        $("#timer").fadeIn();
+        $("#timer").empty();
+        $('#timer').runner('start');
         $(".selected-rating").empty();
         $(".selected-rating").html(0);
         $("#selected_rating").val(0);
@@ -87,14 +105,18 @@
         $("#result").empty();
         $("#thanks").hide();
         $("#rating").hide();
+        var requiresQueryBuilding = false;
+        var selectedTasks = localStorage.getItem("selectedTasks").split(",");
+        if (selectedTasks[selectedTasks.length-1] == "Query Builder") {
+            requiresQueryBuilding = true;
+        }
         if (localStorage.getItem("defaultQuestion") != null) {
             question = localStorage.getItem("defaultQuestion");
-            var payload = { "queryRequestString" : localStorage.getItem("defaultQuestion"), "components" : components};
         }
         else {
             question = $('#queryInput').val();
-            var payload = { "queryRequestString" : $('#queryInput').val(), "components" : components};
         }
+        var payload = { "queryRequestString" : question, "components" : components, "requiresQueryBuilding" : requiresQueryBuilding, "tasks" : selectedTasks};
         $.ajax({
             type: 'POST',
             url: 'http://localhost:10000/query',
@@ -102,8 +124,36 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),
             success: function(queryResponse) {
-                $("#result").append(queryResponse['queryResponseString']);
-                $("#result").attr("href", queryResponse['queryResponseString']);
+                $("#result").append("<br>");
+                var ques = document.createElement('div');
+                ques.id = "ques";
+                document.getElementById('result').appendChild(ques);
+                $("#ques").addClass("heads");
+                $("#ques").append("Question");
+                $("#result").append(question);
+                $("#result").append("<br><br>");
+                var outputs = document.createElement('div');
+                outputs.id = "outputs";
+                document.getElementById('result').appendChild(outputs);
+                $("#outputs").addClass("heads");
+                $("#outputs").append("Outputs");
+
+                for(var i=0;i < queryResponse['queryResponseStrings'].length; i++) {
+                    $("#result").append("Output of ");
+                    $("#result").append("<b>"+components[i]+"</b>");
+                    $("#result").append(": ");
+                    var propRes = document.createElement('a');
+                    propRes.id = "propRes"+i;
+                    document.getElementById('result').appendChild(propRes);
+                    $("#propRes"+i).addClass("abig");
+                    $("#propRes"+i).append(queryResponse['queryResponseStrings'][i]);
+                    if (queryResponse['queryResponseStrings'][i]!="No output") {
+                        $("#propRes"+i).attr("href", queryResponse['queryResponseStrings'][i]);
+                    }
+                    $("#result").append("<br>");
+                }
+                $("#result").append("<br>");
+
             },
             error: function(error) {
             },
@@ -111,6 +161,23 @@
                 localStorage.removeItem("defaultQuestion");
                 $(".jumbotron").removeClass('blurdiv');
                 $("#wait").css("display", "none");
+                $('#timer').runner('stop');
+                $("#timer").fadeOut();
+                var timerhead = document.createElement('div');
+                timerhead.id = "timerhead";
+                document.getElementById('result').appendChild(timerhead);
+                $("#timerhead").addClass("heads");
+                $("#timerhead").append("Time taken by pipeline");
+                var timeTaken = $("#timer").text();
+                $("#result").append(timeTaken+ " seconds.");
+                $("#result").append("<br><br>");
+                var fullresponse = document.createElement('div');
+                fullresponse.id = "fullresponse";
+                document.getElementById('result').appendChild(fullresponse);
+                $("#fullresponse").addClass("heads");
+                $("#fullresponse").append("Full response");
+                $("#result").append("<a href=\"/query/result\">here</a>");
+                $("#result").append("<br><br>Go back to querying with the <button class=\"link\" id=\"gotofixed\" onclick=\"backToBasics()\">fixed pipeline</button> or build a new <button class=\"link\" id=\"gotodynamic\" onclick=\"buildNewdynamic()\">dynamic pipeline</button>");
                 $("#result").fadeIn();
                 $("#moreInfo").fadeIn();
                 $("#rating").fadeIn();
@@ -139,7 +206,14 @@
 
     function backToBasics() {
         localStorage.removeItem("pipeline");
+        localStorage.removeItem("selectedTasks");
         window.location.reload();
+    }
+
+    function buildNewdynamic() {
+        localStorage.removeItem("pipeline");
+        localStorage.removeItem("selectedTasks");
+        window.location.replace("/build");
     }
 
     function setdefaultquestion1() {

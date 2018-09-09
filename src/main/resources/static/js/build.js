@@ -1,10 +1,10 @@
 
     var taskAndComponents;
+    var selectedTasks = [];
     $(document).ready(function() {
         $("#buttonRow").hide();
         getAllTasks();
         $("#showResult").click(function() {
-            $("#wait").css("display", "block");
             $("#components").empty();
             getCombinations();
         });
@@ -24,7 +24,7 @@
                 for(var i =0;i < allTasks.length; i++)
                 {
                     var opt = allTasks[i];
-                    $('#tasks').append("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"tasks\" value=\""+opt+"\">"+opt+"</label>");
+                    $('#tasks').append("<label class=\"checkbox-inline\"><input type=\"checkbox\" id=\""+opt+"\" name=\"tasks\" value=\""+opt+"\">"+opt+"</label>");
                 }
            },
             error: function(error) {
@@ -33,12 +33,17 @@
     }
 
     function getCombinations() {
+        selectedTasks = [];
         var components = document.getElementById("components");
+        if( $('#NED').is(":checked")) {
+            var ner = $('#NER');
+            ner.attr('checked','checked');
+        }
         if( $('#tasks :checked').length > 0){
+            $("#wait").css("display", "block");
             //build an array of selected values
-            var selectedTasks = [];
             $('#tasks :checked').each(function(i, checked) {
-                selectedTasks[i] = $(checked).val();
+                selectedTasks.push($(checked).val());
             });
             var payload = { "selectedTasks" : selectedTasks};
             //post data to handler script. note the JSON.stringify call
@@ -74,8 +79,8 @@
                             $("#wait").css("display", "none");
                         }
             });
+            $("#buttonRow").fadeIn();
         }
-        $("#buttonRow").fadeIn();
     }
 
     function getBestPipelines() {
@@ -119,26 +124,35 @@
 
     function createPipeline() {
         var buildComponents = [];
+        var checked = 0;
         //enabled:checked added to only build pipeline with checked and enabled
         //this is for the case if we click on agdistis first to enable the
         //NER components, select a NER component and then click on a different
         //NED component, all the NER components become disabled but the one
         //we checked is still checked, although disabled. We thus need to add this
         $('input:radio:enabled:checked').each(function() {
+           checked=checked+1;
            var radioCon = $(this).val();
            buildComponents.push(radioCon);
         });
-        localStorage.setItem("pipeline", buildComponents);
-        window.location.replace("/query");
+        if (checked > 0) {
+            localStorage.setItem("pipeline", buildComponents);
+            if (checked != selectedTasks.length) {
+                selectedTasks.shift();
+            }
+            localStorage.setItem("selectedTasks", selectedTasks);
+            window.location.replace("/query");
+        }
     }
 
     function radioClick(name, value) {
         if (name == "NED") {
-            if (value == "AGDISTIS") {
+            if (value == "NED-AGDISTIS") {
                 var elements = document.getElementsByName("NER");
                 for(index = 0; index < elements.length; index++){
                     elements[index].disabled = false;
                 }
+                elements[0].checked = true;
             }
             else {
                 var elements = document.getElementsByName("NER");

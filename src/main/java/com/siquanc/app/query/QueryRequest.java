@@ -8,7 +8,11 @@ public class QueryRequest {
 
     private QueryType queryType;
 
+    private boolean requiresQueryBuilding;
+
     private ArrayList<String> components;
+
+    private ArrayList<String> tasks;
 
     public QueryRequest() {}
 
@@ -35,5 +39,21 @@ public class QueryRequest {
 
     public void setComponents(ArrayList<String> components) {
         this.components = components;
+    }
+
+    public boolean getRequiresQueryBuilding() {
+        return requiresQueryBuilding;
+    }
+
+    public void setRequiresQueryBuilding(boolean requiresQueryBuilding) {
+        this.requiresQueryBuilding = requiresQueryBuilding;
+    }
+
+    public ArrayList<String> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<String> tasks) {
+        this.tasks = tasks;
     }
 }

@@ -20,15 +20,15 @@ import java.util.*;
 @Service
 public class QueryService {
 
-    private StringBuilder returnedQuery = new StringBuilder();
-
+    private StringBuilder returnedQuery;
 
     /**
      *
      * @param queryRequest
      */
     public QueryResponse getQueryResponse(QueryRequest queryRequest) {
-        String response = "";
+        returnedQuery = new StringBuilder();
+        ArrayList<String> response = new ArrayList<>();
         QueryResponse queryResponse = null;
         if (queryRequest.getComponents().size() == 0) {
             queryRequest.setQueryType(QueryType.FIXED);
@@ -45,16 +45,17 @@ public class QueryService {
         return queryResponse;
     }
 
+
     /**
      * 
      * @param queryRequest
      * @return
      */
-    private String getResultFromQanary(QueryRequest queryRequest) {
-        String response = "";
+    private ArrayList<String> getResultFromQanary(QueryRequest queryRequest) {
+        ArrayList<String> response = new ArrayList<>();
         try {
             QanaryIntermediateResponse qanaryIntermediateResponse = getQuerySource(queryRequest);
-            response = queryInStardog(qanaryIntermediateResponse);
+            response = queryInStardog(queryRequest, qanaryIntermediateResponse);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -70,13 +71,13 @@ public class QueryService {
     private QanaryIntermediateResponse getQuerySource(QueryRequest queryRequest) throws IOException, InterruptedException {
 
         URL url;
-        System.out.println(queryRequest.getComponents());
         BiMap<String, String> compNamePathMapping = getCompNameDirectoryMapping();
-        ArrayList<String> CMD_ARRAY = new ArrayList<>();
-        CMD_ARRAY.add("src/main/resources/scripts/init.sh");
-        for (int i = 0; i< queryRequest.getComponents().size(); i++) {
-            CMD_ARRAY.add(compNamePathMapping.get(queryRequest.getComponents().get(i)));
-        }
+        //ArrayList<String> CMD_ARRAY = new ArrayList<>();
+        //CMD_ARRAY.add("src/main/resources/scripts/init.sh");
+        //for (int i = 0; i< queryRequest.getComponents().size(); i++) {
+        //    CMD_ARRAY.add(compNamePathMapping.get(queryRequest.getComponents().get(i)));
+        //}
+        /**
         if (queryRequest.getQueryType().equals(QueryType.VARIABLE)) {
             ProcessBuilder pb = new ProcessBuilder(CMD_ARRAY);
             Process p = pb.start();
@@ -89,7 +90,7 @@ public class QueryService {
                     break;
                 }
             }
-        }
+        }*/
         url = new URL(Constants.qanaryURL);
         QanaryIntermediateResponse qanaryIntermediateResponse = null;
         try {
@@ -103,7 +104,6 @@ public class QueryService {
 
             ListMultimap<String, String> params = ArrayListMultimap.create();
             params.put("question", queryRequest.getQueryRequestString());
-            System.out.println(queryRequest.getQueryRequestString());
             if (queryRequest.getQueryType().equals(QueryType.FIXED)) {
 
                 ArrayList<String> components = new ArrayList<>();
@@ -127,16 +127,13 @@ public class QueryService {
                 postData.append('=');
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
             }
-            System.out.println(postData.toString());
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
             con.getOutputStream().write(postDataBytes);
-            System.out.println(con.getInputStream());
             Reader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
             StringBuilder queryIntermediateResponse = new StringBuilder();
             for (int c; (c = in.read()) >= 0; )
                 queryIntermediateResponse.append((char) c);
             con.disconnect();
-            System.out.println(queryIntermediateResponse.toString());
             JSONObject jsonObject = new JSONObject(queryIntermediateResponse.toString());
             qanaryIntermediateResponse = new QanaryIntermediateResponse(jsonObject.get("endpoint").toString(), jsonObject.get("inGraph").toString(), jsonObject.get("outGraph").toString(), jsonObject.get("question").toString());
         }
@@ -150,7 +147,7 @@ public class QueryService {
      *
      * @param qanaryIntermediateResponse
      */
-    private String queryInStardog(QanaryIntermediateResponse qanaryIntermediateResponse) throws InterruptedException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    private ArrayList<String> queryInStardog(QueryRequest qr, QanaryIntermediateResponse qanaryIntermediateResponse) throws InterruptedException, IOException, ParserConfigurationException, SAXException, TransformerException {
         URL url = new URL(Constants.starDogURL);
         String basicAuth = Constants.basicAuth;
         StringBuilder queryResponse = new StringBuilder();
@@ -164,7 +161,7 @@ public class QueryService {
             con.setRequestProperty("charset", "utf-8");
             con.setUseCaches(false);
             String value = RDFQueryComponents.getFirstHalf() +
-                    qanaryIntermediateResponse.getInGraph() +
+                    URLEncoder.encode(qanaryIntermediateResponse.getInGraph(), "UTF-8") +
                     RDFQueryComponents.getSecondHalf();
             con.setRequestProperty("query", value);
             con.setRequestProperty("Authorization", basicAuth);
@@ -178,21 +175,65 @@ public class QueryService {
             for (int c; (c = in.read()) >= 0; )
                 queryResponse.append((char) c);
             con.disconnect();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return extractComponentResultsFromResponse(qr, queryResponse);
+    }
+
+    /**
+     *
+     * @param qr
+     * @param queryResponse
+     * @return
+     */
+    private ArrayList<String> extractComponentResultsFromResponse(QueryRequest qr, StringBuilder queryResponse) {
         String[] lines = queryResponse.toString().split("\n");
         String result = "";
+        ArrayList<String> componentResults = new ArrayList<>();
         for (int i = 0; i<lines.length; i++) {
             returnedQuery.append(lines[i]);
-            if (lines[i].contains("dbpedia")) {
-                result = lines[i];
+            if (lines[i].contains(Constants.responseLocater)) {
+                result = lines[i].split(Constants.responseLocater)[1];
+                componentResults.add(result);
             }
         }
-        result = result.split("\"\"value\"\": \"\"")[1];
-        result = result.split("\"\" }")[0];
-        return result;
+        int numberOfComponents = qr.getComponents().size();
+        int componentResultsSize = componentResults.size();
+        ArrayList<String> toKeep = new ArrayList<>();
+        if (qr.getRequiresQueryBuilding()) {
+            for (int i = 0; i < componentResultsSize; i++) {
+                if ((i + numberOfComponents + 1) >= componentResultsSize) {
+                    if (i != componentResultsSize - 2) {
+                        toKeep.add(componentResults.get(i));
+                    }
+                }
+            }
+            String res = toKeep.get(toKeep.size() - 1);
+            String bindingValue = res.split(Constants.qbDelimiter1)[1].split(Constants.qbDelimiter2)[1];
+            toKeep.set(toKeep.size() - 1, bindingValue);
+        } else {
+            for (int i = 0; i < componentResultsSize; i++) {
+                if ((i + numberOfComponents) >= componentResultsSize) {
+                    toKeep.add(componentResults.get(i));
+                }
+            }
+        }
+        for (int i = 0; i < toKeep.size(); i++) {
+            if (qr.getRequiresQueryBuilding()) {
+                if (i < toKeep.size() - 1) {
+                    toKeep.set(i, toKeep.get(i).split(",")[1]);
+                }
+            } else {
+                toKeep.set(i, toKeep.get(i).split(",")[1]);
+            }
+        }
+        for (int i = 0; i < toKeep.size(); i++) {
+            if (qr.getTasks().get(i).equals("NER")) {
+                toKeep.set(i, "No output");
+            }
+        }
+        return toKeep;
     }
 
     /**
@@ -280,7 +321,10 @@ public class QueryService {
         return null;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public BiMap<String, String> getCompNameDirectoryMapping() {
         BiMap<String, String> compNameDirectoryMapping = HashBiMap.create();
         FileInputStream fstream = null;

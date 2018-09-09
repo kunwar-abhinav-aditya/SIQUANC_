@@ -55,6 +55,24 @@ h6 {
   font-size: 1.0em;
   font-color: #3d3d3d; }
 
+.abig {
+  font-weight: normal;
+  color: #910101; }
+
+.heads {
+  font-weight: bold;
+  font-size: 22px;
+  color: #354B82; }
+
+#timer {
+  font-weight: bold;
+  font-size: 2.0em;
+  color: #354B82; }
+
+#timerInfo {
+  font-weight: normal;
+  color: #f48342; }
+
 .hero-img {
   width: 50%; }
 

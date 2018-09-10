@@ -119,6 +119,8 @@
     function usethis(opt) {
         localStorage.removeItem("pipeline");
         localStorage.setItem("pipeline", opt);
+        localStorage.removeItem("selectedTasks");
+        localStorage.setItem("selectedTasks", selectedTasks);
         window.location.replace("/query");
     }
 

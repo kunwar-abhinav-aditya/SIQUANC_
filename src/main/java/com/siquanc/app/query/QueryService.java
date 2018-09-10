@@ -72,12 +72,12 @@ public class QueryService {
 
         URL url;
         BiMap<String, String> compNamePathMapping = getCompNameDirectoryMapping();
-        //ArrayList<String> CMD_ARRAY = new ArrayList<>();
-        //CMD_ARRAY.add("src/main/resources/scripts/init.sh");
-        //for (int i = 0; i< queryRequest.getComponents().size(); i++) {
-        //    CMD_ARRAY.add(compNamePathMapping.get(queryRequest.getComponents().get(i)));
-        //}
         /**
+        ArrayList<String> CMD_ARRAY = new ArrayList<>();
+        CMD_ARRAY.add("src/main/resources/scripts/init.sh");
+        for (int i = 0; i< queryRequest.getComponents().size(); i++) {
+            CMD_ARRAY.add(compNamePathMapping.get(queryRequest.getComponents().get(i)));
+        }
         if (queryRequest.getQueryType().equals(QueryType.VARIABLE)) {
             ProcessBuilder pb = new ProcessBuilder(CMD_ARRAY);
             Process p = pb.start();
@@ -105,14 +105,13 @@ public class QueryService {
             ListMultimap<String, String> params = ArrayListMultimap.create();
             params.put("question", queryRequest.getQueryRequestString());
             if (queryRequest.getQueryType().equals(QueryType.FIXED)) {
-
                 ArrayList<String> components = new ArrayList<>();
                 components = getStaticComponents();
+                queryRequest.setTasks(getStaticTasks());
                 for (String component : components) {
                     params.put("componentlist[]", component);
                 }
             }
-
             if (queryRequest.getQueryType().equals(QueryType.VARIABLE)) {
                 for (int i=0; i<queryRequest.getComponents().size(); i++) {
                     params.put("componentlist[]", queryRequest.getComponents().get(i));
@@ -198,24 +197,52 @@ public class QueryService {
                 componentResults.add(result);
             }
         }
-        int numberOfComponents = qr.getComponents().size();
+        int numberOfComponents;
+        if (qr.getQueryType().equals(QueryType.VARIABLE)) {
+            numberOfComponents = qr.getComponents().size();
+        } else {
+            numberOfComponents = Constants.qanarySamplePipelineComponents.length;
+            //Since in our static pipeline, we DO HAVE a query builder as a part of the pipeline
+            qr.setRequiresQueryBuilding(true);
+        }
         int componentResultsSize = componentResults.size();
         ArrayList<String> toKeep = new ArrayList<>();
         if (qr.getRequiresQueryBuilding()) {
-            for (int i = 0; i < componentResultsSize; i++) {
-                if ((i + numberOfComponents + 1) >= componentResultsSize) {
-                    if (i != componentResultsSize - 2) {
-                        toKeep.add(componentResults.get(i));
+            if (qr.getComponents().contains("OntoTextNED")) {
+                for (int i = 0; i < componentResultsSize; i++) {
+                    if ((i + numberOfComponents + 1) >= componentResultsSize) {
+                        if ((i != componentResultsSize - 2) && (i != componentResultsSize - numberOfComponents - 1)) {
+                            toKeep.add(componentResults.get(i));
+                        }
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < componentResultsSize; i++) {
+                    if ((i + numberOfComponents + 1) >= componentResultsSize) {
+                        if (i != componentResultsSize - 2) {
+                            toKeep.add(componentResults.get(i));
+                        }
                     }
                 }
             }
             String res = toKeep.get(toKeep.size() - 1);
             String bindingValue = res.split(Constants.qbDelimiter1)[1].split(Constants.qbDelimiter2)[1];
             toKeep.set(toKeep.size() - 1, bindingValue);
-        } else {
-            for (int i = 0; i < componentResultsSize; i++) {
-                if ((i + numberOfComponents) >= componentResultsSize) {
-                    toKeep.add(componentResults.get(i));
+        }
+        else {
+            if (qr.getComponents().contains("OntoTextNED")) {
+                for (int i = 0; i < componentResultsSize; i++) {
+                    if (((i + numberOfComponents + 1) >= componentResultsSize) && (i != componentResultsSize - numberOfComponents)) {
+                        toKeep.add(componentResults.get(i));
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < componentResultsSize; i++) {
+                    if ((i + numberOfComponents) >= componentResultsSize) {
+                        toKeep.add(componentResults.get(i));
+                    }
                 }
             }
         }
@@ -228,6 +255,7 @@ public class QueryService {
                 toKeep.set(i, toKeep.get(i).split(",")[1]);
             }
         }
+
         for (int i = 0; i < toKeep.size(); i++) {
             if (qr.getTasks().get(i).equals("NER")) {
                 toKeep.set(i, "No output");
@@ -260,6 +288,9 @@ public class QueryService {
         try {
             fileName = "src/main/resources/scripts/feedback.txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+            if (feedback.getRating() == null) {
+                feedback.setRating("0");
+            }
             String view = feedback.getQuestion() + ", " + components + ", " + feedback.getRating();
             writer.write(view);
             writer.write("\n");
@@ -284,6 +315,17 @@ public class QueryService {
         return staticComponents;
     }
 
+    /**
+     *
+     * @return
+     */
+    public ArrayList<String> getStaticTasks() {
+        ArrayList<String> staticTasks = new ArrayList<>();
+        for (int i=0; i<Constants.qanarySamplePipelineRespectiveTasks.length; i++) {
+            staticTasks.add(Constants.qanarySamplePipelineRespectiveTasks[i]);
+        }
+        return staticTasks;
+    }
     /**
      *
      * @param

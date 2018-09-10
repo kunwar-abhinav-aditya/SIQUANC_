@@ -1,15 +1,4 @@
-    var milli = 0;
-    var seconds = 0;
-    var minutes = 0;
-    var onOff = 0;
-
-    var txtMilli = document.getElementById("txtMilli");
-    var txtSeconds = document.getElementById("txtSeconds");
-    var txtMinutes = document.getElementById("txtMinutes");
-
-    var result;
-    var rating;
-    var question;
+    var selectedTasks = [];
     var components = new Array();
     $("#thanks").hide();
     $("#rating").hide();
@@ -106,7 +95,9 @@
         $("#thanks").hide();
         $("#rating").hide();
         var requiresQueryBuilding = false;
-        var selectedTasks = localStorage.getItem("selectedTasks").split(",");
+        if (localStorage.getItem("selectedTasks") != null) {
+            selectedTasks = localStorage.getItem("selectedTasks").split(",");
+        }
         if (selectedTasks[selectedTasks.length-1] == "Query Builder") {
             requiresQueryBuilding = true;
         }
@@ -137,7 +128,6 @@
                 document.getElementById('result').appendChild(outputs);
                 $("#outputs").addClass("heads");
                 $("#outputs").append("Outputs");
-
                 for(var i=0;i < queryResponse['queryResponseStrings'].length; i++) {
                     $("#result").append("Output of ");
                     $("#result").append("<b>"+components[i]+"</b>");
@@ -169,6 +159,7 @@
                 $("#timerhead").addClass("heads");
                 $("#timerhead").append("Time taken by pipeline");
                 var timeTaken = $("#timer").text();
+                $("#timer").empty();
                 $("#result").append(timeTaken+ " seconds.");
                 $("#result").append("<br><br>");
                 var fullresponse = document.createElement('div');

@@ -6,6 +6,10 @@
     color: #ffffff;
 }
 
+.navbar .navbar-brand {
+    color:#ffffff;
+}
+
 .feature-wrapper {
   background: #3367D6;
   color: #ffffff;

@@ -34,7 +34,7 @@
                         <a class="nav-link" href="/compose">Compose</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/bulk">Bulk</a>
+                        <a class="nav-link" href="/bulk">Upload</a>
                     </li>
                 </ul>
                 <div>
@@ -47,6 +47,27 @@
         <div id="hero" class="herofull">
             <br><br>
             <div class="container">
+                <div class="jumbotron row pt-lg-6 pb-lg-6 pt-5">
+                   <div class="col-lg-12">
+                        <br>
+                       <div class="row box">
+                           <img class='logo-asknow center' src="/img/logo.svg" alt="" />
+                       </div>
+                       <div class="input-group mb-3">
+                           <input type="text" id="queryInput" class="form-control" placeholder="&#xf002; Search the knowledge base ..." style="font-family: FontAwesome, Arial; font-style: normal">
+                           <div class="input-group-append">
+                               <button class="btn btn-outline-primary btn-md" type="button" id="showResult">Search</button>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div id="pipelineType"></div>
+                       </div>
+                        <div id="result"></div>
+                  </div>
+                </div>
+                <br>
+                <div id="wait" style="display:none;width:69px;height:89px;border:none;position:absolute;top:50%;left:50%;padding:2px;      " class="text-center"><img src='assets/25.gif'/></div>
+                <div id="timer" class="text-left"></div>
                 <div class="form-group" id="rating">
                     <label class="control-label" for="rating">
                         <span class="field-label-header">How satisfied are you with our results?</span>
@@ -73,28 +94,7 @@
                     </button>
                     <button class="btn btn-success btn-md" type="button" id="submitRating">Submit</button>
                 </div>
-                <div id="thanks">Thanks for your feedback. Your response has been recorded.</div>
-                <div class="jumbotron row pt-lg-6 pb-lg-6 pt-5">
-                   <div class="col-lg-12">
-                        <br>
-                       <div class="row box">
-                           <img class='logo-asknow center' src="/img/logo.svg" alt="" />
-                       </div>
-                       <div class="input-group mb-3">
-                           <input type="text" id="queryInput" class="form-control" placeholder="&#xf002; Search the knowledge base ..." style="font-family: FontAwesome, Arial; font-style: normal">
-                           <div class="input-group-append">
-                               <button class="btn btn-outline-primary btn-md" type="button" id="showResult">Search</button>
-                           </div>
-                       </div>
-                       <div class="row">
-                           <div id="pipelineType"></div>
-                       </div>
-                        <div id="result"></div>
-                  </div>
-                </div>
-                <br>
-                <div id="wait" style="display:none;width:69px;height:89px;border:none;position:absolute;top:50%;left:50%;padding:2px;      " class="text-center"><img src='assets/25.gif'/></div>
-                <div id="timer" class="text-left"></div>
+                <div id="thanks">Thanks for your feedback. Your response has been recorded.</div><br>
                 <!--HEADER SECTION END-->
                 <div class="samples" id="samples">
                     <div class="container">
@@ -106,7 +106,6 @@
                                     </strong>
                                 </h3>
                             </div>
-
                         </div>
 
                         <div class="row">

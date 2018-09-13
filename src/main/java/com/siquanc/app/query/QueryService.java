@@ -6,15 +6,24 @@ import com.google.common.collect.ListMultimap;
 import helper.Constants;
 import helper.RDFQueryComponents;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.ws.rs.core.HttpHeaders;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
+import java.nio.file.*;
 import java.util.*;
 
 @Service
@@ -207,7 +216,11 @@ public class QueryService {
         }
         int componentResultsSize = componentResults.size();
         ArrayList<String> toKeep = new ArrayList<>();
+        //OntotextNED doesn't work with query builder where it generates two resources.
+        // Where it will work - Only with queries which has one entity.
+        //e.g. it will work with Who is the spouse of Barack Obama
         if (qr.getRequiresQueryBuilding()) {
+            /**
             if (qr.getComponents().contains("OntoTextNED")) {
                 for (int i = 0; i < componentResultsSize; i++) {
                     if ((i + numberOfComponents + 1) >= componentResultsSize) {
@@ -226,11 +239,24 @@ public class QueryService {
                     }
                 }
             }
+             **/
+            for (int i = 0; i < componentResultsSize; i++) {
+                if ((i + numberOfComponents + 1) >= componentResultsSize) {
+                    if (i != componentResultsSize - 2) {
+                        toKeep.add(componentResults.get(i));
+                    }
+                }
+            }
             String res = toKeep.get(toKeep.size() - 1);
-            String bindingValue = res.split(Constants.qbDelimiter1)[1].split(Constants.qbDelimiter2)[1];
+            String bindingValueMid = res.split(Constants.qbDelimiter1)[1];
+            String bindingValue = "";
+            if (bindingValueMid != null) {
+                bindingValue = bindingValueMid.split(Constants.qbDelimiter2)[1];
+            }
             toKeep.set(toKeep.size() - 1, bindingValue);
         }
         else {
+            /**
             if (qr.getComponents().contains("OntoTextNED")) {
                 for (int i = 0; i < componentResultsSize; i++) {
                     if (((i + numberOfComponents + 1) >= componentResultsSize) && (i != componentResultsSize - numberOfComponents)) {
@@ -243,6 +269,11 @@ public class QueryService {
                     if ((i + numberOfComponents) >= componentResultsSize) {
                         toKeep.add(componentResults.get(i));
                     }
+                }
+            }**/
+            for (int i = 0; i < componentResultsSize; i++) {
+                if ((i + numberOfComponents) >= componentResultsSize) {
+                    toKeep.add(componentResults.get(i));
                 }
             }
         }
@@ -331,21 +362,36 @@ public class QueryService {
      * @param
      * @return
      */
-    public String bulkQuery(MultipartFile file) throws IOException {
+    public String bulkQuery(MultipartFile file, ArrayList<String> components, boolean requiresQueryBuilding) throws InterruptedException {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
         try {
-
             br = new BufferedReader(new InputStreamReader(file.getInputStream()));
             while ((line = br.readLine()) != null) {
-
-                // use comma as separator
                 String[] question = line.split(cvsSplitBy);
-
-                System.out.println("Question [id= " + question[0] + " , query=" + question[1] + "]");
-
+                String questionId = question[0];
+                String questionText = question[1];
+                //Creating query request object
+                QueryRequest qr = new QueryRequest(questionText);
+                if (components.size() > 0) {
+                    qr.setQueryType(QueryType.VARIABLE);
+                    qr.setComponents(components);
+                }
+                else {
+                    qr.setQueryType(QueryType.FIXED);
+                    qr.setComponents(getStaticComponents());
+                }
+                qr.setRequiresQueryBuilding(requiresQueryBuilding);
+                //Create a qanaryResponse object and get endPoint and outGraph
+                QanaryIntermediateResponse qanaryResponse = getQuerySource(qr);
+                String endpoint = qanaryResponse.getEndpoint();
+                String namedGraph = qanaryResponse.getOutGraph();
+                // dump the data
+                String exportFilename = "src/main/resources/bulk/" + "dump_" + questionId + ".ttl";
+                dumpGraphAndDeleteGraph(namedGraph, exportFilename);
             }
+            createZippedFile();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -360,7 +406,35 @@ public class QueryService {
                 }
             }
         }
-        return null;
+        return "uploaded";
+    }
+
+    private void dumpGraphAndDeleteGraph(String namedGraph, String exportFilename) throws IOException {
+        // shell command (linux)
+        String commandDump = Constants.starDogBinPath + "stardog data export -g " + namedGraph + " --format TURTLE qanary "
+                + exportFilename + "";
+        String commandDelete = Constants.starDogBinPath + "stardog data remove -g " + namedGraph + " qanary ";
+
+        executeCommandOnShellAndLogOutput(commandDump);
+        executeCommandOnShellAndLogOutput(commandDelete);
+    }
+
+
+    /**
+     * run the dump and remove command on Stardog
+     *
+     * @param commandDump
+     * @throws IOException
+     */
+    private void executeCommandOnShellAndLogOutput(String commandDump) throws IOException {
+        Process proc = Runtime.getRuntime().exec(commandDump);
+        BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+        String s = null;
+        System.out.println(stdInput.readLine());
+        stdInput.close();
+        stdError.close();
+        proc.destroy();
     }
 
     /**
@@ -385,5 +459,90 @@ public class QueryService {
             e.printStackTrace();
         }
         return compNameDirectoryMapping;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public void createZippedFile() throws IOException {
+        Map<String, String> env = new HashMap<>();
+        env.put("create", "true");
+        final Path path = Paths.get("src/main/resources/bulk/results.zip");
+        final URI uri = URI.create("jar:file:" + path.toUri().getPath());
+        try (FileSystem zipfs = FileSystems.newFileSystem(uri, env)) {
+            File folder = new File("src/main/resources/bulk/");
+            for (final File fileEntry : folder.listFiles()) {
+                if (fileEntry.isFile() && !fileEntry.getName().equals("results.zip")) {
+                    Path externalTxtFile = Paths.get("src/main/resources/bulk/"+fileEntry.getName());
+                    Path pathInZipfile = zipfs.getPath(fileEntry.getName());
+                    Files.copy(externalTxtFile, pathInZipfile, StandardCopyOption.REPLACE_EXISTING);
+                }
+            }
+            URL url= new File("src/main/resources/bulk/results.zip").toURI().toURL();
+            System.out.println(url);
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ResponseEntity<Resource> getTTLs() {
+        String filePath = "src/main/resources/bulk/results.zip";
+        Resource resource = new FileSystemResource(filePath);
+        MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+        String contentType = "application/octet-stream";
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public boolean deleteGeneratedFiles(){
+        File folder = new File("src/main/resources/bulk/");
+        int numberOfGeneratedFiles = 0;
+        int numberOfDeletedFiles = 0;
+        boolean allDeleted = false;
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isFile()) {
+                numberOfGeneratedFiles++;
+            }
+        }
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isFile()) {
+                if (fileEntry.delete()) {
+                    numberOfDeletedFiles++;
+                }
+            }
+        }
+        if (numberOfGeneratedFiles == numberOfDeletedFiles) {
+            allDeleted = true;
+        }
+        return allDeleted;
+    }
+
+    /**
+     *
+     * @param targetURL
+     * @return
+     */
+    public DBPediaResource getLeadAndAbstract(TargetURL targetURL) throws IOException {
+        DBPediaResource dbPediaResource = new DBPediaResource();
+        Document doc = Jsoup.connect(targetURL.getResourceURL()).get();
+        String name = doc.select("#title > a").text();
+        Elements leadText = doc.select(".lead");
+        Elements abstractTextEnglish = doc.select("table").select("span[xml:lang=\"en\"]");
+        dbPediaResource.setName(name);
+        dbPediaResource.setLeadText(leadText.html());
+        dbPediaResource.setAbstractText(abstractTextEnglish.get(0).html());
+        //String wikiURL = doc.select("span.literal").last().child(0).attr("href");
+        return dbPediaResource;
     }
 }

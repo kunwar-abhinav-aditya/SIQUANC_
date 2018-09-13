@@ -91,6 +91,13 @@ h6 {
   color: #ffffff;
   font-size: 3em; }
 
+.star {
+  color: #ffffff;
+  font-size: 3em; }
+
+.starrow {
+  color: #ffffff;}
+
 .row {
   text-align: justify; }
 
@@ -204,4 +211,66 @@ button.link {
   -o-filter: blur(5px);
   -ms-filter: blur(5px);
   filter: blur(5px);
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Sit on top */
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-backdrop {
+    /* bug fix - no overlay */
+    display: none;
+}
+
+.custom-file-input { cursor: copy; }
+
+#name {
+    text-align: center;
+    font-weight: bold;
+    font-size: 3.0em;
+}
+
+#leadText {
+    text-align: justify;
+    font-weight: normal;
+    font-size: 1.5em;
+}
+
+#abstractText {
+    text-align: justify;
+    font-weight: normal;
+    font-size: 1.0em;
 }

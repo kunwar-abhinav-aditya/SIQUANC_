@@ -1,5 +1,7 @@
     var selectedTasks = [];
+    var static = false;
     var components = new Array();
+    var resourceURL;
     $("#thanks").hide();
     $("#rating").hide();
     $("#result").hide();
@@ -20,6 +22,15 @@
         viewFactor: 0.2
     });
     $(document).ready(function() {
+            var colorOrig=$(".fa-github").css('color');
+            $(".fa-github").hover(
+            function() {
+                //mouse over
+                $(this).css('color', '#FFD700')
+            }, function() {
+                //mouse out
+                $(this).css('color', colorOrig)
+            });
         $("#showResult").click(function() {
             if ($("#queryInput").val() == "") {
                 alert("Either fill a question in the text field or select one from the footer");
@@ -50,6 +61,8 @@
         }
         else {
             $("#pipelineType").append("Querying using a fixed pipeline. To run the query using your own custom pipeline, go to the <a href=\"/build\">build</a> module!");
+            localStorage.removeItem("context");
+            localStorage.setItem("context","simple");
             document.getElementById("pipelineType").style.color = "#354B82";
         }
 
@@ -78,11 +91,11 @@
     });
 
     function doQuery() {
+        disable();
         $(".jumbotron").addClass('blurdiv');
         $("#wait").css("display", "block");
         $("#timer").css("display", "block");
         $("#timer").fadeIn();
-        $("#timer").empty();
         $('#timer').runner('start');
         $(".selected-rating").empty();
         $(".selected-rating").html(0);
@@ -115,6 +128,7 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),
             success: function(queryResponse) {
+                enable();
                 $("#result").append("<br>");
                 var ques = document.createElement('div');
                 ques.id = "ques";
@@ -128,6 +142,12 @@
                 document.getElementById('result').appendChild(outputs);
                 $("#outputs").addClass("heads");
                 $("#outputs").append("Outputs");
+                if (components.length == 0) {
+                    static = true;
+                    components.push("AmbiverseNed");
+                    components.push("EarlRelationLinking");
+                    components.push("QueryBuilder");
+                }
                 for(var i=0;i < queryResponse['queryResponseStrings'].length; i++) {
                     $("#result").append("Output of ");
                     $("#result").append("<b>"+components[i]+"</b>");
@@ -140,7 +160,11 @@
                     if (queryResponse['queryResponseStrings'][i]!="No output") {
                         $("#propRes"+i).attr("href", queryResponse['queryResponseStrings'][i]);
                     }
+                    resourceURL = queryResponse['queryResponseStrings'][i];
                     $("#result").append("<br>");
+                }
+                if (static == true) {
+                    components = []
                 }
                 $("#result").append("<br>");
 
@@ -159,7 +183,7 @@
                 $("#timerhead").addClass("heads");
                 $("#timerhead").append("Time taken by pipeline");
                 var timeTaken = $("#timer").text();
-                $("#timer").empty();
+                $('#timer').runner('reset', true);
                 $("#result").append(timeTaken+ " seconds.");
                 $("#result").append("<br><br>");
                 var fullresponse = document.createElement('div');
@@ -172,6 +196,20 @@
                 $("#result").fadeIn();
                 $("#moreInfo").fadeIn();
                 $("#rating").fadeIn();
+                if (selectedTasks[selectedTasks.length-1] == "Query Builder" || selectedTasks[selectedTasks.length-1] == "NED" || selectedTasks.length == 0) {
+                    if (resourceURL.includes("http://dbpedia.org")) {
+                        var win = window.open('/resource', '_blank');
+                        if (win) {
+                            localStorage.removeItem("resourceURL");
+                            localStorage.setItem("resourceURL",resourceURL);
+                            resourceURL="";
+                            win.focus();
+                        } else {
+                            //Browser has blocked it
+                            alert('Please enable popups');
+                        }
+                    }
+                }
             }
         });
         return;
@@ -215,4 +253,14 @@
     function setdefaultquestion2() {
         localStorage.removeItem("defaultQuestion");
         localStorage.setItem("defaultQuestion", $("#defaultQuestion2").text());
+    }
+
+    function disable(){
+        $("#showResult").prop("disabled",true);
+        $("#queryInput").prop("disabled",true);
+    }
+
+    function enable(){
+        $("#showResult").prop("disabled",false);
+        $("#queryInput").prop("disabled",false);
     }

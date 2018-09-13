@@ -2,6 +2,15 @@
     var taskAndComponents;
     var selectedTasks = [];
     $(document).ready(function() {
+        var colorOrig=$(".fa-github").css('color');
+        $(".fa-github").hover(
+        function() {
+            //mouse over
+            $(this).css('color', '#FFD700')
+        }, function() {
+            //mouse out
+            $(this).css('color', colorOrig)
+        });
         $("#buttonRow").hide();
         getAllTasks();
         $("#showResult").click(function() {
@@ -66,7 +75,7 @@
                                 if (i == "NER") {
                                     radioHtml += "disabled=\"true\"";
                                 }
-                                radioHtml += ">"+comp+"</label></div>";
+                                radioHtml += "><a href=\"/stars\">"+comp+"</a></label></div>";
                               });
                               div.innerHTML = radioHtml;
                               components.appendChild(div);
@@ -143,11 +152,17 @@
                 selectedTasks.shift();
             }
             localStorage.setItem("selectedTasks", selectedTasks);
-            window.location.replace("/query");
+            if(localStorage.getItem("context") == "simple") {
+                window.location.replace("/query");
+            }
+            if(localStorage.getItem("context") == "bulk") {
+                window.location.replace("/bulk");
+            }
         }
     }
 
     function radioClick(name, value) {
+        selectedTasks.push(name);
         if (name == "NED") {
             if (value == "NED-AGDISTIS") {
                 var elements = document.getElementsByName("NER");

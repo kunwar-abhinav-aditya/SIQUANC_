@@ -6,7 +6,6 @@ Component2=$2
 Component3=$3
 Component4=$4
 Component5=$5
-Component6=$6
 
 STARDOG=/Users/SyalMac/Downloads/stardog-4.1.3
 QANARY=/Users/SyalMac/Desktop/Kunwar_Thesis/KunwarThesis/qanary_qa
@@ -30,9 +29,6 @@ ApplicationName4="${App4/$ApplicationPrefix/}"
 
 App5=$(grep -i 'spring.application.name.*' $QANARY/$Component5/src/main/resources/config/application.properties)
 ApplicationName5="${App5/$ApplicationPrefix/}"
-
-App6=$(grep -i 'spring.application.name.*' $QANARY/$Component6/src/main/resources/config/application.properties)
-ApplicationName6="${App6/$ApplicationPrefix/}"
 
 rm /Users/SyalMac/Downloads/stardog-4.1.3/system.lock
 $STARDOG/bin/stardog-admin server stop
@@ -69,12 +65,6 @@ if [ "$Component5" == "" ]; then
 else
     sleep 15
     nohup java -jar $Component5/target/*.jar 2>$QANARY_LOG/$ApplicationName5"_error".log 1>$QANARY_LOG/$ApplicationName5"_out".log &
-fi
-if [ "$Component6" == "" ]; then
-    echo "-------------------------------------------------No Component6 supplied------------------------------------"
-else
-    sleep 15
-    nohup java -jar $Component6/target/*.jar 2>$QANARY_LOG/$ApplicationName6"_error".log 1>$QANARY_LOG/$ApplicationName6"_out".log
 fi
 sleep 20
 echo "exit"

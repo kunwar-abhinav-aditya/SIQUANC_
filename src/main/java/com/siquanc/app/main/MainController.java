@@ -26,4 +26,10 @@ public class MainController {
 
     @GetMapping("/bulk")
     public String bulk(Model model) { return "bulk"; }
+
+    @GetMapping("/stars")
+    public String stars(Model model) { return "stars"; }
+
+    @GetMapping("/resource")
+    public String resource(Model model) { return "resource"; }
 }

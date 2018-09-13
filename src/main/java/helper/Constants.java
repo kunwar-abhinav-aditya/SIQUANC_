@@ -11,7 +11,10 @@ public final class Constants {
     public static String basicAuth = "Basic YWRtaW46YWRtaW4=";
     public static String qanaryURL = "http://localhost:8080/startquestionansweringwithtextquestion";
 
-    public static String[] qanarySamplePipelineComponents = new String[]{"AmbiverseNed","AnnotationofSpotProperty","QueryBuilder"};
+    public static String starDogPath = "/Users/SyalMac/Downloads/stardog-4.1.3/";
+    public static String starDogBinPath = "/Users/SyalMac/Downloads/stardog-4.1.3/bin/";
+
+    public static String[] qanarySamplePipelineComponents = new String[]{"AmbiverseNed","EarlRelationLinking","QueryBuilder"};
     public static String[] qanarySamplePipelineRespectiveTasks = new String[]{"NED","Relation Linker","Query Builder"};
     public static int DESIRED_NUMBER_OF_BEST_PIPELINES = 3;
 

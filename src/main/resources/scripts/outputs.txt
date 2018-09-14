@@ -1,5 +1,0 @@
-entity
-disEntity
-disPredicates
-queryList
-json

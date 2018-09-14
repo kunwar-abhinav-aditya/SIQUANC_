@@ -1,4 +1,0 @@
-question
-entity
-disEntity
-query

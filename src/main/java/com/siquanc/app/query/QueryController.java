@@ -53,9 +53,8 @@ public class QueryController {
         return queryService.deleteGeneratedFiles();
     }
 
-    @PostMapping(path = "/resource")
-    public DBPediaResource getLeadAndAbstract(@RequestBody TargetURL targetURL) throws IOException {
-        System.out.println("here");
-        return queryService.getLeadAndAbstract(targetURL);
+    @PostMapping(path = "/resource", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ArrayList<DBPediaResource> getLeadAndAbstract(@RequestBody ArrayList<String> resourceURLs) throws IOException {
+        return queryService.getLeadAndAbstract(resourceURLs);
     }
 }

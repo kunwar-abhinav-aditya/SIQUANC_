@@ -5,9 +5,11 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ListMultimap;
 import helper.Constants;
 import helper.RDFQueryComponents;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -216,30 +218,9 @@ public class QueryService {
         }
         int componentResultsSize = componentResults.size();
         ArrayList<String> toKeep = new ArrayList<>();
-        //OntotextNED doesn't work with query builder where it generates two resources.
-        // Where it will work - Only with queries which has one entity.
-        //e.g. it will work with Who is the spouse of Barack Obama
+        int numResources = 0;
+
         if (qr.getRequiresQueryBuilding()) {
-            /**
-            if (qr.getComponents().contains("OntoTextNED")) {
-                for (int i = 0; i < componentResultsSize; i++) {
-                    if ((i + numberOfComponents + 1) >= componentResultsSize) {
-                        if ((i != componentResultsSize - 2) && (i != componentResultsSize - numberOfComponents - 1)) {
-                            toKeep.add(componentResults.get(i));
-                        }
-                    }
-                }
-            }
-            else {
-                for (int i = 0; i < componentResultsSize; i++) {
-                    if ((i + numberOfComponents + 1) >= componentResultsSize) {
-                        if (i != componentResultsSize - 2) {
-                            toKeep.add(componentResults.get(i));
-                        }
-                    }
-                }
-            }
-             **/
             for (int i = 0; i < componentResultsSize; i++) {
                 if ((i + numberOfComponents + 1) >= componentResultsSize) {
                     if (i != componentResultsSize - 2) {
@@ -248,29 +229,29 @@ public class QueryService {
                 }
             }
             String res = toKeep.get(toKeep.size() - 1);
-            String bindingValueMid = res.split(Constants.qbDelimiter1)[1];
-            String bindingValue = "";
-            if (bindingValueMid != null) {
-                bindingValue = bindingValueMid.split(Constants.qbDelimiter2)[1];
+            String resURLs = res.substring(2, res.length()-2);
+            resURLs = resURLs.replace("\"\"", "\"");
+            resURLs = resURLs.replace(" ", "");
+            toKeep.remove(toKeep.size()-1);
+            if (res.contains(Constants.qbDelimiter1)) {
+                JSONObject jsonObj = new JSONObject(resURLs);
+                JSONObject bindings = (JSONObject) jsonObj.get("results");
+                JSONArray resourcesList = (JSONArray) bindings.get("bindings");
+                for (Object resource : resourcesList) {
+                    numResources++;
+                    JSONObject uri = (JSONObject)((JSONObject)resource).get("uri");
+                    String url = (String)uri.get("value");
+                    if (url.contains(",_")) {
+                        toKeep.add(url.split(",_")[0]);
+                    } else {
+                        toKeep.add(url);
+                    }
+                }
+            } else {
+                toKeep.add("No result found");
             }
-            toKeep.set(toKeep.size() - 1, bindingValue);
         }
         else {
-            /**
-            if (qr.getComponents().contains("OntoTextNED")) {
-                for (int i = 0; i < componentResultsSize; i++) {
-                    if (((i + numberOfComponents + 1) >= componentResultsSize) && (i != componentResultsSize - numberOfComponents)) {
-                        toKeep.add(componentResults.get(i));
-                    }
-                }
-            }
-            else {
-                for (int i = 0; i < componentResultsSize; i++) {
-                    if ((i + numberOfComponents) >= componentResultsSize) {
-                        toKeep.add(componentResults.get(i));
-                    }
-                }
-            }**/
             for (int i = 0; i < componentResultsSize; i++) {
                 if ((i + numberOfComponents) >= componentResultsSize) {
                     toKeep.add(componentResults.get(i));
@@ -279,18 +260,16 @@ public class QueryService {
         }
         for (int i = 0; i < toKeep.size(); i++) {
             if (qr.getRequiresQueryBuilding()) {
-                if (i < toKeep.size() - 1) {
+                if (i < toKeep.size() - numResources) {
                     toKeep.set(i, toKeep.get(i).split(",")[1]);
                 }
             } else {
                 toKeep.set(i, toKeep.get(i).split(",")[1]);
             }
         }
-
-        for (int i = 0; i < toKeep.size(); i++) {
-            if (qr.getTasks().get(i).equals("NER")) {
-                toKeep.set(i, "No output");
-            }
+        if (qr.getTasks().contains("NER")) {
+            int nerLocation = qr.getTasks().indexOf("NER");
+            toKeep.set(nerLocation, "No output");
         }
         return toKeep;
     }
@@ -530,19 +509,30 @@ public class QueryService {
 
     /**
      *
-     * @param targetURL
+     * @param resourceURLs
      * @return
+     * @throws IOException
      */
-    public DBPediaResource getLeadAndAbstract(TargetURL targetURL) throws IOException {
-        DBPediaResource dbPediaResource = new DBPediaResource();
-        Document doc = Jsoup.connect(targetURL.getResourceURL()).get();
-        String name = doc.select("#title > a").text();
-        Elements leadText = doc.select(".lead");
-        Elements abstractTextEnglish = doc.select("table").select("span[xml:lang=\"en\"]");
-        dbPediaResource.setName(name);
-        dbPediaResource.setLeadText(leadText.html());
-        dbPediaResource.setAbstractText(abstractTextEnglish.get(0).html());
+    public ArrayList<DBPediaResource> getLeadAndAbstract(ArrayList<String> resourceURLs) throws IOException {
+        ArrayList<DBPediaResource> dbPediaResources = new ArrayList<DBPediaResource>();
+        for (String resourceURL : resourceURLs) {
+            DBPediaResource dbPediaResource = new DBPediaResource();
+            Document doc = Jsoup.connect(resourceURL).get();
+            String name = doc.select("#title > a").text();
+            Elements leadText = doc.select(".lead");
+            Element abstractTextEnglish = doc.select("table").select("span[xml:lang=\"en\"]").first();
+            if (name != null) {
+                dbPediaResource.setName(name);
+            }
+            if (leadText != null) {
+                dbPediaResource.setLeadText(leadText.html());
+            }
+            if (abstractTextEnglish != null) {
+                dbPediaResource.setAbstractText(abstractTextEnglish.html());
+            }
+            dbPediaResources.add(dbPediaResource);
+        }
         //String wikiURL = doc.select("span.literal").last().child(0).attr("href");
-        return dbPediaResource;
+        return dbPediaResources;
     }
 }

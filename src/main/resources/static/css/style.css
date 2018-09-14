@@ -57,7 +57,7 @@ h6 {
 
 .abig {
   font-weight: normal;
-  color: #910101; }
+  color: #354B82; }
 
 .heads {
   font-weight: bold;
@@ -257,19 +257,32 @@ button.link {
 
 .custom-file-input { cursor: copy; }
 
-#name {
+.name {
     text-align: center;
     font-weight: bold;
     font-size: 3.0em;
 }
 
-#leadText {
+.namenotexists {
+    color: #354B82;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.noinfo {
+    text-align: center;
+    font-weight: normal;
+    font-size: 1.0em;
+}
+
+.leadText {
     text-align: justify;
     font-weight: normal;
     font-size: 1.5em;
 }
 
-#abstractText {
+.abstractText {
     text-align: justify;
     font-weight: normal;
     font-size: 1.0em;

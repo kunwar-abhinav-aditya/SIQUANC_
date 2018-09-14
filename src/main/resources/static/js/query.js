@@ -158,8 +158,12 @@
                     propRes.id = "propRes"+i;
                     document.getElementById('result').appendChild(propRes);
                     $("#propRes"+i).addClass("abig");
-                    $("#propRes"+i).append(queryResponse['queryResponseStrings'][i]);
-                    if (queryResponse['queryResponseStrings'][i]!="No output" && queryResponse['queryResponseStrings'][i]!="No result found") {
+                    if (queryResponse['queryResponseStrings'][i].includes("localhost")) {
+                        $("#propRes"+i).append("");
+                    } else {
+                        $("#propRes"+i).append(queryResponse['queryResponseStrings'][i]);
+                    }
+                    if (queryResponse['queryResponseStrings'][i].includes("http://dbpedia.org")) {
                         $("#propRes"+i).attr("href", queryResponse['queryResponseStrings'][i]);
                     }
                     if (i >= (components.length-1)){

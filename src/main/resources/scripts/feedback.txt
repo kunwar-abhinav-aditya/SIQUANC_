@@ -1,2 +1,0 @@
-Who is the director of Jurassic Park?, [AmbiverseNed, EarlRelationLinking, QueryBuilder], 5
-Who are the directors of Jurassic Park?, [AmbiverseNed, EarlRelationLinking, QueryBuilder], 5

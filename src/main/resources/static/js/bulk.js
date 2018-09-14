@@ -82,7 +82,11 @@
                 $("#fileform")[0].reset();
             },
             error: function(error) {
-                alert("Document could not be uploaded");
+                alert("Server Error!");
+                $('#fileandbutton').empty();
+                $("#wait").css("display", "none");
+                $('#timer').runner('stop');
+                $('#timer').runner('reset', true);
             }
         });
         return;

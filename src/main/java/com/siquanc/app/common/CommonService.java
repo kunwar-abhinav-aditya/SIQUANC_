@@ -14,10 +14,8 @@ public class CommonService {
 
     public BiMap<String, String> getTaskRoleMapping(ArrayList<String> tasks) {
         BiMap<String, String> tasksRoleMapping = HashBiMap.create();
-        FileInputStream fstream = null;
         try {
-            fstream = new FileInputStream("src/main/resources/scripts/tasks_role_mapping.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/scripts/tasks_role_mapping.txt")));
             String strLine;
             while ((strLine = br.readLine()) != null)   {
                 String[] strg = strLine.split(",");

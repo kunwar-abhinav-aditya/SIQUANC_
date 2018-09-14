@@ -19,10 +19,6 @@ public final class Constants {
     public static int DESIRED_NUMBER_OF_BEST_PIPELINES = 3;
 
     public static String responseLocater = "http://www.w3.org/ns/openannotation/core/hasBody";
-    public static String qbDelimiter1 = "\"\"value\"\":";
-    public static String qbDelimiter2 = "\"\"";
-
-
-
+    public static String qbDelimiter = "\"\"results\"\":";
 
 }

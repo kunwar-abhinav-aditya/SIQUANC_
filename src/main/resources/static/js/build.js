@@ -152,7 +152,7 @@
                 selectedTasks.shift();
             }
             localStorage.setItem("selectedTasks", selectedTasks);
-            if(localStorage.getItem("context") == "simple") {
+            if(localStorage.getItem("context") == "simple" || localStorage.getItem("context") == null) {
                 window.location.replace("/query");
             }
             if(localStorage.getItem("context") == "bulk") {

@@ -83,25 +83,6 @@ public class QueryService {
 
         URL url;
         BiMap<String, String> compNamePathMapping = getCompNameDirectoryMapping();
-        /**
-        ArrayList<String> CMD_ARRAY = new ArrayList<>();
-        CMD_ARRAY.add("src/main/resources/scripts/init.sh");
-        for (int i = 0; i< queryRequest.getComponents().size(); i++) {
-            CMD_ARRAY.add(compNamePathMapping.get(queryRequest.getComponents().get(i)));
-        }
-        if (queryRequest.getQueryType().equals(QueryType.VARIABLE)) {
-            ProcessBuilder pb = new ProcessBuilder(CMD_ARRAY);
-            Process p = pb.start();
-            BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
-            while((line=br.readLine())!=null){
-                System.out.println(line);
-                if (line.contains("exit")) {
-                    br.close();
-                    break;
-                }
-            }
-        }*/
         url = new URL(Constants.qanaryURL);
         QanaryIntermediateResponse qanaryIntermediateResponse = null;
         try {
@@ -219,7 +200,6 @@ public class QueryService {
         int componentResultsSize = componentResults.size();
         ArrayList<String> toKeep = new ArrayList<>();
         int numResources = 0;
-
         if (qr.getRequiresQueryBuilding()) {
             for (int i = 0; i < componentResultsSize; i++) {
                 if ((i + numberOfComponents + 1) >= componentResultsSize) {
@@ -233,18 +213,30 @@ public class QueryService {
             resURLs = resURLs.replace("\"\"", "\"");
             resURLs = resURLs.replace(" ", "");
             toKeep.remove(toKeep.size()-1);
-            if (res.contains(Constants.qbDelimiter1)) {
+            if (res.contains(Constants.qbDelimiter)) {
                 JSONObject jsonObj = new JSONObject(resURLs);
                 JSONObject bindings = (JSONObject) jsonObj.get("results");
                 JSONArray resourcesList = (JSONArray) bindings.get("bindings");
-                for (Object resource : resourcesList) {
-                    numResources++;
-                    JSONObject uri = (JSONObject)((JSONObject)resource).get("uri");
-                    String url = (String)uri.get("value");
-                    if (url.contains(",_")) {
-                        toKeep.add(url.split(",_")[0]);
-                    } else {
-                        toKeep.add(url);
+                if (resourcesList.isNull(0)) {
+                    numResources+=1;
+                    toKeep.add("No result found");
+                } else {
+                    for (Object resource : resourcesList) {
+                        numResources++;
+                        JSONObject jsonObject = (JSONObject) resource;
+                        JSONObject uri = new JSONObject();
+                        if (jsonObject.has("uri")) {
+                            uri = (JSONObject) ((JSONObject) resource).get("uri");
+                        }
+                        if (jsonObject.has("c")) {
+                            uri = (JSONObject) ((JSONObject) resource).get("c");
+                        }
+                        String url = (String) uri.get("value");
+                        if (url.contains(",_")) {
+                            toKeep.add(url.split(",_")[0]);
+                        } else {
+                            toKeep.add(url);
+                        }
                     }
                 }
             } else {
@@ -260,7 +252,7 @@ public class QueryService {
         }
         for (int i = 0; i < toKeep.size(); i++) {
             if (qr.getRequiresQueryBuilding()) {
-                if (i < toKeep.size() - numResources) {
+                if (i < (toKeep.size() - numResources)) {
                     toKeep.set(i, toKeep.get(i).split(",")[1]);
                 }
             } else {
@@ -294,10 +286,12 @@ public class QueryService {
         } else {
             components = feedback.getComponents();
         }
-        String fileName = null;
+        String fileName = "scripts/feedback.txt";
         try {
-            fileName = "src/main/resources/scripts/feedback.txt";
-            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+            ClassLoader classLoader = getClass().getClassLoader();
+            File file = new File(classLoader.getResource(fileName).getFile());
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             if (feedback.getRating() == null) {
                 feedback.setRating("0");
             }
@@ -422,10 +416,8 @@ public class QueryService {
      */
     public BiMap<String, String> getCompNameDirectoryMapping() {
         BiMap<String, String> compNameDirectoryMapping = HashBiMap.create();
-        FileInputStream fstream = null;
         try {
-            fstream = new FileInputStream("src/main/resources/scripts/component_paths.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/scripts/component_paths.txt")));
             String strLine;
             while ((strLine = br.readLine()) != null)   {
                 String[] strg = strLine.split(",");
@@ -460,7 +452,6 @@ public class QueryService {
                 }
             }
             URL url= new File("src/main/resources/bulk/results.zip").toURI().toURL();
-            System.out.println(url);
         }
     }
 

@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+@CrossOrigin(origins = "http://frankenstein.sda.tech")
 @RestController
 @RequestMapping("/query")
 public class QueryController {

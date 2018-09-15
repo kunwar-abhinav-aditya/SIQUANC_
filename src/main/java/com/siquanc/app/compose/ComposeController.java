@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://frankenstein.sda.tech")
 @RestController
 @RequestMapping("/compose")
 public class ComposeController {

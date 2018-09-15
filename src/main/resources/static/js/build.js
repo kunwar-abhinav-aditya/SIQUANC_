@@ -43,7 +43,7 @@
     }
 
     function getCombinations() {
-        var tasks = [];
+        selectedTasks = [];
         var components = document.getElementById("components");
         if( $('#NED').is(":checked")) {
             var ner = $('#NER');
@@ -55,7 +55,7 @@
             $('#tasks :checked').each(function(i, checked) {
                 tasks.push($(checked).val());
             });
-            var payload = { "selectedTasks" : tasks};
+            var payload = { "selectedTasks" : selectedTasks};
             //post data to handler script. note the JSON.stringify call
             $.ajax({
                         type: 'POST',
@@ -132,16 +132,13 @@
         localStorage.removeItem("pipeline");
         localStorage.setItem("pipeline", opt);
         localStorage.removeItem("selectedTasks");
-        $('input:radio:enabled:checked').each(function() {
-           selectedTasks.push($(this).attr("name"));
-        });
         localStorage.setItem("selectedTasks", selectedTasks);
         window.location.replace("/query");
     }
 
     function createPipeline() {
+        selectedTasks = [];
         var buildComponents = [];
-        var checked = 0;
         //enabled:checked added to only build pipeline with checked and enabled
         //this is for the case if we click on agdistis first to enable the
         //NER components, select a NER component and then click on a different

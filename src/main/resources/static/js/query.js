@@ -38,10 +38,7 @@
                 doQuery();
             }
         });
-        $("#defaultQuestion1").click(function() {
-            doQuery();
-        });
-        $("#defaultQuestion2").click(function() {
+        $(".link").click(function() {
             doQuery();
         });
         if (localStorage.getItem("pipeline") != null) {
@@ -151,7 +148,7 @@
                 }
                 for(var i=0;i < queryResponse['queryResponseStrings'].length; i++) {
                     if (i < components.length) {
-                        $("#result").append("Output of ");
+                        $("#result").append("<font color=\"#354B82\">Output of</font> ");
                         $("#result").append("<b>"+components[i]+"</b>");
                         $("#result").append("<br>");
                     }
@@ -255,14 +252,9 @@
         window.location.replace("/build");
     }
 
-    function setdefaultquestion1() {
+    function setdefaultquestion(value) {
         localStorage.removeItem("defaultQuestion");
-        localStorage.setItem("defaultQuestion", $("#defaultQuestion1").text());
-    }
-
-    function setdefaultquestion2() {
-        localStorage.removeItem("defaultQuestion");
-        localStorage.setItem("defaultQuestion", $("#defaultQuestion2").text());
+        localStorage.setItem("defaultQuestion", value);
     }
 
     function disable(){

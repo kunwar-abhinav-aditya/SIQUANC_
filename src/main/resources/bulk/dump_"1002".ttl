@@ -528,33 +528,33 @@ Each TextQuoteSelector SHOULD have exactly 1 oa:suffix property, and MUST NOT ha
 
 <https://w3id.org/wdaqua/qanary#AnnotationQuestion> a owl:Class ;
 	rdfs:subClassOf <http://www.w3.org/ns/oa#Annotation> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10357 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11012 .
 
 <https://w3id.org/wdaqua/qanary#AnnotationAnswer> a owl:Class ;
 	rdfs:subClassOf <http://www.w3.org/ns/oa#Annotation> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10358 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11013 .
 
 <https://w3id.org/wdaqua/qanary#AnnotationDataset> a owl:Class ;
 	rdfs:subClassOf <http://www.w3.org/ns/oa#Annotation> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10359 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11014 .
 
 <https://w3id.org/wdaqua/qanary#AnswerType> a owl:Class .
 
 <https://w3id.org/wdaqua/qanary#AnnotationOfAnswerType> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationAnswer> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10360 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11015 .
 
 <https://w3id.org/wdaqua/qanary#AnswerFormat> a owl:Class .
 
 <https://w3id.org/wdaqua/qanary#AnnotationOfAnswerFormat> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationAnswer> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10361 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11016 .
 
 <https://w3id.org/wdaqua/qanary#Endpoint> a owl:Class .
 
 <https://w3id.org/wdaqua/qanary#AnnoOfEndpointOfDataset> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationDataset> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10362 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11017 .
 
 <https://w3id.org/wdaqua/qanary#HelperDataset> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#Dataset> .
@@ -566,7 +566,7 @@ Each TextQuoteSelector SHOULD have exactly 1 oa:suffix property, and MUST NOT ha
 
 <https://w3id.org/wdaqua/qanary#AnnoOfPosTag> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationQuestion> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10363 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11018 .
 
 <https://w3id.org/wdaqua/qanary#AnnotationOfSpotEntity> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationQuestion> .
@@ -584,128 +584,128 @@ Each TextQuoteSelector SHOULD have exactly 1 oa:suffix property, and MUST NOT ha
 
 <https://w3id.org/wdaqua/qanary#AnnotationOfEntity> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationQuestion> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10364 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11019 .
 
 <https://w3id.org/wdaqua/qanary#Instance> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#Entity> .
 
 <https://w3id.org/wdaqua/qanary#AnnotationOfInstance> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationOfEntity> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10365 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11020 .
 
 <https://w3id.org/wdaqua/qanary#Relation> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#Entity> .
 
 <https://w3id.org/wdaqua/qanary#AnnotationOfRelation> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationOfEntity> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10366 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11021 .
 
 <https://w3id.org/wdaqua/qanary#Class> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#Entity> .
 
 <https://w3id.org/wdaqua/qanary#AnnotationOfClass> a owl:Class ;
 	rdfs:subClassOf <https://w3id.org/wdaqua/qanary#AnnotationOfEntity> ;
-	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10367 .
+	owl:equivalentClass _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11022 .
 
 <http://localhost/Answer> a <http://www.wdaqua.eu/qa#Answer> .
 
 <http://localhost/Dataset> a <http://www.wdaqua.eu/qa#Dataset> .
 
 <file:///Users/SyalMac/Desktop/Kunwar_Thesis/KunwarThesis/qanary_qa/anno1> a <http://www.w3.org/ns/openannotation/core/AnnotationOfQuestion> ;
-	<http://www.w3.org/ns/openannotation/core/hasTarget> <http://localhost:8080/question/f06fd097-5da3-4d40-9e3f-037750d8d901> ;
+	<http://www.w3.org/ns/openannotation/core/hasTarget> <http://localhost:8080/question/39a241a7-28e5-4c03-bb67-d4a7dd245717> ;
 	<http://www.w3.org/ns/openannotation/core/hasBody> <file:///Users/SyalMac/Desktop/Kunwar_Thesis/KunwarThesis/qanary_qa/URIAnswer> .
 
 <file:///Users/SyalMac/Desktop/Kunwar_Thesis/KunwarThesis/qanary_qa/anno2> a <http://www.w3.org/ns/openannotation/core/AnnotationOfQuestion> ;
-	<http://www.w3.org/ns/openannotation/core/hasTarget> <http://localhost:8080/question/f06fd097-5da3-4d40-9e3f-037750d8d901> ;
+	<http://www.w3.org/ns/openannotation/core/hasTarget> <http://localhost:8080/question/39a241a7-28e5-4c03-bb67-d4a7dd245717> ;
 	<http://www.w3.org/ns/openannotation/core/hasBody> <file:///Users/SyalMac/Desktop/Kunwar_Thesis/KunwarThesis/qanary_qa/URIDataset> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10357 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11012 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasTarget> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#Question> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10358 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11013 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasTarget> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#Answer> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10359 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11014 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasTarget> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#Dataset> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10360 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11015 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasBody> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#AnswerType> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10361 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11016 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasBody> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#AnswerFormat> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10362 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11017 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasBody> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#Endpoint> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10363 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11018 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasBody> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#PosTag> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10364 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11019 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasBody> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#Entity> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10365 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11020 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasBody> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#Instance> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10366 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11021 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasBody> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#Relation> .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10367 a owl:Restriction ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11022 a owl:Restriction ;
 	owl:onProperty <http://www.w3.org/ns/oa#hasBody> ;
 	owl:someValuesFrom <https://w3id.org/wdaqua/qanary#Class> .
 
-<http://localhost:8080/question/f06fd097-5da3-4d40-9e3f-037750d8d901> a <http://www.wdaqua.eu/qa#Question> .
+<http://localhost:8080/question/39a241a7-28e5-4c03-bb67-d4a7dd245717> a <http://www.wdaqua.eu/qa#Question> .
 
-<tag:stardog:api:0.656900192087775> a <http://www.wdaqua.eu/qa#AnnotationOfTextRepresentation> ;
-	<http://www.w3.org/ns/openannotation/core/hasTarget> <http://localhost:8080/question/f06fd097-5da3-4d40-9e3f-037750d8d901> ;
-	<http://www.w3.org/ns/openannotation/core/hasBody> <http://localhost:8080/question/f06fd097-5da3-4d40-9e3f-037750d8d901> ;
-	<http://www.w3.org/ns/openannotation/core/annotatedAt> "2018-09-15T01:46:08.125+02:00"^^xsd:dateTime .
+<tag:stardog:api:0.8326060785612984> a <http://www.wdaqua.eu/qa#AnnotationOfTextRepresentation> ;
+	<http://www.w3.org/ns/openannotation/core/hasTarget> <http://localhost:8080/question/39a241a7-28e5-4c03-bb67-d4a7dd245717> ;
+	<http://www.w3.org/ns/openannotation/core/hasBody> <http://localhost:8080/question/39a241a7-28e5-4c03-bb67-d4a7dd245717> ;
+	<http://www.w3.org/ns/openannotation/core/annotatedAt> "2018-09-15T14:54:32.928+02:00"^^xsd:dateTime .
 
-<tag:stardog:api:0.3864366044606984> a <http://www.wdaqua.eu/qa#AnnotationOfInstance> ;
-	<http://www.w3.org/ns/openannotation/core/hasTarget> _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10368 ;
+<tag:stardog:api:0.8431214457513138> a <http://www.wdaqua.eu/qa#AnnotationOfInstance> ;
+	<http://www.w3.org/ns/openannotation/core/hasTarget> _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11023 ;
 	<http://www.w3.org/ns/openannotation/core/hasBody> <http://dbpedia.org/resource/Narendra_Modi> ;
 	<http://www.w3.org/ns/openannotation/core/annotatedBy> <http://ambiverseNED.com> ;
-	<http://www.w3.org/ns/openannotation/core/AnnotatedAt> "2018-09-15T01:46:10.040+02:00"^^xsd:dateTime .
+	<http://www.w3.org/ns/openannotation/core/AnnotatedAt> "2018-09-15T14:54:34.796+02:00"^^xsd:dateTime .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10368 a <http://www.w3.org/ns/openannotation/core/SpecificResource> ;
-	<http://www.w3.org/ns/openannotation/core/hasSource> <http://localhost:8080/question/f06fd097-5da3-4d40-9e3f-037750d8d901> ;
-	<http://www.w3.org/ns/openannotation/core/hasSelector> _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10369 .
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11023 a <http://www.w3.org/ns/openannotation/core/SpecificResource> ;
+	<http://www.w3.org/ns/openannotation/core/hasSource> <http://localhost:8080/question/39a241a7-28e5-4c03-bb67-d4a7dd245717> ;
+	<http://www.w3.org/ns/openannotation/core/hasSelector> _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11024 .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10369 a <http://www.w3.org/ns/openannotation/core/TextPositionSelector> ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11024 a <http://www.w3.org/ns/openannotation/core/TextPositionSelector> ;
 	<http://www.w3.org/ns/openannotation/core/start> 20 ;
 	<http://www.w3.org/ns/openannotation/core/end> 32 .
 
-<tag:stardog:api:0.3761083260378313> a <http://www.wdaqua.eu/qa#AnnotationOfRelation> ;
-	<http://www.w3.org/ns/openannotation/core/hasTarget> _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10370 ;
+<tag:stardog:api:0.8357359812303666> a <http://www.wdaqua.eu/qa#AnnotationOfRelation> ;
+	<http://www.w3.org/ns/openannotation/core/hasTarget> _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11025 ;
 	<http://www.w3.org/ns/openannotation/core/hasBody> <http://dbpedia.org/ontology/spouse> ;
 	<http://www.w3.org/ns/openannotation/core/annotatedBy> <http://earlrelationlinker.com> ;
-	<http://www.w3.org/ns/openannotation/core/AnnotatedAt> "2018-09-15T01:46:11.060+02:00"^^xsd:dateTime .
+	<http://www.w3.org/ns/openannotation/core/AnnotatedAt> "2018-09-15T14:54:35.715+02:00"^^xsd:dateTime .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10370 a <http://www.w3.org/ns/openannotation/core/SpecificResource> ;
-	<http://www.w3.org/ns/openannotation/core/hasSource> <http://localhost:8080/question/f06fd097-5da3-4d40-9e3f-037750d8d901> ;
-	<http://www.w3.org/ns/openannotation/core/hasSelector> _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10371 .
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11025 a <http://www.w3.org/ns/openannotation/core/SpecificResource> ;
+	<http://www.w3.org/ns/openannotation/core/hasSource> <http://localhost:8080/question/39a241a7-28e5-4c03-bb67-d4a7dd245717> ;
+	<http://www.w3.org/ns/openannotation/core/hasSelector> _:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11026 .
 
-_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_10371 a <http://www.w3.org/ns/openannotation/core/TextPositionSelector> ;
+_:bnode_8c6663d8_e77b_426f_a264_9c8cb3abaa61_11026 a <http://www.w3.org/ns/openannotation/core/TextPositionSelector> ;
 	<http://www.w3.org/ns/openannotation/core/start> 12 ;
 	<http://www.w3.org/ns/openannotation/core/end> 15 .
 
-<tag:stardog:api:0.6202438769240304> a <http://www.wdaqua.eu/qa#AnnotationOfAnswerSPARQL> ;
+<tag:stardog:api:0.2317460817108592> a <http://www.wdaqua.eu/qa#AnnotationOfAnswerSPARQL> ;
 	<http://www.w3.org/ns/openannotation/core/hasTarget> <file:///Users/SyalMac/Desktop/Kunwar_Thesis/KunwarThesis/qanary_qa/URIAnswer> ;
 	<http://www.w3.org/ns/openannotation/core/hasBody> "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Narendra_Modi> <http://dbpedia.org/ontology/spouse> ?uri }" ;
 	<http://www.w3.org/ns/openannotation/core/annotatedBy> <urn:qanary:geosparqlgenerator> ;
-	<http://www.w3.org/ns/openannotation/core/AnnotatedAt> "2018-09-15T01:46:11.145+02:00"^^xsd:dateTime .
+	<http://www.w3.org/ns/openannotation/core/AnnotatedAt> "2018-09-15T14:54:35.823+02:00"^^xsd:dateTime .
 
-<tag:stardog:api:0.42028514382647264> a <http://www.wdaqua.eu/qa#AnnotationOfAnswerJSON> ;
+<tag:stardog:api:0.771023815819898> a <http://www.wdaqua.eu/qa#AnnotationOfAnswerJSON> ;
 	<http://www.w3.org/ns/openannotation/core/hasTarget> <file:///Users/SyalMac/Desktop/Kunwar_Thesis/KunwarThesis/qanary_qa/URIAnswer> ;
 	<http://www.w3.org/ns/openannotation/core/hasBody> "{   \"head\": {     \"vars\": [ \"uri\" ]   } ,   \"results\": {     \"bindings\": [       {         \"uri\": { \"type\": \"uri\" , \"value\": \"http://dbpedia.org/resource/Jashodaben_Modi\" }       }     ]   } } " ;
 	<http://www.w3.org/ns/openannotation/core/annotatedBy> <file:///Users/SyalMac/Desktop/Kunwar_Thesis/KunwarThesis/qanary_qa/www.wdaqua.eu> ;
-	<http://www.w3.org/ns/openannotation/core/annotatedAt> "2018-09-15T01:46:11.261+02:00"^^xsd:dateTime .
+	<http://www.w3.org/ns/openannotation/core/annotatedAt> "2018-09-15T14:54:36.323+02:00"^^xsd:dateTime .

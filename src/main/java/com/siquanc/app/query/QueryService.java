@@ -286,12 +286,10 @@ public class QueryService {
         } else {
             components = feedback.getComponents();
         }
-        String fileName = "scripts/feedback.txt";
+        String fileName = null;
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource(fileName).getFile());
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+            fileName = "src/main/resources/scripts/feedback.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
             if (feedback.getRating() == null) {
                 feedback.setRating("0");
             }
@@ -403,7 +401,6 @@ public class QueryService {
         Process proc = Runtime.getRuntime().exec(commandDump);
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-        String s = null;
         System.out.println(stdInput.readLine());
         stdInput.close();
         stdError.close();

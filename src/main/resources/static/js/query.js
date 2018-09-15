@@ -161,7 +161,7 @@
                     if (queryResponse['queryResponseStrings'][i].includes("localhost")) {
                         $("#propRes"+i).append("");
                     } else {
-                        $("#propRes"+i).append(queryResponse['queryResponseStrings'][i]);
+                        $("#propRes"+i).append("<code>"+queryResponse['queryResponseStrings'][i]+"</code>");
                     }
                     if (queryResponse['queryResponseStrings'][i].includes("http://dbpedia.org")) {
                         $("#propRes"+i).attr("href", queryResponse['queryResponseStrings'][i]);

@@ -27,8 +27,8 @@
         var tasks = document.getElementById("tasks");
         $.ajax({
             type: 'GET',
-            //url: 'http://frankenstein.sda.tech/build/tasks',
-            url: 'http://localhost:10000/build/tasks',
+            url: 'http://frankenstein.sda.tech/build/tasks',
+            //url: 'http://localhost:10000/build/tasks',
             success: function(allTasks) {
                 $('#tasks').append("<legend class=\"rcorner\">Choose one or more tasks</legend>");
                 for(var i =0;i < allTasks.length; i++)
@@ -59,8 +59,8 @@
             //post data to handler script. note the JSON.stringify call
             $.ajax({
                         type: 'POST',
-                        //url: 'http://frankenstein.sda.tech/build',
-                        url: 'http://localhost:10000/build',
+                        url: 'http://frankenstein.sda.tech/build',
+                        //url: 'http://localhost:10000/build',
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(payload),
@@ -98,8 +98,8 @@
         var payload = taskAndComponents;
         $.ajax({
             type: 'POST',
-            //url: 'http://frankenstein.sda.tech/build/bestpipelines',
-            url: 'http://localhost:10000/build/bestpipelines',
+            url: 'http://frankenstein.sda.tech/build/bestpipelines',
+            //url: 'http://localhost:10000/build/bestpipelines',
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),

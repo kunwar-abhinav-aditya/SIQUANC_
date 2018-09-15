@@ -57,6 +57,7 @@
         deletePreviousOnes();
         $.ajax({
             url: 'http://frankenstein.sda.tech/query/bulk',
+            //url: 'http://localhost:10000/query/bulk',
             type: 'POST',
             data: documentData,
             contentType: false,

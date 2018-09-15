@@ -111,7 +111,7 @@
         if (localStorage.getItem("selectedTasks") != null) {
             selectedTasks = localStorage.getItem("selectedTasks").split(",");
         }
-        if (selectedTasks[selectedTasks.length-1] == "Query Builder") {
+        if (selectedTasks[selectedTasks.length-1] == "Query Builder" || selectedTasks.length == 0) {
             requiresQueryBuilding = true;
         }
         if (localStorage.getItem("defaultQuestion") != null) {
@@ -124,6 +124,7 @@
         $.ajax({
             type: 'POST',
             url: 'http://frankenstein.sda.tech/query',
+            //url: 'http://localhost:10000/query',
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),
@@ -228,6 +229,7 @@
         $.ajax({
             type: 'POST',
             url: 'http://frankenstein.sda.tech/query/feedback',
+            //url: 'http://localhost:10000/query/feedback',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),
             success: function(queryResponse) {

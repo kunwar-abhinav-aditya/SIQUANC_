@@ -28,6 +28,7 @@
         $.ajax({
             type: 'GET',
             url: 'http://frankenstein.sda.tech/build/tasks',
+            //url: 'http://localhost:10000/build/tasks',
             success: function(allTasks) {
                 $('#tasks').append("<legend class=\"rcorner\">Choose one or more tasks</legend>");
                 for(var i =0;i < allTasks.length; i++)
@@ -42,7 +43,7 @@
     }
 
     function getCombinations() {
-        selectedTasks = [];
+        var tasks = [];
         var components = document.getElementById("components");
         if( $('#NED').is(":checked")) {
             var ner = $('#NER');
@@ -52,13 +53,14 @@
             $("#wait").css("display", "block");
             //build an array of selected values
             $('#tasks :checked').each(function(i, checked) {
-                selectedTasks.push($(checked).val());
+                tasks.push($(checked).val());
             });
-            var payload = { "selectedTasks" : selectedTasks};
+            var payload = { "selectedTasks" : tasks};
             //post data to handler script. note the JSON.stringify call
             $.ajax({
                         type: 'POST',
                         url: 'http://frankenstein.sda.tech/build',
+                        //url: 'http://localhost:10000/build',
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(payload),
@@ -97,6 +99,7 @@
         $.ajax({
             type: 'POST',
             url: 'http://frankenstein.sda.tech/build/bestpipelines',
+            //url: 'http://localhost:10000/build/bestpipelines',
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),
@@ -129,6 +132,9 @@
         localStorage.removeItem("pipeline");
         localStorage.setItem("pipeline", opt);
         localStorage.removeItem("selectedTasks");
+        $('input:radio:enabled:checked').each(function() {
+           selectedTasks.push($(this).attr("name"));
+        });
         localStorage.setItem("selectedTasks", selectedTasks);
         window.location.replace("/query");
     }
@@ -142,27 +148,21 @@
         //NED component, all the NER components become disabled but the one
         //we checked is still checked, although disabled. We thus need to add this
         $('input:radio:enabled:checked').each(function() {
-           checked=checked+1;
            var radioCon = $(this).val();
            buildComponents.push(radioCon);
+           selectedTasks.push($(this).attr("name"));
         });
-        if (checked > 0) {
-            localStorage.setItem("pipeline", buildComponents);
-            if (checked != selectedTasks.length) {
-                selectedTasks.shift();
-            }
-            localStorage.setItem("selectedTasks", selectedTasks);
-            if(localStorage.getItem("context") == "simple" || localStorage.getItem("context") == null) {
-                window.location.replace("/query");
-            }
-            if(localStorage.getItem("context") == "bulk") {
-                window.location.replace("/bulk");
-            }
+        localStorage.setItem("pipeline", buildComponents);
+        localStorage.setItem("selectedTasks", selectedTasks);
+        if(localStorage.getItem("context") == "simple" || localStorage.getItem("context") == null) {
+            window.location.replace("/query");
+        }
+        if(localStorage.getItem("context") == "bulk") {
+            window.location.replace("/bulk");
         }
     }
 
     function radioClick(name, value) {
-        selectedTasks.push(name);
         if (name == "NED") {
             if (value == "NED-AGDISTIS") {
                 var elements = document.getElementsByName("NER");

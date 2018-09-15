@@ -53,7 +53,7 @@
             $("#wait").css("display", "block");
             //build an array of selected values
             $('#tasks :checked').each(function(i, checked) {
-                tasks.push($(checked).val());
+                selectedTasks.push($(checked).val());
             });
             var payload = { "selectedTasks" : selectedTasks};
             //post data to handler script. note the JSON.stringify call

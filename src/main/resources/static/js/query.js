@@ -159,7 +159,7 @@
                     propRes.id = "propRes"+i;
                     document.getElementById('result').appendChild(propRes);
                     $("#propRes"+i).addClass("abig");
-                    if (queryResponse['queryResponseStrings'][i].includes("localhost")) {
+                    if (queryResponse['queryResponseStrings'][i].includes("localhost") || queryResponse['queryResponseStrings'][i].includes("file")) {
                         $("#propRes"+i).append("");
                     } else {
                         $("#propRes"+i).append("<code>"+queryResponse['queryResponseStrings'][i]+"</code>");

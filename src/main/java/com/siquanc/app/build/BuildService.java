@@ -156,7 +156,7 @@ public class BuildService {
         for (ArrayList<String> taskComp: reorderedMapping.values()) {
             mappingInListForm.add(taskComp);
         }
-        GeneratePermutations(mappingInListForm, componentCompositions, 0, new ArrayList<String>());
+        generatePermutations(mappingInListForm, componentCompositions, 0, new ArrayList<String>());
         return componentCompositions;
     }
 
@@ -167,7 +167,7 @@ public class BuildService {
      * @param depth
      * @param current
      */
-    private void GeneratePermutations(ArrayList<ArrayList<String>> original, ArrayList<ArrayList<String>> result, int depth, ArrayList<String> current) {
+    private void generatePermutations(ArrayList<ArrayList<String>> original, ArrayList<ArrayList<String>> result, int depth, ArrayList<String> current) {
         // if depth equals number of original collections, final reached, add and return
         if(depth == original.size())
         {
@@ -180,7 +180,7 @@ public class BuildService {
         for (String element : currentCollection) {
             ArrayList<String> copy = new ArrayList<>(current);
             copy.add(element);
-            GeneratePermutations(original, result, depth + 1, copy);
+            generatePermutations(original, result, depth + 1, copy);
         }
     }
 
@@ -227,6 +227,9 @@ public class BuildService {
      * @return
      */
     public ArrayList<ArrayList<String>> getBestPipelines(Map<String, ArrayList<String>> componentsPerTask) {
+        if (componentsPerTask.containsKey("NER")) {
+            componentsPerTask.remove("NER");
+        }
         ArrayList<ArrayList<String>> pipelines = createPipelines(componentsPerTask);
         Map<ArrayList<String>, Double> pipelinesWithCost = new LinkedHashMap<>();
         pipelinesWithCost = putCostToPipelines(pipelines);

@@ -56,7 +56,7 @@
         documentData.append('requiresQueryBuilding', requiresQueryBuilding);
         deletePreviousOnes();
         $.ajax({
-            url: 'http://localhost:10000/query/bulk',
+            url: 'http://frankenstein.sda.tech/query/bulk',
             type: 'POST',
             data: documentData,
             contentType: false,
@@ -77,7 +77,7 @@
                 $('#timer').runner('reset', true);
                 $("#pipelineType").append(timeTaken+ " seconds.");
                 $('#pipelineType').append("<br><br>Questions have been uploaded and <code>.ttl(s)</code> generated. Download the results now!");
-                $('#pipelineType').append("<br><a class=\"btn btn-info btn-sm\" href=\"http://localhost:10000/query/bulk\" role=\"button\" id=\"downloadBulkResults\">Download Results!</button>");
+                $('#pipelineType').append("<br><a class=\"btn btn-info btn-sm\" href=\"http://frankenstein.sda.tech/query/bulk\" role=\"button\" id=\"downloadBulkResults\">Download Results!</button>");
                 $('#pipelineType').append("<br><a href=\"#\" onclick=\"resetinfo()\">Search Again</a>");
                 $("#fileform")[0].reset();
             },
@@ -107,7 +107,7 @@
     }
     function deletePreviousOnes() {
         $.ajax({
-            url: 'http://localhost:10000/query/bulk',
+            url: 'http://frankenstein.sda.tech/query/bulk',
             type: 'DELETE',
             success: function(response) {
                 console.log(response);

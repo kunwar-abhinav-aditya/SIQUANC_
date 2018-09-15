@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:10000")
+@CrossOrigin(origins = "http://localhost:10000/*")
 @RestController
 @RequestMapping("/build")
 public class BuildController {

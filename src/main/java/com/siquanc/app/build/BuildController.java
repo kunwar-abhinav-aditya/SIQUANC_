@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://frankenstein.sda.tech/build")
 @RestController
 @RequestMapping("/build")
 public class BuildController {

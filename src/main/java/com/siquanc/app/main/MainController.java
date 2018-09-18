@@ -12,6 +12,25 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/build")
+    public String build(Model model) {
+        return "build";
+    }
+
+    @GetMapping("/compose")
+    public String compose(Model model) {
+        return "compose";
+    }
+
     @GetMapping("/query")
     public String query(Model model) { return "query"; }
+
+    @GetMapping("/bulk")
+    public String bulk(Model model) { return "bulk"; }
+
+    @GetMapping("/stars")
+    public String stars(Model model) { return "stars"; }
+
+    @GetMapping("/resource")
+    public String resource(Model model) { return "resource"; }
 }

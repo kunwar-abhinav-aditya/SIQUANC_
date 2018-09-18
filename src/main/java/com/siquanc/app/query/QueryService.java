@@ -41,7 +41,11 @@ public class QueryService {
         returnedQuery = new StringBuilder();
         ArrayList<String> response = new ArrayList<>();
         QueryResponse queryResponse = null;
-        queryRequest.setQueryType(QueryType.FIXED);
+        if (queryRequest.getComponents().size() == 0) {
+            queryRequest.setQueryType(QueryType.FIXED);
+        } else {
+            queryRequest.setQueryType(QueryType.VARIABLE);
+        }
         try {
             response = getResultFromQanary(queryRequest);
         }
@@ -78,6 +82,7 @@ public class QueryService {
     private QanaryIntermediateResponse getQuerySource(QueryRequest queryRequest) throws IOException, InterruptedException {
 
         URL url;
+        BiMap<String, String> compNamePathMapping = getCompNameDirectoryMapping();
         url = new URL(Constants.qanaryURL);
         QanaryIntermediateResponse qanaryIntermediateResponse = null;
         try {
@@ -91,14 +96,19 @@ public class QueryService {
 
             ListMultimap<String, String> params = ArrayListMultimap.create();
             params.put("question", queryRequest.getQueryRequestString());
-
-            ArrayList<String> components = new ArrayList<>();
-            components = getStaticComponents();
-            queryRequest.setTasks(getStaticTasks());
-            for (String component : components) {
-                params.put("componentlist[]", component);
+            if (queryRequest.getQueryType().equals(QueryType.FIXED)) {
+                ArrayList<String> components = new ArrayList<>();
+                components = getStaticComponents();
+                queryRequest.setTasks(getStaticTasks());
+                for (String component : components) {
+                    params.put("componentlist[]", component);
+                }
             }
-
+            if (queryRequest.getQueryType().equals(QueryType.VARIABLE)) {
+                for (int i=0; i<queryRequest.getComponents().size(); i++) {
+                    params.put("componentlist[]", queryRequest.getComponents().get(i));
+                }
+            }
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, String> param : params.entries()) {
                 if (postData.length() != 0) {
@@ -317,6 +327,172 @@ public class QueryService {
             staticTasks.add(Constants.qanarySamplePipelineRespectiveTasks[i]);
         }
         return staticTasks;
+    }
+    /**
+     *
+     * @param
+     * @return
+     */
+    public String bulkQuery(MultipartFile file, ArrayList<String> components, boolean requiresQueryBuilding) throws InterruptedException {
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        try {
+            br = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            while ((line = br.readLine()) != null) {
+                String[] question = line.split(cvsSplitBy);
+                String questionId = question[0];
+                String questionText = question[1];
+                //Creating query request object
+                QueryRequest qr = new QueryRequest(questionText);
+                if (components.size() > 0) {
+                    qr.setQueryType(QueryType.VARIABLE);
+                    qr.setComponents(components);
+                }
+                else {
+                    qr.setQueryType(QueryType.FIXED);
+                    qr.setComponents(getStaticComponents());
+                }
+                qr.setRequiresQueryBuilding(requiresQueryBuilding);
+                //Create a qanaryResponse object and get endPoint and outGraph
+                QanaryIntermediateResponse qanaryResponse = getQuerySource(qr);
+                String endpoint = qanaryResponse.getEndpoint();
+                String namedGraph = qanaryResponse.getOutGraph();
+                // dump the data
+                String exportFilename = "src/main/resources/bulk/" + "dump_" + questionId + ".ttl";
+                dumpGraphAndDeleteGraph(namedGraph, exportFilename);
+            }
+            createZippedFile();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return "uploaded";
+    }
+
+    private void dumpGraphAndDeleteGraph(String namedGraph, String exportFilename) throws IOException {
+        // shell command (linux)
+        String commandDump = Constants.starDogBinPath + "stardog data export -g " + namedGraph + " --format TURTLE qanary "
+                + exportFilename + "";
+        String commandDelete = Constants.starDogBinPath + "stardog data remove -g " + namedGraph + " qanary ";
+
+        executeCommandOnShellAndLogOutput(commandDump);
+        executeCommandOnShellAndLogOutput(commandDelete);
+    }
+
+
+    /**
+     * run the dump and remove command on Stardog
+     *
+     * @param commandDump
+     * @throws IOException
+     */
+    private void executeCommandOnShellAndLogOutput(String commandDump) throws IOException {
+        Process proc = Runtime.getRuntime().exec(commandDump);
+        BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+        System.out.println(stdInput.readLine());
+        stdInput.close();
+        stdError.close();
+        proc.destroy();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public BiMap<String, String> getCompNameDirectoryMapping() {
+        BiMap<String, String> compNameDirectoryMapping = HashBiMap.create();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/scripts/component_paths.txt")));
+            String strLine;
+            while ((strLine = br.readLine()) != null)   {
+                String[] strg = strLine.split(",");
+                compNameDirectoryMapping.put(strg[0], strg[1]);
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return compNameDirectoryMapping;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public void createZippedFile() throws IOException {
+        Map<String, String> env = new HashMap<>();
+        env.put("create", "true");
+        final Path path = Paths.get("src/main/resources/bulk/results.zip");
+        final URI uri = URI.create("jar:file:" + path.toUri().getPath());
+        try (FileSystem zipfs = FileSystems.newFileSystem(uri, env)) {
+            File folder = new File("src/main/resources/bulk/");
+            for (final File fileEntry : folder.listFiles()) {
+                if (fileEntry.isFile() && !fileEntry.getName().equals("results.zip")) {
+                    Path externalTxtFile = Paths.get("src/main/resources/bulk/"+fileEntry.getName());
+                    Path pathInZipfile = zipfs.getPath(fileEntry.getName());
+                    Files.copy(externalTxtFile, pathInZipfile, StandardCopyOption.REPLACE_EXISTING);
+                }
+            }
+            URL url= new File("src/main/resources/bulk/results.zip").toURI().toURL();
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ResponseEntity<Resource> getTTLs() {
+        String filePath = "src/main/resources/bulk/results.zip";
+        Resource resource = new FileSystemResource(filePath);
+        MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+        String contentType = "application/octet-stream";
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public boolean deleteGeneratedFiles(){
+        File folder = new File("src/main/resources/bulk/");
+        int numberOfGeneratedFiles = 0;
+        int numberOfDeletedFiles = 0;
+        boolean allDeleted = false;
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isFile()) {
+                numberOfGeneratedFiles++;
+            }
+        }
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isFile()) {
+                if (fileEntry.delete()) {
+                    numberOfDeletedFiles++;
+                }
+            }
+        }
+        if (numberOfGeneratedFiles == numberOfDeletedFiles) {
+            allDeleted = true;
+        }
+        return allDeleted;
     }
 
     /**

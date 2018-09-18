@@ -26,7 +26,12 @@
 }
 
 .fa-github {
-    color: #000000;}
+    color: #000000;
+}
+
+.star {
+    color: #000000;
+}
 
 .jumbotron {
   background-color: #D3D3D3 !important;

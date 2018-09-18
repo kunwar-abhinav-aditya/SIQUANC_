@@ -1,0 +1,5 @@
+NER
+NED
+Relation Linker
+Class Linker
+Query Builder

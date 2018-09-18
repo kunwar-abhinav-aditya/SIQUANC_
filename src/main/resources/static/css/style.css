@@ -55,6 +55,10 @@ h6 {
   font-size: 1.0em;
   font-color: #3d3d3d; }
 
+.abig {
+  font-weight: bold;
+  color: #3d3d3d; }
+
 .heads {
   font-weight: bold;
   font-size: 22px;
@@ -84,11 +88,9 @@ h6 {
    font-color: #3d3d3d }
 
 .fa-github {
-  color: #ffffff;
   font-size: 3em; }
 
 .star {
-  color: #ffffff;
   font-size: 3em; }
 
 .starrow {

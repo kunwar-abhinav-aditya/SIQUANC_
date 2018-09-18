@@ -38,6 +38,21 @@ public class QueryController {
         return queryService.getCreatedDocument();
     }
 
+    @PostMapping(path = "/bulk")
+    public String bulkQuery(@RequestParam("file") MultipartFile file, @RequestParam ArrayList<String> components, @RequestParam boolean requiresQueryBuilding) throws InterruptedException {
+        return queryService.bulkQuery(file, components, requiresQueryBuilding);
+    }
+
+    @GetMapping(path = "/bulk", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public ResponseEntity<Resource> getTTLs() {
+        return queryService.getTTLs();
+    }
+
+    @DeleteMapping(path = "/bulk")
+    public boolean deleteGeneratedFiles() {
+        return queryService.deleteGeneratedFiles();
+    }
+
     @PostMapping(path = "/resource", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ArrayList<DBPediaResource> getLeadAndAbstract(@RequestBody ArrayList<String> resourceURLs) throws IOException {
         return queryService.getLeadAndAbstract(resourceURLs);

@@ -1,7 +1,5 @@
 package com.siquanc.app.query;
 
-import org.w3c.dom.Document;
-
 import java.util.ArrayList;
 
 public class QueryResponse {

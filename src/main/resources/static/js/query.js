@@ -40,10 +40,7 @@
                 doQuery();
             }
         });
-        $("#defaultQuestion1").click(function() {
-            doQuery();
-        });
-        $("#defaultQuestion2").click(function() {
+        $(".link").click(function() {
             doQuery();
         });
 
@@ -103,7 +100,8 @@
         var payload = { "queryRequestString" : question, "components" : components, "requiresQueryBuilding" : requiresQueryBuilding, "tasks" : selectedTasks};
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:10000/query',
+            //url: 'http://localhost:10010/query',
+            url: 'http://qanary.sda.tech/query',
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),
@@ -145,7 +143,8 @@
         var payload = { "rating" : rating, "components" : components, "question" : question};
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:10000/query/feedback',
+            //url: 'http://localhost:10010/query/feedback',
+            url: 'http://qanary.sda.tech/query/feedback',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),
             success: function(queryResponse) {
@@ -158,14 +157,9 @@
         return;
     }
 
-    function setdefaultquestion1() {
+    function setdefaultquestion(value) {
         localStorage.removeItem("defaultQuestion");
-        localStorage.setItem("defaultQuestion", $("#defaultQuestion1").text());
-    }
-
-    function setdefaultquestion2() {
-        localStorage.removeItem("defaultQuestion");
-        localStorage.setItem("defaultQuestion", $("#defaultQuestion2").text());
+        localStorage.setItem("defaultQuestion", value);
     }
 
     function disable(){
@@ -186,7 +180,8 @@
         var payload = resourceURLs;
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:10000/query/resource',
+            //url: 'http://localhost:10010/query/resource',
+            url: 'http://qanary.sda.tech/query/resource',
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),

@@ -2,6 +2,7 @@ package com.siquanc.app.main;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -13,7 +14,4 @@ public class MainController {
 
     @GetMapping("/query")
     public String query(Model model) { return "query"; }
-
-    @GetMapping("/stars")
-    public String stars(Model model) { return "stars"; }
 }

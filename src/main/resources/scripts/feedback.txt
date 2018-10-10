@@ -1,0 +1,5 @@
+Who is the producer of Ghajini?, [AmbiverseNed, EarlRelationLinking, QueryBuilder], 5
+Who is the wife of Barack Obama?, [AmbiverseNed, EarlRelationLinking, QueryBuilder], 4
+Who is the wife of Barack Obama?, [AmbiverseNed, EarlRelationLinking, QueryBuilder], 4
+Who are the directors of Jurassic Park?, [AmbiverseNed], 5
+Who is the wife of Barack Obama?, [AmbiverseNed, EarlRelationLinking, QueryBuilder], 4

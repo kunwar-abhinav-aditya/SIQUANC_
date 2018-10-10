@@ -285,3 +285,9 @@ button.link {
     font-weight: normal;
     font-size: 1.0em;
 }
+
+.team {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}

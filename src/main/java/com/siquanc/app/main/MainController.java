@@ -17,9 +17,9 @@ public class MainController {
         return "build";
     }
 
-    @GetMapping("/compose")
+    @GetMapping("/new")
     public String compose(Model model) {
-        return "compose";
+        return "new";
     }
 
     @GetMapping("/query")
@@ -30,6 +30,9 @@ public class MainController {
 
     @GetMapping("/stars")
     public String stars(Model model) { return "stars"; }
+
+    @GetMapping("/team")
+    public String team(Model model) { return "team"; }
 
     @GetMapping("/resource")
     public String resource(Model model) { return "resource"; }

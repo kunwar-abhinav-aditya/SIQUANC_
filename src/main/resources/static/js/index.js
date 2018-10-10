@@ -18,4 +18,12 @@
             //mouse out
             $(this).css('color', colorOrig)
         });
+        $(".fa-users").hover(
+        function() {
+            //mouse over
+            $(this).css('color', '#FFD700')
+        }, function() {
+            //mouse out
+            $(this).css('color', colorOrig)
+        });
     });

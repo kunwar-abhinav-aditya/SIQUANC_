@@ -2,13 +2,27 @@
     background-color: rgb(77, 181, 180);
 }
 
-.navbar li a {
-    color: #ffffff;
+.nav-item a {
+    color: #D3D3D3 !important;
+}
+
+.nav-item a:hover {
+    color: #ffffff !important;
+}
+
+.nav-item.active a {
+    color: #ffffff !important;
 }
 
 .feature-wrapper {
   background: rgb(77, 181, 180);
   color: #ffffff;
+}
+
+.linkboundary {
+    border: 1px solid #ffffff;
+    padding: 12px 20px;
+    border-radius: 4px;
 }
 
 .navbar-toggler-icon {
@@ -31,6 +45,10 @@
 }
 
 .fa-github {
+    color: #ffffff;
+}
+
+.fa-users {
     color: #ffffff;
 }
 

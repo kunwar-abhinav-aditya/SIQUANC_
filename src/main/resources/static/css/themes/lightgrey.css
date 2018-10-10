@@ -6,12 +6,26 @@
 }
 
 .navbar li a {
-    color: #000000;
+    color: #ffffff !important;
+}
+
+.navbar li a:hover {
+    color: #000000 !important;
+}
+
+.navbar li.active a {
+    color: #000000 !important;
 }
 
 .feature-wrapper {
   background: #D3D3D3;
   color: #343a40;
+}
+
+.linkboundary {
+    border: 1px solid #000000;
+    padding: 12px 20px;
+    border-radius: 4px;
 }
 
 #hero {
@@ -26,6 +40,10 @@
 }
 
 .fa-github {
+    color: #000000;
+}
+
+.fa-users {
     color: #000000;
 }
 

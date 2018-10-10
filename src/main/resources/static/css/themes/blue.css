@@ -3,7 +3,15 @@
 }
 
 .navbar li a {
-    color: #ffffff;
+    color: #D3D3D3 !important;
+}
+
+.navbar li a:hover {
+    color: #ffffff !important;
+}
+
+.navbar li.active a {
+    color: #ffffff !important;
 }
 
 .navbar .navbar-brand {
@@ -13,6 +21,12 @@
 .feature-wrapper {
   background: #3367D6;
   color: #ffffff;
+}
+
+.linkboundary {
+    border: 1px solid #ffffff;
+    padding: 12px 20px;
+    border-radius: 4px;
 }
 
 .navbar-toggler-icon {
@@ -35,6 +49,10 @@
 }
 
 .fa-github {
+    color: #ffffff;
+}
+
+.fa-users {
     color: #ffffff;
 }
 

@@ -12,8 +12,8 @@
         var payload = resourceURLs;
         $.ajax({
             type: 'POST',
-            //url: 'http://frankenstein.sda.tech/query/resource',
-            url: 'http://localhost:10000/query/resource',
+            url: 'http://frankenstein.qanary-qa.com/query/resource',
+            //url: 'http://localhost:10000/query/resource',
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(payload),

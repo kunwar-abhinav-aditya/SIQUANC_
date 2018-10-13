@@ -291,3 +291,8 @@ button.link {
     width: 200px;
     border-radius: 50%;
 }
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}

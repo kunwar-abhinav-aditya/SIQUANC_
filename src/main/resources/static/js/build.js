@@ -20,7 +20,10 @@
         $("#buildPipeline").click(function() {
             createPipeline();
         });
-
+        if( $('#NED').is(":checked")) {
+            var ner = $('#NER');
+            ner.attr('checked','checked');
+        }
     });
 
     function getAllTasks() {
@@ -45,10 +48,6 @@
     function getCombinations() {
         selectedTasks = [];
         var components = document.getElementById("components");
-        if( $('#NED').is(":checked")) {
-            var ner = $('#NER');
-            ner.attr('checked','checked');
-        }
         if( $('#tasks :checked').length > 0){
             $("#wait").css("display", "block");
             //build an array of selected values

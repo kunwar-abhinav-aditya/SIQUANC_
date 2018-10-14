@@ -49,11 +49,108 @@
                 </div>
                 <div>
                     <div class="col-md-4">
-                        <a href="https://github.com/WDAqua/QAestro" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Visit our GitHub page!"><i class="fa fa-github"></i></a>
+                        <a href="https://github.com/WDAqua/Frankenstein" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Visit our GitHub page!"><i class="fa fa-github"></i></a>
                     </div>
                 </div>
             </div>
         </nav>
+        <div class="fade modal" id="citeOne">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Citing the Frankenstein idea</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <pre><code>
+                            @inproceedings{Singh:2018:WRW:3178876.3186023,
+                            author = {Singh, Kuldeep and Radhakrishna, Arun Sethupat and Both, Andreas and Shekarpour, Saeedeh and Lytra, Ioanna and Usbeck, Ricardo and Vyas, Akhilesh and Khikmatullaev, Akmal and Punjani, Dharmen and Lange, Christoph and Vidal, Maria Esther and Lehmann, Jens and Auer, S\"{o}ren},
+                            title = {Why Reinvent the Wheel: Let's Build Question Answering Systems Together},
+                            booktitle = {Proceedings of the 2018 World Wide Web Conference},
+                            series = {WWW '18},
+                            year = {2018},
+                            isbn = {978-1-4503-5639-8},
+                            location = {Lyon, France},
+                            pages = {1247--1256},
+                            numpages = {10},
+                            url = {https://doi.org/10.1145/3178876.3186023},
+                            doi = {10.1145/3178876.3186023},
+                            acmid = {3186023},
+                            publisher = {International World Wide Web Conferences Steering Committee},
+                            address = {Republic and Canton of Geneva, Switzerland},
+                            keywords = {QA framework, question answering, semantic search, semantic web, software reusability},
+                            }
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fade modal" id="citeTwo">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Citing Frankenstein as a resource</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <pre><code>
+                            @inproceedings{DBLP:conf/esws/SinghBRS18,
+                            author    = {Kuldeep Singh and
+                            Andreas Both and
+                            Arun Sethupat Radhakrishna and
+                            Saeedeh Shekarpour},
+                            title     = {Frankenstein: {A} Platform Enabling Reuse of Question Answering Components},
+                            booktitle = {The Semantic Web - 15th International Conference, {ESWC} 2018, Heraklion,
+                            Crete, Greece, June 3-7, 2018, Proceedings},
+                            pages     = {624--638},
+                            year      = {2018},
+                            crossref  = {DBLP:conf/esws/2018},
+                            url       = {https://doi.org/10.1007/978-3-319-93417-4\_40},
+                            doi       = {10.1007/978-3-319-93417-4\_40},
+                            timestamp = {Tue, 05 Jun 2018 09:43:52 +0200},
+                            biburl    = {https://dblp.org/rec/bib/conf/esws/SinghBRS18},
+                            bibsource = {dblp computer science bibliography, https://dblp.org}
+                            }
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fade modal" id="citeThree">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Citing the underlying integration technology</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <pre><code>
+                            @inproceedings{DBLP:conf/esws/BothDSSC016,
+                            author    = {Andreas Both and
+                            Dennis Diefenbach and
+                            Kuldeep Singh and
+                            Saeedeh Shekarpour and
+                            Didier Cherix and
+                            Christoph Lange},
+                            title     = {Qanary - {A} Methodology for Vocabulary-Driven Open Question Answering
+                            Systems},
+                            booktitle = {The Semantic Web. Latest Advances and New Domains - 13th International
+                            Conference, {ESWC} 2016, Heraklion, Crete, Greece, May 29 - June 2,
+                            2016, Proceedings},
+                            pages     = {625--641},
+                            year      = {2016},
+                            crossref  = {DBLP:conf/esws/2016},
+                            url       = {https://doi.org/10.1007/978-3-319-34129-3\_38},
+                            doi       = {10.1007/978-3-319-34129-3\_38},
+                            timestamp = {Wed, 24 May 2017 08:29:36 +0200},
+                            biburl    = {https://dblp.org/rec/bib/conf/esws/BothDSSC016},
+                            bibsource = {dblp computer science bibliography, https://dblp.org}
+                            }
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="hero">
             <div class="container">
                 <div class="switcher" style="left:-50px;">
@@ -73,36 +170,46 @@
                     <div class="col-md-6 col-sm-12">
                         <h1 class="text-uppercase text-center text-md-left">Welcome to Frankenstein!</h1>
                         <br>
-                        <h4 class="text text-center text-md-left em">Frankenstein solves your problems of dynamic pipeline composition.<br>Search for your query in our DBpedia database, build a pipeline from the existing components or compose a new one yourself! <br>We have got you covered.</h4>
+                        <h4 class="text text-center text-md-left em">Frankenstein is a platform that seamlessly integrates heterogeneous components performing different functionalities (e.g. entity recognition, entity linking).
+                            These components can either be used independently for annotating any short text or as part of a QA pipeline (i.e. system).
+                        </h4>
                     </div>
                     <div class="col-md-6 col-sm-12 text-center">
                         <img src="/img/1.png" class="hero-img mt-5 mt-md-0">
                     </div>
                 </div>
+                <div class="row hero-content pt-lg-6 pb-lg-6 pt-5">
+                    <div class="col-md-6 col-sm-12">
+                        <ul>
+                            <li><i>Cite the Frankenstein idea <button class="link" id="cite1" data-toggle="modal" data-target="#citeOne"> here</button></i></li>
+                            <li><i>Cite Frankenstein as a resource <button class="link" id="cite2" data-toggle="modal" data-target="#citeTwo"> here</button></i></li>
+                            <li><i>Cite the underlying integration technology <button class="link" id="cite3" data-toggle="modal" data-target="#citeThree">here</button></i></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <br><br>
         </div>
-
+        <br><br>
         <div class="feature-wrapper pt-5 pb-5 mt-5 mt-lg-0">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 col-md-1 text-center mb-3 mb-md-0">
                         <i class="fa fa-search fa-2x"></i>
                     </div>
-                    <div class="col-sm-12 col-md-3 text-center text-uppercase text-md-left mb-3 mb-md-0">
-                        <p>Search your query in our DBPedia database</p>
+                    <div class="col-sm-12 col-md-3 text-center text-md-left mb-3 mb-md-0">
+                        <p>Search your query in the DBpedia knowledge graph</p>
                     </div>
                     <div class="col-sm-12 col-md-1 text-center mb-3 mb-md-0">
                         <i class="fa fa-sitemap fa-2x"></i>
                     </div>
-                    <div class="col-sm-12 col-md-3 text-center text-uppercase text-md-left mb-3 mb-md-0">
+                    <div class="col-sm-12 col-md-3 text-center text-md-left mb-3 mb-md-0">
                         <p>Build a pipeline yourself with all the available QA components and choose the best performing ones</p>
                     </div>
                     <div class="col-sm-12 col-md-1 text-center mb-3 mb-md-0">
                         <i class="fa fa-plus-square fa-2x"></i>
                     </div>
-                    <div class="col-sm-12 col-md-3 text-center text-uppercase text-md-left mb-3 mb-md-0">
-                        <p>Got your component to add to the QA repo? Add it seamlessly and benchmark it against the existing ones</p>
+                    <div class="col-sm-12 col-md-3 text-center text-md-left mb-3 mb-md-0">
+                        <p>Got multiple questions/sentences to annotate? Upload your file and let Frankenstein do the job for you!</p>
                     </div>
                 </div>
             </div>

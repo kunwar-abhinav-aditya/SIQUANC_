@@ -42,12 +42,34 @@
         <div id="hero">
             <div class="container">
                 <div class="row jumbotron hero-content pt-lg-6 pb-lg-6 pt-5">
-                    <table class="table table-hover table-sm">
+                    <table class="table table-sm">
                         <tbody>
+                        <tr bgcolor="#FFFFFF">
+                            <td colspan="12">
+                                To understand the QA process, consider the following example
+                                <b><i>“What is the time zone of New York City?”</i></b>.<br>
+                                An ideal QA system over DBpedia generates a formal representation of this question,
+                                that is a formal query (here expressed as <a href="https://www.w3.org/TR/rdf-sparql-query/">SPARQL</a>),
+                                which retrieves answers from the <a href="http://dbpedia.org/sparql">DBpedia endpoint</a>.
+                                The query would look like: <b><i>SELECT ?c dbr:New_York_City dbo:timeZone ?c.</i></b>
+
+                                During this process, a QA system performs successive QA tasks.<br>
+                                In the first step (i.e. Named Entity Recognition (NER) and Named Entity Disambiguation(NED)),
+                                a QA system is expected to recognise and link the entities present in the question to its candidate(s) from DBpedia
+                                (i.e. mapping New York City to <a href="http://dbpedia.org/page/New_York_City">dbr:New_York_City</a>).
+                                The next step is Relation Linking (RL), in which QA systems link the natural language predicate
+                                to the corresponding predicate in DBpedia (i.e. mapping time zone to <a href="http://dbpedia.org/ontology/timeZone">dbo:timeZone</a>).
+                                Finally, the Query Builder(QB) component obtains the linked resources and predicates from the previous steps
+                                to formulate a SPARQL query.<br>
+                                Sometimes it is also necessary to extract ontology classes in the question, so we have two components for the class linking task.
+                                <br>
+                                e.g. In the question <b><i>“Which river flows through Seoul?”</i></b>, river is a class which is expected to map to <a href="http://dbpedia.org/ontology/River">dbo:River</a>.
+                            </td>
+                        </tr>
                         <tr class="table-primary"><td>NER</td><td></td></tr>
                         <tr class="table-warning">
                             <td colspan="2">
-                                Named Enity Recognition (NER) task involves location, identification and classification of named entities in an input questionand categorising them into pre-defined categories such as names of organisations, names of persons, locations, expressions of times, etc.
+                                Named Entity Recognition (NER) task involves identification (spotting) of named entities in an input question or in a sentence. If you have requirement to use available NER components, you can upload the set of questions/tweets, and get the result.
                             </td>
                         </tr>
                         <tr class="bg-info starrow">
@@ -56,7 +78,7 @@
                         </tr>
                         <tr>
                             <td>EarlEntityIdf</td>
-                            <td><a href="https://www.w3.org/WAI/ER/earl">https://www.w3.org/WAI/ER/earl</a></td>
+                            <td><a href="http://sda.cs.uni-bonn.de/projects/earl/">http://sda.cs.uni-bonn.de/projects/earl/</a></td>
                         </tr>
                         <tr>
                             <td>TextRazor</td>
@@ -68,7 +90,7 @@
                         </tr>
                         <tr>
                             <td>EntityClassifier</td>
-                            <td>NA</td>
+                            <td><a href="https://github.com/entityclassifier-eu/">https://github.com/entityclassifier-eu/</a></td>
                         </tr>
                         <tr>
                             <td>Dandelion</td>
@@ -101,7 +123,7 @@
                         <tr class="table-primary"><td>NED</td><td></td></tr>
                         <tr class="table-warning">
                             <td colspan="2">
-                                Named Enity Disambiguation (NED) task is about disambiguating the exact entity based on the semantic and pretext of a natural language question.
+                                A NED component annotates the entities in the text and links them to the respective DBpedia resources.
                             </td>
                         </tr>
                         <tr class="bg-info starrow">
@@ -118,7 +140,7 @@
                         </tr>
                         <tr>
                             <td>EarlDisambi</td>
-                            <td><a href="https://www.w3.org/WAI/ER/earl">https://www.w3.org/WAI/ER/earl</a></td>
+                            <td><a href="http://sda.cs.uni-bonn.de/projects/earl/">http://sda.cs.uni-bonn.de/projects/earl/</a></td>
                         </tr>
                         <tr>
                             <td>TagmeNED</td>
@@ -147,7 +169,7 @@
                         <tr class="table-primary"><td>Relation Linking</td><td></td></tr>
                         <tr class="table-warning">
                             <td colspan="2">
-                                Relation Linking (RL) task is about identifying the relationships between entities in a given question and link them to the resources in a knowledge graph.
+                                A RL component annotates natural language relation in the text and provides the associated DBpedia relation.
                             </td>
                         </tr>
                         <tr class="bg-info starrow">
@@ -160,7 +182,7 @@
                         </tr>
                         <tr>
                             <td>EarlRelationLinking</td>
-                            <td><a href="https://www.w3.org/WAI/ER/earl">https://www.w3.org/WAI/ER/earl</a></td>
+                            <td><a href="http://sda.cs.uni-bonn.de/projects/earl/">http://sda.cs.uni-bonn.de/projects/earl/</a></td>
                         </tr>
                         <tr>
                             <td>DiambiguationProperty</td>
@@ -173,7 +195,7 @@
                         <tr class="table-primary"><td>Class Linking</td><td></td></tr>
                         <tr class="table-warning">
                             <td colspan="2">
-                                Class Linking extracts resources from a given natural language question and maps them to specific classes to which the enitities belong.
+                                CL component tries to identify ontology class in the text, and provides the respective DBpedia class
                             </td>
                         </tr>
                         <tr class="bg-info starrow">
@@ -191,7 +213,7 @@
                         <tr class="table-primary"><td>Query building</td><td></td></tr>
                         <tr class="table-warning">
                             <td colspan="2">
-                                After getting the results from the previous steps, the QA system has the knowledge of exact entities and the relation that exists between them.
+                                QB component needs NED and RL component to be pre-selected in order to build a SPARQL query for input question.
                             </td>
                         </tr>
                         <tr class="bg-info starrow">
@@ -200,38 +222,27 @@
                         </tr>
                         <tr>
                             <td>QueryBuilder</td>
-                            <td><a href="https://github.com/WDAqua/Qanary/wiki/How-do-I-integrate-a-new-component-in-Qanary%3F" target=\"_top\">https://github.com/WDAqua/Qanary/wiki/How-do-I-integrate-a-new-component-in-Qanary%3F</a></td>
+                            <td><a href="https://github.com/WDAqua/Qanary-question-answering-components/tree/master/qa.qanary_component-QueryBuilder" target=\"_top\">https://github.com/WDAqua/Qanary-question-answering-components/tree/master/qa.qanary_component-QueryBuilder</a></td>
+                        </tr>
+                        <tr bgcolor="#FFFFFF">
+                            <td colspan="12">
+                                In Frankenstein, you can run a complete QA pipeline (input the question, and getting the final answer).
+                                For this, you need at least a NED, a RL and a QB component.
+                                With the AGDISTIS NED component, you can also select any of the 11 NER components (for AGDISTIS, one of the inputs is recognised entities),
+                                and keep the same RL, and QB components.<br>
+                                You may have a requirement to use independent NER, NED, RL, or a CL component as well.
+                                In this case, just select a single component from any of the tasks, input your question or sentence and get the final output
+                                of the component. Frankenstein’s seamless UI will allow you to get your text annotated with minimal effort.<br>
+                                For example, if you got a list of 1000 tweets, in which you want to find the named entities and their respective DBpedia URLs, choose the component,
+                                upload the file to Frankenstein, and download the annotated results in <b><i>.ttl</i></b> format annotated in a formal ontology.
+                                Similarly you can use the platform for other tasks without any hassle.
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <br><br>
-        </div>
-
-        <div class="feature-wrapper pt-5 pb-5 mt-5 mt-lg-0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 col-md-1 text-center mb-3 mb-md-0">
-                        <i class="fa fa-search fa-2x"></i>
-                    </div>
-                    <div class="col-sm-12 col-md-3 text-center text-uppercase text-md-left mb-3 mb-md-0">
-                        <p>Search your query in our DBPedia database</p>
-                    </div>
-                    <div class="col-sm-12 col-md-1 text-center mb-3 mb-md-0">
-                        <i class="fa fa-sitemap fa-2x"></i>
-                    </div>
-                    <div class="col-sm-12 col-md-3 text-center text-uppercase text-md-left mb-3 mb-md-0">
-                        <p>Build a pipeline yourself with all the available QA components and choose the best performing ones</p>
-                    </div>
-                    <div class="col-sm-12 col-md-1 text-center mb-3 mb-md-0">
-                        <i class="fa fa-plus-square fa-2x"></i>
-                    </div>
-                    <div class="col-sm-12 col-md-3 text-center text-uppercase text-md-left mb-3 mb-md-0">
-                        <p>Got your component to add to the QA repo? Add it seamlessly and benchmark it against the existing ones</p>
-                    </div>
-                </div>
-            </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>

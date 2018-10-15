@@ -45,9 +45,8 @@
     function getCombinations() {
         selectedTasks = [];
         var components = document.getElementById("components");
-        if( $('#NED').is(":checked")) {
-            var ner = $('#NER');
-            ner.attr('checked','checked');
+        if( $('#NED').is(':checked')) {
+            document.getElementById("NER").checked = true;
         }
         if( $('#tasks :checked').length > 0){
             $("#wait").css("display", "block");

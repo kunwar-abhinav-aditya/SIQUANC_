@@ -49,21 +49,21 @@
                                 To understand the QA process, consider the following example
                                 <b><i>“What is the time zone of New York City?”</i></b>.<br>
                                 An ideal QA system over DBpedia generates a formal representation of this question,
-                                that is a formal query (here expressed as <a href="https://www.w3.org/TR/rdf-sparql-query/">SPARQL</a>),
-                                which retrieves answers from the <a href="http://dbpedia.org/sparql">DBpedia endpoint</a>.
+                                that is a formal query (here expressed as <a target="_blank" href="https://www.w3.org/TR/rdf-sparql-query/">SPARQL</a>),
+                                which retrieves answers from the <a target="_blank" href="http://dbpedia.org/sparql">DBpedia endpoint</a>.
                                 The query would look like: <b><i>SELECT ?c dbr:New_York_City dbo:timeZone ?c.</i></b>
 
                                 During this process, a QA system performs successive QA tasks.<br>
                                 In the first step (i.e. Named Entity Recognition (NER) and Named Entity Disambiguation(NED)),
                                 a QA system is expected to recognise and link the entities present in the question to its candidate(s) from DBpedia
-                                (i.e. mapping New York City to <a href="http://dbpedia.org/page/New_York_City">dbr:New_York_City</a>).
+                                (i.e. mapping New York City to <a target="_blank" href="http://dbpedia.org/page/New_York_City">dbr:New_York_City</a>).
                                 The next step is Relation Linking (RL), in which QA systems link the natural language predicate
-                                to the corresponding predicate in DBpedia (i.e. mapping time zone to <a href="http://dbpedia.org/ontology/timeZone">dbo:timeZone</a>).
+                                to the corresponding predicate in DBpedia (i.e. mapping time zone to <a target="_blank" href="http://dbpedia.org/ontology/timeZone">dbo:timeZone</a>).
                                 Finally, the Query Builder(QB) component obtains the linked resources and predicates from the previous steps
                                 to formulate a SPARQL query.<br>
                                 Sometimes it is also necessary to extract ontology classes in the question, so we have two components for the class linking task.
                                 <br>
-                                e.g. In the question <b><i>“Which river flows through Seoul?”</i></b>, river is a class which is expected to map to <a href="http://dbpedia.org/ontology/River">dbo:River</a>.
+                                e.g. In the question <b><i>“Which river flows through Seoul?”</i></b>, river is a class which is expected to map to <a target="_blank" href="http://dbpedia.org/ontology/River">dbo:River</a>.
                             </td>
                         </tr>
                         <tr class="table-primary"><td>NER</td><td></td></tr>
@@ -226,10 +226,10 @@
                         </tr>
                         <tr bgcolor="#FFFFFF">
                             <td colspan="12">
-                                The original idea of Frankenstein is described in the paper <a href="https://dl.acm.org/citation.cfm?id=3186023">here</a>.
+                                The original idea of Frankenstein is described in the paper <a target="_blank" href="https://dl.acm.org/citation.cfm?id=3186023">here</a>.
                                 If you want to know more about Frankenstein as a resource platform, please see our another work
-                                <a href="https://www.researchgate.net/profile/Kuldeep_Singh86/publication/324483296_Frankenstein_A_Platform_Enabling_Reuse_of_Question_Answering_Components/links/5acf899aaca2723a334558cd/Frankenstein-A-Platform-Enabling-Reuse-of-Question-Answering-Components.pdf"> here</a>.
-                                Frankenstein integrates the components using the <a href="https://hal.archives-ouvertes.fr/hal-01637042/file/2015_12___Extendible_Vocabulary_for_Question_Answering_Systems-2.pdf">Qanary methodology</a>.
+                                <a target="_blank" href="https://www.researchgate.net/profile/Kuldeep_Singh86/publication/324483296_Frankenstein_A_Platform_Enabling_Reuse_of_Question_Answering_Components/links/5acf899aaca2723a334558cd/Frankenstein-A-Platform-Enabling-Reuse-of-Question-Answering-Components.pdf"> here</a>.
+                                Frankenstein integrates the components using the <a target="_blank" href="https://hal.archives-ouvertes.fr/hal-01637042/file/2015_12___Extendible_Vocabulary_for_Question_Answering_Systems-2.pdf">Qanary methodology</a>.
                                 <br>
                                 In Frankenstein, you can run a complete QA pipeline (input the question, and getting the final answer).
                                 For this, you need at least a NED, a RL and a QB component.

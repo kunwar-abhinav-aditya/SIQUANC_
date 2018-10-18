@@ -454,7 +454,7 @@ public class QueryService {
                     Files.copy(externalTxtFile, pathInZipfile, StandardCopyOption.REPLACE_EXISTING);
                 }
             }
-            URL url= new File("src/main/resources/bulk/results"+zipCounter+".zip").toURI().toURL();
+            //URL url= new File("src/main/resources/bulk/results"+zipCounter+".zip").toURI().toURL();
         }
     }
 
@@ -479,9 +479,16 @@ public class QueryService {
      * @return
      */
     public boolean deleteGeneratedFiles() throws IOException {
-        for (int i=0; i<zipCounter; i++) {
-            FileUtils.deleteDirectory(new File("results" + zipCounter + ".zip/"));
+        File folder = new File("src/main/resources/bulk/");
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isFile()) {
+                fileEntry.delete();
+            }
         }
+        FileUtils.deleteDirectory(new File("src/main/resources/bulk/results.zip/"));
+        //for (int i=0; i<zipCounter; i++) {
+        //    FileUtils.deleteDirectory(new File("src/main/resources/bulk/results" + zipCounter + ".zip/"));
+        //}
         return true;
     }
 

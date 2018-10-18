@@ -356,11 +356,13 @@ public class QueryService {
                 qr.setRequiresQueryBuilding(requiresQueryBuilding);
                 //Create a qanaryResponse object and get endPoint and outGraph
                 QanaryIntermediateResponse qanaryResponse = getQuerySource(qr);
-                String endpoint = qanaryResponse.getEndpoint();
-                String namedGraph = qanaryResponse.getOutGraph();
-                // dump the data
-                String exportFilename = "src/main/resources/bulk/" + "dump_" + questionId + ".ttl";
-                dumpGraphAndDeleteGraph(namedGraph, exportFilename);
+                if (qanaryResponse != null) {
+                    String endpoint = qanaryResponse.getEndpoint();
+                    String namedGraph = qanaryResponse.getOutGraph();
+                    // dump the data
+                    String exportFilename = "src/main/resources/bulk/" + "dump_" + questionId + ".ttl";
+                    dumpGraphAndDeleteGraph(namedGraph, exportFilename);
+                }
             }
             createZippedFile();
 

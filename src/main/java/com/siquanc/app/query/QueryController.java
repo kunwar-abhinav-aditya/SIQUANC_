@@ -49,7 +49,7 @@ public class QueryController {
     }
 
     @DeleteMapping(path = "/bulk")
-    public boolean deleteGeneratedFiles() {
+    public boolean deleteGeneratedFiles() throws IOException {
         return queryService.deleteGeneratedFiles();
     }
 

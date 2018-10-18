@@ -5,6 +5,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ListMultimap;
 import helper.Constants;
 import helper.RDFQueryComponents;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -32,6 +33,7 @@ import java.util.*;
 public class QueryService {
 
     private StringBuilder returnedQuery;
+    private static int zipCounter = 0;
 
     /**
      *
@@ -403,7 +405,8 @@ public class QueryService {
         Process proc = Runtime.getRuntime().exec(commandDump);
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-        System.out.println(stdInput.readLine());
+        while(stdInput.readLine() != null){
+        }
         stdInput.close();
         stdError.close();
         proc.destroy();
@@ -437,6 +440,7 @@ public class QueryService {
      * @return
      */
     public void createZippedFile() throws IOException {
+        zipCounter++;
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
         final Path path = Paths.get("src/main/resources/bulk/results.zip");
@@ -450,7 +454,7 @@ public class QueryService {
                     Files.copy(externalTxtFile, pathInZipfile, StandardCopyOption.REPLACE_EXISTING);
                 }
             }
-            URL url= new File("src/main/resources/bulk/results.zip").toURI().toURL();
+            URL url= new File("src/main/resources/bulk/results"+zipCounter+".zip").toURI().toURL();
         }
     }
 
@@ -474,27 +478,11 @@ public class QueryService {
      *
      * @return
      */
-    public boolean deleteGeneratedFiles(){
-        File folder = new File("src/main/resources/bulk/");
-        int numberOfGeneratedFiles = 0;
-        int numberOfDeletedFiles = 0;
-        boolean allDeleted = false;
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isFile()) {
-                numberOfGeneratedFiles++;
-            }
+    public boolean deleteGeneratedFiles() throws IOException {
+        for (int i=0; i<zipCounter; i++) {
+            FileUtils.deleteDirectory(new File("results" + zipCounter + ".zip/"));
         }
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isFile()) {
-                if (fileEntry.delete()) {
-                    numberOfDeletedFiles++;
-                }
-            }
-        }
-        if (numberOfGeneratedFiles == numberOfDeletedFiles) {
-            allDeleted = true;
-        }
-        return allDeleted;
+        return true;
     }
 
     /**

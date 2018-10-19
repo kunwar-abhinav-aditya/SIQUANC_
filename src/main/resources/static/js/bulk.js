@@ -78,7 +78,7 @@
                 $('#timer').runner('reset', true);
                 $("#pipelineType").append(timeTaken+ " seconds.");
                 $('#pipelineType').append("<br><br>Questions have been uploaded and <code>.ttl(s)</code> generated. Download the results now!");
-                $('#pipelineType').append("<br><a class=\"btn btn-info btn-sm\" href=\"http://frankenstein.qanary-qa.com/query/bulk\" role=\"button\" id=\"downloadBulkResults\">Download Results!</button>");
+                $('#pipelineType').append("<br><a class=\"btn btn-info btn-sm\" href=\"http://frankenstein.qanary-qa.com/query/bulk/"+response+"\" role=\"button\" id=\"downloadBulkResults\">Download Results!</button>");
                 $('#pipelineType').append("<br><a href=\"#\" onclick=\"resetinfo()\">Search Again</a>");
                 $("#fileform")[0].reset();
             },

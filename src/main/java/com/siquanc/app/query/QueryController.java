@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -43,9 +44,9 @@ public class QueryController {
         return queryService.bulkQuery(file, components, requiresQueryBuilding);
     }
 
-    @GetMapping(path = "/bulk", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public ResponseEntity<Resource> getTTLs() {
-        return queryService.getTTLs();
+    @GetMapping(path = "/bulk/{id}", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public ResponseEntity<Resource> getTTLs(@PathVariable("id") String uuid) {
+        return queryService.getTTLs(uuid);
     }
 
     @DeleteMapping(path = "/bulk")

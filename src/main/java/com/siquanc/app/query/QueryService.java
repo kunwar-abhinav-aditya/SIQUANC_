@@ -33,7 +33,6 @@ import java.util.*;
 public class QueryService {
 
     private StringBuilder returnedQuery;
-    private static int zipCounter = 0;
 
     /**
      *
@@ -339,8 +338,10 @@ public class QueryService {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
+        UUID uuid = UUID.randomUUID();
         try {
             br = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            new File("src/main/resources/bulk/"+uuid).mkdirs();
             while ((line = br.readLine()) != null) {
                 String[] question = line.split(cvsSplitBy);
                 String questionId = question[0];
@@ -362,11 +363,11 @@ public class QueryService {
                     String endpoint = qanaryResponse.getEndpoint();
                     String namedGraph = qanaryResponse.getOutGraph();
                     // dump the data
-                    String exportFilename = "src/main/resources/bulk/" + "dump_" + questionId + ".ttl";
+                    String exportFilename = "src/main/resources/bulk/"+uuid+"/" + "dump_" + questionId + ".ttl";
                     dumpGraphAndDeleteGraph(namedGraph, exportFilename);
                 }
             }
-            createZippedFile();
+            createZippedFile(uuid);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -381,7 +382,7 @@ public class QueryService {
                 }
             }
         }
-        return "uploaded";
+        return String.valueOf(uuid);
     }
 
     private void dumpGraphAndDeleteGraph(String namedGraph, String exportFilename) throws IOException {
@@ -406,6 +407,8 @@ public class QueryService {
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
         while(stdInput.readLine() != null){
+        }
+        while(stdError.readLine() != null){
         }
         stdInput.close();
         stdError.close();
@@ -439,17 +442,16 @@ public class QueryService {
      *
      * @return
      */
-    public void createZippedFile() throws IOException {
-        zipCounter++;
+    public void createZippedFile(UUID uuid) throws IOException {
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
-        final Path path = Paths.get("src/main/resources/bulk/results.zip");
+        final Path path = Paths.get("src/main/resources/bulk/"+String.valueOf(uuid)+"/results.zip");
         final URI uri = URI.create("jar:file:" + path.toUri().getPath());
         try (FileSystem zipfs = FileSystems.newFileSystem(uri, env)) {
-            File folder = new File("src/main/resources/bulk/");
+            File folder = new File("src/main/resources/bulk/"+String.valueOf(uuid)+"/");
             for (final File fileEntry : folder.listFiles()) {
                 if (fileEntry.isFile() && !fileEntry.getName().equals("results.zip")) {
-                    Path externalTxtFile = Paths.get("src/main/resources/bulk/"+fileEntry.getName());
+                    Path externalTxtFile = Paths.get("src/main/resources/bulk/"+String.valueOf(uuid)+"/"+fileEntry.getName());
                     Path pathInZipfile = zipfs.getPath(fileEntry.getName());
                     Files.copy(externalTxtFile, pathInZipfile, StandardCopyOption.REPLACE_EXISTING);
                 }
@@ -462,8 +464,9 @@ public class QueryService {
      *
      * @return
      */
-    public ResponseEntity<Resource> getTTLs() {
-        String filePath = "src/main/resources/bulk/results.zip";
+    public ResponseEntity<Resource> getTTLs(String uuid) {
+        String filePath = "src/main/resources/bulk/"+uuid+"/results.zip";
+        File folder = new File("src/main/resources/bulk/"+uuid+"/");
         Resource resource = new FileSystemResource(filePath);
         MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
         String contentType = "application/octet-stream";

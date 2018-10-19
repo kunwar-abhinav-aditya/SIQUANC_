@@ -19,8 +19,7 @@ a {
 .navbar {
   width: 100%;}
   @media (max-width: 34em) {
-    .navbar {
-      background: black !important; } }
+  }
   .navbar .navbar-toggler {
     cursor: pointer;
     outline: 0; }

@@ -46,13 +46,16 @@ a {
 
 h1 {
   font-weight: bold;
-  font-size: 3.5em;
+  font-size: 5.0vw;
   font-color: #ffffff; }
 
 h6 {
   font-weight: bold;
   font-size: 1.0em;
   font-color: #3d3d3d; }
+
+h4 {
+  font-size: 2.0vw; }
 
 .abig {
   font-weight: bold;
@@ -82,7 +85,7 @@ h6 {
   overflow:auto; }
 
 .h4 {
-  text-align: justify; }
+  text-align: justify;}
 
 .p {
    font-color: #3d3d3d }

@@ -1,6 +1,8 @@
     var selectedTasks = [];
     var static = false;
     var components = new Array();
+    var qid = '';
+    var fullres = '';
     $("#thanks").hide();
     $("#rating").hide();
     $("#result").hide();
@@ -146,6 +148,9 @@
                     components.push("EarlRelationLinking");
                     components.push("QueryBuilder");
                 }
+                qid = queryResponse['queryIdentifier'];
+                localStorage.setItem("qid",qid);
+                fullres = queryResponse['fullResponse'];
                 for(var i=0;i < queryResponse['queryResponseStrings'].length; i++) {
                     if (i < components.length) {
                         $("#result").append("<font color=\"#354B82\">Output of</font> ");
@@ -197,14 +202,15 @@
                 document.getElementById('result').appendChild(fullresponse);
                 $("#fullresponse").addClass("heads");
                 $("#fullresponse").append("Full response");
-                $("#result").append("<a href=\"/query/result\">here</a>");
+                $("#fullres").append(fullres);
+                $("#result").append("<br><button class=\"link\" id=\"fullresbtn\" data-toggle=\"modal\" data-target=\"#citeOne\">HERE</button>");
                 $("#result").append("<br><br>Go back to querying with the <button class=\"link\" id=\"gotofixed\" onclick=\"backToBasics()\">fixed pipeline</button> or build a new <button class=\"link\" id=\"gotodynamic\" onclick=\"buildNewdynamic()\">dynamic pipeline</button>");
                 $("#result").fadeIn();
                 $("#moreInfo").fadeIn();
                 $("#rating").fadeIn();
                 if (selectedTasks[selectedTasks.length-1] == "Query Builder" || selectedTasks[selectedTasks.length-1] == "NED" || selectedTasks.length == 0) {
                     if (resourceURLs[resourceURLs.length-1].includes("http://dbpedia.org")) {
-                        var win = window.open('/resource', '_blank');
+                        var win = window.open('/resource/'+localStorage.getItem("qid"));
                         if (win) {
                             localStorage.removeItem("resourceURLs");
                             localStorage.setItem("resourceURLs",resourceURLs);

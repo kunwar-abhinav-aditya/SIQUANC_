@@ -22,7 +22,7 @@
         $.ajax({
             type: 'GET',
             url: 'http://localhost:10000/build/tasks',
-            //url: 'http://frankenstein.sda.tech/build/tasks',
+            //url: 'http://frankenstein.qanary-qa.com/build/tasks',
             success: function(allTasks) {
                 for(var i =0;i < allTasks.length; i++)
                 {
@@ -39,7 +39,7 @@
         var tasks = document.getElementById("inputs");
         $.ajax({
             type: 'GET',
-            //url: 'http://frankenstein.sda.tech/compose/inputs',
+            //url: 'http://frankenstein.qanary-qa.com/compose/inputs',
             url: 'http://localhost:10000/compose/inputs',
             success: function(allInputs) {
                 for(var i =0;i < allInputs.length; i++)
@@ -57,8 +57,8 @@
         var tasks = document.getElementById("outputs");
         $.ajax({
             type: 'GET',
-            //url: 'http://frankenstein.sda.tech/compose/outputs',
-            url: 'localhost:10000/compose/outputs',
+            //url: 'http://frankenstein.qanary-qa.com/compose/outputs',
+            url: 'http://localhost:10000/compose/outputs',
             success: function(allOutputs) {
                 for(var i =0;i < allOutputs.length; i++)
                 {
@@ -95,14 +95,13 @@
             };
             $.ajax({
                 type: 'POST',
-                //url: 'http://frankenstein.sda.tech/compose',
+                //url: 'http://frankenstein.qanary-qa.com/compose',
                 url: 'http://localhost:10000/compose',
-                dataType: 'json',
                 contentType: "application/json; charset=utf-8",
+                dataType: 'text',
                 data: JSON.stringify(payload),
                 success: function(composeResponse) {
-                    alert("Added");
-                    $("#result").append("Component added successfully. Go to the build module to see it in action!");
+                    $("#result").append("<br><br>Component added successfully. Go to the build module to see it in action!");
                     $("#result").fadeIn();
                 },
                 error: function(error) {

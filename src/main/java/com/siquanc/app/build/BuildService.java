@@ -69,7 +69,7 @@ public class BuildService {
         Map<String, Map<String, Double>> reorderedMappingWithCost = new LinkedHashMap<>();
         FileInputStream fstream = null;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/scripts/components.txt")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/scripts/components.txt")));
             String strLine;
             while ((strLine = br.readLine()) != null)   {
                 String[] strg = strLine.split(":-");

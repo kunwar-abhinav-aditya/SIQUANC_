@@ -34,10 +34,6 @@ public class QueryController {
         return queryService.receiveFeedback(feedback);
     }
 
-    @GetMapping("/result")
-    public String getDocument() {
-        return queryService.getCreatedDocument();
-    }
 
     @PostMapping(path = "/bulk")
     public String bulkQuery(@RequestParam("file") MultipartFile file, @RequestParam ArrayList<String> components, @RequestParam boolean requiresQueryBuilding) throws InterruptedException {

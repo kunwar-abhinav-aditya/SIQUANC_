@@ -3,3 +3,4 @@ disEntity
 disPredicates
 queryList
 json
+class

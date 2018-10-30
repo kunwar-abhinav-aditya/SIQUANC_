@@ -1,0 +1,8 @@
+question,y
+entity,x
+disEntity,z
+disPredicates,d
+class,c
+queryList,q
+json,j
+query,q1

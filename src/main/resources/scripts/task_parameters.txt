@@ -1,0 +1,5 @@
+NER;[y,x]
+NED;[x,y,z,t]
+Relation Linker;[y,d]
+Class Linker;[y,c]
+Query Builder;[z,d,c,q]

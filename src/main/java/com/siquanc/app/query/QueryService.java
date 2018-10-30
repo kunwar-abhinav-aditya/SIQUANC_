@@ -32,28 +32,26 @@ import java.util.*;
 @Service
 public class QueryService {
 
-    private StringBuilder returnedQuery;
-
     /**
      *
      * @param queryRequest
      */
     public QueryResponse getQueryResponse(QueryRequest queryRequest) {
-        returnedQuery = new StringBuilder();
+        UUID uuid = UUID.randomUUID();
         ArrayList<String> response = new ArrayList<>();
-        QueryResponse queryResponse = null;
+        QueryResponse queryResponse = new QueryResponse();
         if (queryRequest.getComponents().size() == 0) {
             queryRequest.setQueryType(QueryType.FIXED);
         } else {
             queryRequest.setQueryType(QueryType.VARIABLE);
         }
         try {
-            response = getResultFromQanary(queryRequest);
+            queryResponse = getResultFromQanary(queryRequest, queryResponse);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        queryResponse = new QueryResponse(response);
+        queryResponse.setQueryIdentifier(uuid.toString());
         return queryResponse;
     }
 
@@ -63,16 +61,16 @@ public class QueryService {
      * @param queryRequest
      * @return
      */
-    private ArrayList<String> getResultFromQanary(QueryRequest queryRequest) {
-        ArrayList<String> response = new ArrayList<>();
+    private QueryResponse getResultFromQanary(QueryRequest queryRequest, QueryResponse queryResponse) {
+        QueryResponse queryResp = new QueryResponse();
         try {
             QanaryIntermediateResponse qanaryIntermediateResponse = getQuerySource(queryRequest);
-            response = queryInStardog(queryRequest, qanaryIntermediateResponse);
+            queryResp = queryInStardog(queryRequest, qanaryIntermediateResponse, queryResponse);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return response;
+        return queryResp;
     }
 
     /**
@@ -139,7 +137,7 @@ public class QueryService {
      *
      * @param qanaryIntermediateResponse
      */
-    private ArrayList<String> queryInStardog(QueryRequest qr, QanaryIntermediateResponse qanaryIntermediateResponse) throws InterruptedException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    private QueryResponse queryInStardog(QueryRequest qr, QanaryIntermediateResponse qanaryIntermediateResponse, QueryResponse queryRes) throws InterruptedException, IOException, ParserConfigurationException, SAXException, TransformerException {
         URL url = new URL(Constants.starDogURL);
         String basicAuth = Constants.basicAuth;
         StringBuilder queryResponse = new StringBuilder();
@@ -170,7 +168,7 @@ public class QueryService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return extractComponentResultsFromResponse(qr, queryResponse);
+        return extractComponentResultsFromResponse(qr, queryResponse, queryRes);
     }
 
     /**
@@ -179,8 +177,9 @@ public class QueryService {
      * @param queryResponse
      * @return
      */
-    private ArrayList<String> extractComponentResultsFromResponse(QueryRequest qr, StringBuilder queryResponse) {
+    private QueryResponse extractComponentResultsFromResponse(QueryRequest qr, StringBuilder queryResponse, QueryResponse queryResp) {
         String[] lines = queryResponse.toString().split("\n");
+        StringBuilder returnedQuery = new StringBuilder();
         String result = "";
         ArrayList<String> componentResults = new ArrayList<>();
         for (int i = 0; i<lines.length; i++) {
@@ -264,15 +263,9 @@ public class QueryService {
             int nerLocation = qr.getTasks().indexOf("NER");
             toKeep.set(nerLocation, "No output");
         }
-        return toKeep;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getCreatedDocument() {
-        return returnedQuery.toString();
+        queryResp.setQueryResponseStrings(toKeep);
+        queryResp.setFullResponse(returnedQuery.toString());
+        return queryResp;
     }
 
     /**
@@ -419,7 +412,7 @@ public class QueryService {
      *
      * @return
      */
-    public BiMap<String, String> getCompNameDirectoryMapping() {
+    private BiMap<String, String> getCompNameDirectoryMapping() {
         BiMap<String, String> compNameDirectoryMapping = HashBiMap.create();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/scripts/component_paths.txt")));
@@ -442,7 +435,7 @@ public class QueryService {
      *
      * @return
      */
-    public void createZippedFile(UUID uuid) throws IOException {
+    private void createZippedFile(UUID uuid) throws IOException {
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
         final Path path = Paths.get("src/main/resources/bulk/"+String.valueOf(uuid)+"/results.zip");

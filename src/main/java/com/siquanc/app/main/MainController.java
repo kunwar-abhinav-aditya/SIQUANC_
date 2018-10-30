@@ -34,6 +34,6 @@ public class MainController {
     @GetMapping("/team")
     public String team(Model model) { return "team"; }
 
-    @GetMapping("/resource")
+    @GetMapping("/resource/{id}")
     public String resource(Model model) { return "resource"; }
 }

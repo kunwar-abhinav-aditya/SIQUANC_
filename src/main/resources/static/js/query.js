@@ -110,7 +110,7 @@
         if (localStorage.getItem("selectedTasks") != null) {
             selectedTasks = localStorage.getItem("selectedTasks").split(",");
         }
-        if (selectedTasks[selectedTasks.length-1] == "Query Builder" || selectedTasks.length == 0) {
+        if (selectedTasks[selectedTasks.length-1] == "Query Builder" || selectedTasks[selectedTasks.length-1] == "SINA" || selectedTasks.length == 0) {
             requiresQueryBuilding = true;
         }
         if (localStorage.getItem("defaultQuestion") != null) {

@@ -231,6 +231,9 @@ public class QueryService {
                         if (jsonObject.has("c")) {
                             uri = (JSONObject) ((JSONObject) resource).get("c");
                         }
+                        if (jsonObject.has("v0")) {
+                            uri = (JSONObject) ((JSONObject) resource).get("v0");
+                        }                        
                         String url = (String) uri.get("value");
                         if (url.contains(",_")) {
                             toKeep.add(url.split(",_")[0]);

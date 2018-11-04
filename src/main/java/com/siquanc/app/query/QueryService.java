@@ -38,7 +38,6 @@ public class QueryService {
      */
     public QueryResponse getQueryResponse(QueryRequest queryRequest) {
         UUID uuid = UUID.randomUUID();
-        ArrayList<String> response = new ArrayList<>();
         QueryResponse queryResponse = new QueryResponse();
         if (queryRequest.getComponents().size() == 0) {
             queryRequest.setQueryType(QueryType.FIXED);
@@ -78,7 +77,7 @@ public class QueryService {
      *
      * @param queryRequest
      */
-    private QanaryIntermediateResponse getQuerySource(QueryRequest queryRequest) throws IOException, InterruptedException {
+    private QanaryIntermediateResponse getQuerySource(QueryRequest queryRequest) throws IOException {
 
         URL url;
         BiMap<String, String> compNamePathMapping = getCompNameDirectoryMapping();
@@ -230,6 +229,9 @@ public class QueryService {
                         }
                         if (jsonObject.has("c")) {
                             uri = (JSONObject) ((JSONObject) resource).get("c");
+                        }
+                        if (jsonObject.has("v0")) {
+                            uri = (JSONObject) ((JSONObject) resource).get("v0");
                         }
                         String url = (String) uri.get("value");
                         if (url.contains(",_")) {
